@@ -17,12 +17,14 @@ package com.strategicgains.repoexpress.event;
 
 import java.util.List;
 
+import com.strategicgains.repoexpress.domain.Entity;
+
 
 /**
  * @author toddf
  * @since Oct 13, 2009
  */
-public interface Observable<T>
+public interface Observable<T extends Entity>
 {
 	/**
 	 * Add an observer to the observable.

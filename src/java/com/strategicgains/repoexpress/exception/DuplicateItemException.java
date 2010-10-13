@@ -20,12 +20,12 @@ package com.strategicgains.repoexpress.exception;
  * @author toddf
  * @since Jun 28, 2010
  */
-public class ConflictException
-extends RuntimeException
+public class DuplicateItemException
+extends RepositoryException
 {
-    private static final long serialVersionUID = -8484662487466021563L;
+    private static final long serialVersionUID = 7569348250967993221L;
 
-	public ConflictException()
+	public DuplicateItemException()
 	{
 		super();
 	}
@@ -33,7 +33,7 @@ extends RuntimeException
 	/**
 	 * @param message
 	 */
-	public ConflictException(String message)
+	public DuplicateItemException(String message)
 	{
 		super(message);
 	}
@@ -41,7 +41,7 @@ extends RuntimeException
 	/**
 	 * @param cause
 	 */
-	public ConflictException(Throwable cause)
+	public DuplicateItemException(Throwable cause)
 	{
 		super(cause);
 	}
@@ -50,7 +50,7 @@ extends RuntimeException
 	 * @param message
 	 * @param cause
 	 */
-	public ConflictException(String message, Throwable cause)
+	public DuplicateItemException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}

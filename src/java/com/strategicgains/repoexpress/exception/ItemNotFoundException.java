@@ -20,12 +20,12 @@ package com.strategicgains.repoexpress.exception;
  * @author toddf
  * @since Jun 28, 2010
  */
-public class NotFoundException
-extends RuntimeException
+public class ItemNotFoundException
+extends RepositoryException
 {
-    private static final long serialVersionUID = -8484662487466021563L;
+    private static final long serialVersionUID = -1937211508363434084L;
 
-	public NotFoundException()
+	public ItemNotFoundException()
 	{
 		super();
 	}
@@ -33,7 +33,7 @@ extends RuntimeException
 	/**
 	 * @param message
 	 */
-	public NotFoundException(String message)
+	public ItemNotFoundException(String message)
 	{
 		super(message);
 	}
@@ -41,7 +41,7 @@ extends RuntimeException
 	/**
 	 * @param cause
 	 */
-	public NotFoundException(Throwable cause)
+	public ItemNotFoundException(Throwable cause)
 	{
 		super(cause);
 	}
@@ -50,7 +50,7 @@ extends RuntimeException
 	 * @param message
 	 * @param cause
 	 */
-	public NotFoundException(String message, Throwable cause)
+	public ItemNotFoundException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}

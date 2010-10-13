@@ -15,6 +15,8 @@
 */
 package com.strategicgains.repoexpress.event;
 
+import com.strategicgains.repoexpress.domain.Entity;
+
 /**
  * This default implementation does nothing, but allows sub-classes to
  * implement (override) only those methods that are meaningful.
@@ -22,7 +24,7 @@ package com.strategicgains.repoexpress.event;
  * @author toddf
  * @since Oct 13, 2009
  */
-public abstract class AbstractRepositoryObserver<T>
+public abstract class AbstractRepositoryObserver<T extends Entity>
 implements RepositoryObserver<T>
 {
 	@Override

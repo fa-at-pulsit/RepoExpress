@@ -20,15 +20,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.strategicgains.repoexpress.AbstractObservableRepository;
-import com.strategicgains.repoexpress.domain.Persistable;
-import com.strategicgains.repoexpress.exception.ConflictException;
-import com.strategicgains.repoexpress.exception.NotFoundException;
+import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.exception.DuplicateItemException;
+import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
  * @author toddf
  * @since Oct 12, 2010
  */
-public abstract class InMemoryRepository<T extends Persistable>
+public abstract class InMemoryRepository<T extends Entity>
 extends AbstractObservableRepository<T>
 {
 	private static long nextId = 0;
@@ -42,9 +42,9 @@ extends AbstractObservableRepository<T>
 			try
 			{
 				read(item.getId());
-				throw new ConflictException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
+				throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
 			}
-			catch(NotFoundException e)
+			catch(ItemNotFoundException e)
 			{
 				// expected.
 			}
@@ -65,7 +65,7 @@ extends AbstractObservableRepository<T>
     	
     	if (b == null)
     	{
-    		throw new NotFoundException("ID not found: " + id);
+    		throw new ItemNotFoundException("ID not found: " + id);
     	}
 
     	return b;
@@ -84,7 +84,7 @@ extends AbstractObservableRepository<T>
 
     	if (item == null)
     	{
-    		throw new NotFoundException("ID not found: " + id);
+    		throw new ItemNotFoundException("ID not found: " + id);
     	}
     }
 }

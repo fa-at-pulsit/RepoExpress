@@ -20,20 +20,32 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.strategicgains.repoexpress.domain.Persistable;
+import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.event.DefaultRepositoryObserver;
 import com.strategicgains.repoexpress.event.RepositoryObserver;
 
 /**
+ * A base, abstract repository implementation.  By default, installs the DefaultRepositoryObserver.
+ * 
  * @author toddf
  * @since Oct 12, 2010
  */
-public abstract class AbstractObservableRepository<T extends Persistable>
+public abstract class AbstractObservableRepository<T extends Entity>
 extends AbstractRepository<T>
 implements ObservableRepository<T>
 {
 	// SECTION: INSTANCE VARIABLES
 	
 	List<RepositoryObserver<T>> observers = new ArrayList<RepositoryObserver<T>>();
+
+	
+	// SECTION: CONSTRUCTORS
+	
+	public AbstractObservableRepository()
+	{
+		super();
+		addObserver(new DefaultRepositoryObserver<T>());
+	}
 
 
 	// SECTION: ACCESSORS/MUTATORS

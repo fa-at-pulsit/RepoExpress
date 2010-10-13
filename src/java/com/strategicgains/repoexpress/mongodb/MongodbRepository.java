@@ -9,9 +9,9 @@ import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableRepository;
-import com.strategicgains.repoexpress.domain.Persistable;
-import com.strategicgains.repoexpress.exception.ConflictException;
-import com.strategicgains.repoexpress.exception.NotFoundException;
+import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.exception.DuplicateItemException;
+import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
  * Uses MongoDB as its back-end store.  This repository can handle "single-table inheritance" by
@@ -20,7 +20,7 @@ import com.strategicgains.repoexpress.exception.NotFoundException;
  * @author toddf
  * @since Aug 24, 2010
  */
-public class MongodbRepository<T extends Persistable>
+public class MongodbRepository<T extends Entity>
 extends AbstractObservableRepository<T>
 {
 	private Mongo mongo;
@@ -54,9 +54,9 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doCreate(T item)
 	{
-		if(exists(item.getId()))
+		if (exists(item.getId()))
 		{
-			throw new ConflictException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
+			throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
 		}
 		
 		Key<T> key = datastore.save(item);
@@ -75,7 +75,7 @@ extends AbstractObservableRepository<T>
 		
 		if (remark == null)
 		{
-			throw new NotFoundException("ID not found: " + id);
+			throw new ItemNotFoundException("ID not found: " + id);
 		}
 		
 		return remark;
@@ -86,7 +86,7 @@ extends AbstractObservableRepository<T>
 	{
 		if(!exists(item.getId()))
 		{
-			throw new NotFoundException(item.getClass().getSimpleName() + " ID not found: " + item.getId());
+			throw new ItemNotFoundException(item.getClass().getSimpleName() + " ID not found: " + item.getId());
 		}
 
 		datastore.save(item);

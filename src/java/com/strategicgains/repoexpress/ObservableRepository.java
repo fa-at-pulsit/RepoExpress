@@ -15,14 +15,14 @@
 */
 package com.strategicgains.repoexpress;
 
-import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Entity;
 import com.strategicgains.repoexpress.event.Observable;
 
 /**
  * @author toddf
  * @since Oct 13, 2009
  */
-public interface ObservableRepository<T extends Identifiable>
+public interface ObservableRepository<T extends Entity>
 extends Repository<T>, Observable<T>
 {
 	public T doCreate(T object);

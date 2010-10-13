@@ -3,14 +3,14 @@
  */
 package com.strategicgains.repoexpress;
 
-import com.strategicgains.repoexpress.domain.Persistable;
+import com.strategicgains.repoexpress.domain.Entity;
 
 
 /**
  * @author toddf
  * @since Oct 13, 2010
  */
-public abstract class AbstractRepository<T extends Persistable>
+public abstract class AbstractRepository<T extends Entity>
 implements Repository<T>
 {
 	// SECTION: UTILITY - PROTECTED

@@ -18,9 +18,9 @@ package com.strategicgains.repoexpress.domain;
 import java.util.Date;
 
 /**
- * Abstract Java class for a Persistable complex type--a type that can be stored in a Repository.
+ * Abstract Java class for an Entity--a complex type that can be stored in a Repository.
  */
-public abstract class Persistable
+public abstract class Entity
 implements Identifiable
 {
 	private String id;
