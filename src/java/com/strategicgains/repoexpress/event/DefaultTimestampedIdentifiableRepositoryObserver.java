@@ -17,15 +17,16 @@ package com.strategicgains.repoexpress.event;
 
 import java.util.Date;
 
-import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.domain.TimestampedIndentifiable;
 
 /**
- * Sets the createdAt and lastUpdatedAt properties on the entity before creation and update, repectively.
+ * Sets the createdAt and lastUpdatedAt properties on a TimestampedIdentifiable instace before
+ * creation and update, repectively.
  * 
  * @author toddf
  * @since Oct 13, 2010
  */
-public class DefaultRepositoryObserver<T extends Entity>
+public class DefaultTimestampedIdentifiableRepositoryObserver<T extends TimestampedIndentifiable>
 extends AbstractRepositoryObserver<T>
 {
 	@Override
@@ -39,6 +40,6 @@ extends AbstractRepositoryObserver<T>
     public void beforeUpdate(T object)
     {
 	    super.beforeUpdate(object);
-	    object.setLastUpdatedAt(new Date(System.currentTimeMillis()));
+	    object.setUpdatedAt(new Date(System.currentTimeMillis()));
     }
 }

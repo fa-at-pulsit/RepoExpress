@@ -15,13 +15,13 @@
 */
 package com.strategicgains.repoexpress.event;
 
-import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.domain.Identifiable;
 
 /**
  * @author toddf
  * @since Oct 13, 2009
  */
-public interface RepositoryObserver<T extends Entity>
+public interface RepositoryObserver<T extends Identifiable>
 {
 	public void afterCreate(T object);
 	public void afterDelete(String id);

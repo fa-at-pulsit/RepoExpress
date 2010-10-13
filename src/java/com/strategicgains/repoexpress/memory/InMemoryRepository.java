@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.strategicgains.repoexpress.AbstractObservableRepository;
-import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
@@ -28,7 +28,7 @@ import com.strategicgains.repoexpress.exception.ItemNotFoundException;
  * @author toddf
  * @since Oct 12, 2010
  */
-public abstract class InMemoryRepository<T extends Entity>
+public abstract class InMemoryRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 {
 	private static long nextId = 0;

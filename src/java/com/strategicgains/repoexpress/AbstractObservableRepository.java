@@ -20,17 +20,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.strategicgains.repoexpress.domain.Entity;
-import com.strategicgains.repoexpress.event.DefaultRepositoryObserver;
+import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.event.RepositoryObserver;
 
 /**
- * A base, abstract repository implementation.  By default, installs the DefaultRepositoryObserver.
+ * A base, abstract repository implementation that supports observation.
  * 
  * @author toddf
  * @since Oct 12, 2010
  */
-public abstract class AbstractObservableRepository<T extends Entity>
+public abstract class AbstractObservableRepository<T extends Identifiable>
 extends AbstractRepository<T>
 implements ObservableRepository<T>
 {
@@ -44,7 +43,6 @@ implements ObservableRepository<T>
 	public AbstractObservableRepository()
 	{
 		super();
-		addObserver(new DefaultRepositoryObserver<T>());
 	}
 
 

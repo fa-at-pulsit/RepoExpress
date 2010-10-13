@@ -3,14 +3,14 @@
  */
 package com.strategicgains.repoexpress;
 
-import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.domain.Identifiable;
 
 
 /**
  * @author toddf
  * @since Oct 13, 2010
  */
-public abstract class AbstractRepository<T extends Entity>
+public abstract class AbstractRepository<T extends Identifiable>
 implements Repository<T>
 {
 	// SECTION: UTILITY - PROTECTED

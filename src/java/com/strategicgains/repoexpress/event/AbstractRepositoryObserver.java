@@ -15,7 +15,7 @@
 */
 package com.strategicgains.repoexpress.event;
 
-import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.domain.TimestampedIndentifiable;
 
 /**
  * This default implementation does nothing, but allows sub-classes to
@@ -24,7 +24,7 @@ import com.strategicgains.repoexpress.domain.Entity;
  * @author toddf
  * @since Oct 13, 2009
  */
-public abstract class AbstractRepositoryObserver<T extends Entity>
+public abstract class AbstractRepositoryObserver<T extends TimestampedIndentifiable>
 implements RepositoryObserver<T>
 {
 	@Override

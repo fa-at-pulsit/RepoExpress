@@ -13,23 +13,15 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress;
+package com.strategicgains.repoexpress.domain;
 
-import com.strategicgains.repoexpress.domain.Identifiable;
-import com.strategicgains.repoexpress.event.Observable;
+import java.util.Date;
 
-/**
- * @author toddf
- * @since Oct 13, 2009
- */
-public interface ObservableRepository<T extends Identifiable>
-extends Repository<T>, Observable<T>
+public interface TimestampedIndentifiable
+extends Identifiable
 {
-	public T doCreate(T object);
-
-	public void doDelete(String id);
-
-	public T doRead(String id);
-
-	public void doUpdate(T object);
+	public Date getCreatedAt();
+	public void setCreatedAt(Date createdAt);
+	public Date getUpdatedAt();
+	public void setUpdatedAt(Date updatedAt);
 }

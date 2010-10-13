@@ -9,7 +9,7 @@ import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableRepository;
-import com.strategicgains.repoexpress.domain.Entity;
+import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
@@ -20,7 +20,7 @@ import com.strategicgains.repoexpress.exception.ItemNotFoundException;
  * @author toddf
  * @since Aug 24, 2010
  */
-public class MongodbRepository<T extends Entity>
+public class MongodbRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 {
 	private Mongo mongo;
