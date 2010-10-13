@@ -34,14 +34,14 @@ extends AbstractObservableRepository<T>
 	 * @param name the name of the repository (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository.  Inheritance root first.
 	 */
-	public MongodbRepository(ServerAddress address, String name, Class<T>... entityClasses)
+	public MongodbRepository(ServerAddress address, String name, Class<? extends T>... entityClasses)
     {
 	    super();
 	    mongo = new Mongo(address);
 	    morphia = new Morphia();
-	    inheritanceRoot = entityClasses[0];
+	    inheritanceRoot = (Class<T>) entityClasses[0];
 	    
-	    for (Class<T> entityClass : entityClasses)
+	    for (Class<?> entityClass : entityClasses)
 	    {
 	    	morphia.map(entityClass);
 	    }
@@ -61,11 +61,6 @@ extends AbstractObservableRepository<T>
 		
 		Key<T> key = datastore.save(item);
 		return datastore.getByKey(inheritanceRoot, key);
-	}
-	
-	private boolean exists(String id)
-	{
-		return datastore.getCount(datastore.find(inheritanceRoot, "_id ", id)) > 0;
 	}
 
 	@Override
@@ -97,5 +92,18 @@ extends AbstractObservableRepository<T>
 	{
 		T item = read(id);
 		datastore.delete(item);
+	}
+
+	
+	// SECTION: UTILITY
+
+	protected boolean exists(String id)
+	{
+		return datastore.getCount(datastore.find(inheritanceRoot, "_id ", id)) > 0;
+	}
+	
+	protected Datastore getDataStore()
+	{
+		return datastore;
 	}
 }
