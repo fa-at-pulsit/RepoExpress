@@ -1,0 +1,20 @@
+The RepoExpress Project - Repository pattern CRUD behavior for Java domain models.
+Copyright 2010, Strategic Gains, Inc.
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+----
+This product includes Morphia:
+Please visit the Morphia web site for more information:
+
+  * http://code.google.com/p/morphia/
+
+Copyright ?
+----
+This product includes Mongo DB Java driver:
+Please visit the Mongo DB Java driver web site for more information:
+
+  * http://github.com/mongodb/mongo-java-driver
+
+Copyright (C) 2008 10gen Inc.
+----

@@ -1,0 +1,19 @@
+RepoExpress is a thin wrapper on MongoDB and Morphia to provide a simple and easy way to create
+domain storage options using the Repository pattern.
+
+Designed to be utilized in conjunction with RestExpress, RepoExpress is easy to use:
+1) Create a new InMemoryRepository() or new MongodbRepository() extending them if necessary.
+2) Annotate your domain model using the Morphia annotations.
+3) Call the CRUD methods.
+4) Extend the repository if custom queries or other unique functionality is required.
+
+Dependencies:
+* If MongodbRepository is used, MongoDB must be running.
+* MongoDB drivers (jar).
+* Morphia mapping library (jar).
+* Junit, to run unit tests.
+
+Change History:
+===================================================================================================
+Release 0.1
+* Initial import. Combined concepts from RestExpress and JigForJava full-stack framework.
