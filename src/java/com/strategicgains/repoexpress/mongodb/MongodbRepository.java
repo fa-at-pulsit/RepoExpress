@@ -34,6 +34,7 @@ extends AbstractObservableRepository<T>
 	 * @param name the name of the repository (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository.  Inheritance root first.
 	 */
+	@SuppressWarnings("unchecked")
 	public MongodbRepository(ServerAddress address, String name, Class<? extends T>... entityClasses)
     {
 	    super();
