@@ -3,6 +3,8 @@
  */
 package com.strategicgains.repoexpress.mongodb;
 
+import org.bson.types.ObjectId;
+
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Key;
 import com.google.code.morphia.Morphia;
@@ -61,13 +63,19 @@ extends AbstractObservableRepository<T>
 		}
 		
 		Key<T> key = datastore.save(item);
-		return datastore.getByKey(inheritanceRoot, key);
+		
+		if (key.getId() instanceof ObjectId)
+		{
+			return datastore.get(inheritanceRoot, key.getId());
+		}
+		
+		return datastore.get(inheritanceRoot, new ObjectId(key.getId().toString()));
 	}
 
 	@Override
 	public T doRead(String id)
 	{
-		T remark = datastore.get(inheritanceRoot, id);
+		T remark = datastore.get(inheritanceRoot, new ObjectId(id));
 		
 		if (remark == null)
 		{

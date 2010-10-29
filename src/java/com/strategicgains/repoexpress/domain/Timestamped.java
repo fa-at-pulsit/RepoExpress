@@ -15,8 +15,12 @@
 */
 package com.strategicgains.repoexpress.domain;
 
+import java.util.Date;
 
-public interface TimestampedIndentifiable
-extends Identifiable, Timestamped
+public interface Timestamped
 {
+	public Date getCreatedAt();
+	public void setCreatedAt(Date createdAt);
+	public Date getUpdatedAt();
+	public void setUpdatedAt(Date updatedAt);
 }
