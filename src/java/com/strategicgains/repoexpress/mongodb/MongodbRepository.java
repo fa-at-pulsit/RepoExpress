@@ -3,10 +3,7 @@
  */
 package com.strategicgains.repoexpress.mongodb;
 
-import org.bson.types.ObjectId;
-
 import com.google.code.morphia.Datastore;
-import com.google.code.morphia.Key;
 import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
@@ -62,20 +59,14 @@ extends AbstractObservableRepository<T>
 			throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
 		}
 		
-		Key<T> key = datastore.save(item);
-		
-		if (key.getId() instanceof ObjectId)
-		{
-			return datastore.get(inheritanceRoot, key.getId());
-		}
-		
-		return datastore.get(inheritanceRoot, new ObjectId(key.getId().toString()));
+		datastore.save(item);
+		return item;
 	}
 
 	@Override
 	public T doRead(String id)
 	{
-		T remark = datastore.get(inheritanceRoot, new ObjectId(id));
+		T remark = datastore.get(inheritanceRoot, id);
 		
 		if (remark == null)
 		{
