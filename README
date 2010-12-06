@@ -15,5 +15,7 @@ Dependencies:
 
 Change History:
 ===================================================================================================
+Release 0.2
+* Update MongodbRepository to allow use of Replication Sets.
 Release 0.1
 * Initial import. Combined concepts from RestExpress and JigForJava full-stack framework.
