@@ -3,6 +3,8 @@
  */
 package com.strategicgains.repoexpress.mongodb;
 
+import java.util.List;
+
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
@@ -45,12 +47,37 @@ extends AbstractObservableRepository<T>
 	    {
 	    	morphia.map(entityClass);
 	    }
+	    init(name);
+    }
 
+	/**
+	 * 
+	 * @param replSet 
+	 * @param name the name of the repository (in MongoDB).
+	 * @param entityClasses Class(es) managed by this repository.  Inheritance root first.
+	 */
+	@SuppressWarnings("unchecked")
+	public MongodbRepository(List<ServerAddress> replSet, String name, Class<? extends T>... entityClasses)
+	{
+	    super();
+	    mongo = new Mongo(replSet);
+	    morphia = new Morphia();
+	    inheritanceRoot = (Class<T>) entityClasses[0];
+	    
+	    for (Class<?> entityClass : entityClasses)
+	    {
+	    	morphia.map(entityClass);
+	    }
+	    init(name);
+	}
+	
+	private void init(String name)
+	{
 	    datastore = morphia.createDatastore(mongo, name);
 	    datastore.ensureIndexes();
 	    datastore.ensureCaps();
-    }
-
+	}
+	
 	@Override
 	public T doCreate(T item)
 	{
