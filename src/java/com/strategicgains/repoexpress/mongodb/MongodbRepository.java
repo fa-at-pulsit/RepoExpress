@@ -15,8 +15,9 @@ import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
- * Uses MongoDB as its back-end store.  This repository can handle "single-table inheritance" by
- * passing all the supported types into the constructor, with the inheritance root first.
+ * Uses MongoDB as its back-end store. This repository can handle
+ * "single-table inheritance" by passing all the supported types into the
+ * constructor, with the inheritance root first.
  * 
  * @author toddf
  * @since Aug 24, 2010
@@ -28,64 +29,58 @@ extends AbstractObservableRepository<T>
 	private Morphia morphia;
 	private Datastore datastore;
 	private Class<T> inheritanceRoot;
-	
-	/**
-	 * 
-	 * @param address 
-	 * @param name the name of the repository (in MongoDB).
-	 * @param entityClasses Class(es) managed by this repository.  Inheritance root first.
-	 */
-	@SuppressWarnings("unchecked")
-	public MongodbRepository(ServerAddress address, String name, Class<? extends T>... entityClasses)
-    {
-	    super();
-	    mongo = new Mongo(address);
-	    morphia = new Morphia();
-	    inheritanceRoot = (Class<T>) entityClasses[0];
-	    
-	    for (Class<?> entityClass : entityClasses)
-	    {
-	    	morphia.map(entityClass);
-	    }
-	    init(name);
-    }
 
 	/**
 	 * 
-	 * @param replSet 
+	 * @param address a ServerAddress representing a single MongoDB server.
 	 * @param name the name of the repository (in MongoDB).
-	 * @param entityClasses Class(es) managed by this repository.  Inheritance root first.
+	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
 	 */
+	public MongodbRepository(ServerAddress address, String name, Class<? extends T>... entityClasses)
+	{
+		super();
+		mongo = new Mongo(address);
+		initialize(name, entityClasses);
+	}
+
+	/**
+	 * 
+	 * @param bootstraps a list of ServerAddress that represent a Replication Set servers.
+	 * @param name the name of the repository (in MongoDB).
+	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
+	 */
+	public MongodbRepository(List<ServerAddress> bootstraps, String name, Class<? extends T>... entityClasses)
+	{
+		super();
+		mongo = new Mongo(bootstraps);
+		initialize(name, entityClasses);
+	}
+
 	@SuppressWarnings("unchecked")
-	public MongodbRepository(List<ServerAddress> replSet, String name, Class<? extends T>... entityClasses)
+	private void initialize(String name, Class<? extends T>... entityClasses)
 	{
-	    super();
-	    mongo = new Mongo(replSet);
-	    morphia = new Morphia();
-	    inheritanceRoot = (Class<T>) entityClasses[0];
-	    
-	    for (Class<?> entityClass : entityClasses)
-	    {
-	    	morphia.map(entityClass);
-	    }
-	    init(name);
+		morphia = new Morphia();
+		inheritanceRoot = (Class<T>) entityClasses[0];
+
+		for (Class<?> entityClass : entityClasses)
+		{
+			morphia.map(entityClass);
+		}
+
+		datastore = morphia.createDatastore(mongo, name);
+		datastore.ensureIndexes();
+		datastore.ensureCaps();
 	}
-	
-	private void init(String name)
-	{
-	    datastore = morphia.createDatastore(mongo, name);
-	    datastore.ensureIndexes();
-	    datastore.ensureCaps();
-	}
-	
+
 	@Override
 	public T doCreate(T item)
 	{
 		if (exists(item.getId()))
 		{
-			throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
+			throw new DuplicateItemException(item.getClass().getSimpleName()
+			    + " ID already exists: " + item.getId());
 		}
-		
+
 		datastore.save(item);
 		return item;
 	}
@@ -94,21 +89,22 @@ extends AbstractObservableRepository<T>
 	public T doRead(String id)
 	{
 		T remark = datastore.get(inheritanceRoot, id);
-		
+
 		if (remark == null)
 		{
 			throw new ItemNotFoundException("ID not found: " + id);
 		}
-		
+
 		return remark;
 	}
 
 	@Override
 	public void doUpdate(T item)
 	{
-		if(!exists(item.getId()))
+		if (!exists(item.getId()))
 		{
-			throw new ItemNotFoundException(item.getClass().getSimpleName() + " ID not found: " + item.getId());
+			throw new ItemNotFoundException(item.getClass().getSimpleName()
+			    + " ID not found: " + item.getId());
 		}
 
 		datastore.save(item);
@@ -121,14 +117,13 @@ extends AbstractObservableRepository<T>
 		datastore.delete(item);
 	}
 
-	
 	// SECTION: UTILITY
 
 	protected boolean exists(String id)
 	{
 		return datastore.getCount(datastore.find(inheritanceRoot, "_id ", id)) > 0;
 	}
-	
+
 	protected Datastore getDataStore()
 	{
 		return datastore;
