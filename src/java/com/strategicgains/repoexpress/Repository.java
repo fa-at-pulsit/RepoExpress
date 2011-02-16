@@ -26,6 +26,6 @@ public interface Repository<T extends Identifiable>
 {
 	public T create(T object);
 	public T read(String id);
-	public void update(T object);
+	public T update(T object);
 	public void delete(String id);
 }

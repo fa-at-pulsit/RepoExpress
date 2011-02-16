@@ -31,5 +31,5 @@ extends Repository<T>, Observable<T>
 
 	public T doRead(String id);
 
-	public void doUpdate(T object);
+	public T doUpdate(T object);
 }

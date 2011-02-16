@@ -99,7 +99,7 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public void doUpdate(T item)
+	public T doUpdate(T item)
 	{
 		if (!exists(item.getId()))
 		{
@@ -108,6 +108,7 @@ extends AbstractObservableRepository<T>
 		}
 
 		datastore.save(item);
+		return item;
 	}
 
 	@Override

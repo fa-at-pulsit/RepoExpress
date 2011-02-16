@@ -111,11 +111,12 @@ implements ObservableRepository<T>
     }
 
 	@Override
-    public final void update(T object)
+    public final T update(T object)
     {
 		notifyBeforeUpdate(object);
-		doUpdate(object);
+		T result = doUpdate(object);
 		notifyAfterUpdate(object);
+		return result;
     }
 
 	public List<T> readList(Collection<String> ids)

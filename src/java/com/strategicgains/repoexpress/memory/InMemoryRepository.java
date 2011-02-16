@@ -72,9 +72,10 @@ extends AbstractObservableRepository<T>
     }
 
     @Override
-    public void doUpdate(T item)
+    public T doUpdate(T item)
     {
     	items.put(item.getId(), item);
+    	return item;
     }
 
     @Override
