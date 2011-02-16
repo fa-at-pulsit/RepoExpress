@@ -35,7 +35,7 @@ implements ObservableRepository<T>
 {
 	// SECTION: INSTANCE VARIABLES
 	
-	List<RepositoryObserver<T>> observers = new ArrayList<RepositoryObserver<T>>();
+	private List<RepositoryObserver<T>> observers = new ArrayList<RepositoryObserver<T>>();
 
 	
 	// SECTION: CONSTRUCTORS
@@ -84,7 +84,7 @@ implements ObservableRepository<T>
 	
 	// SECTION: REPOSITORY
 
-    @Override
+	@Override
     public final T create(T object)
     {
     	notifyBeforeCreate(object);

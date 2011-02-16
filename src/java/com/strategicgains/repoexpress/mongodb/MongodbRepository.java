@@ -90,7 +90,7 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doRead(String id)
 	{
-		T remark = datastore.get(inheritanceRoot, new ObjectId(id));
+		T remark = datastore.get(inheritanceRoot, convertId(id));
 
 		if (remark == null)
 		{
@@ -116,7 +116,7 @@ extends AbstractObservableRepository<T>
 	@Override
 	public void doDelete(String id)
 	{
-		T item = read(id);
+		T item = doRead(id);
 		datastore.delete(item);
 	}
 

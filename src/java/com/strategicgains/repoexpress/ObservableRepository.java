@@ -26,10 +26,7 @@ public interface ObservableRepository<T extends Identifiable>
 extends Repository<T>, Observable<T>
 {
 	public T doCreate(T object);
-
 	public void doDelete(String id);
-
 	public T doRead(String id);
-
 	public T doUpdate(T object);
 }
