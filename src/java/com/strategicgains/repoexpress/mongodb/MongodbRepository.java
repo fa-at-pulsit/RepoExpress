@@ -124,6 +124,8 @@ extends AbstractObservableRepository<T>
 
 	protected boolean exists(String id)
 	{
+		if (id == null) return false;
+
 		return datastore.getCount(datastore.find(inheritanceRoot, "_id", new ObjectId(id))) > 0;
 	}
 
