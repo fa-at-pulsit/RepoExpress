@@ -16,7 +16,7 @@
 package com.strategicgains.repoexpress.domain;
 
 
-public interface TimestampedIndentifiable
+public interface TimestampedIdentifiable
 extends Identifiable, Timestamped
 {
 }

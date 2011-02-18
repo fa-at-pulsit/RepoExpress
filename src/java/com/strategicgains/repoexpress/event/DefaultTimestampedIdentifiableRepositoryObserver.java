@@ -17,7 +17,7 @@ package com.strategicgains.repoexpress.event;
 
 import java.util.Date;
 
-import com.strategicgains.repoexpress.domain.TimestampedIndentifiable;
+import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
 
 /**
  * Sets the createdAt and lastUpdatedAt properties on a TimestampedIdentifiable instace before
@@ -26,7 +26,7 @@ import com.strategicgains.repoexpress.domain.TimestampedIndentifiable;
  * @author toddf
  * @since Oct 13, 2010
  */
-public class DefaultTimestampedIdentifiableRepositoryObserver<T extends TimestampedIndentifiable>
+public class DefaultTimestampedIdentifiableRepositoryObserver<T extends TimestampedIdentifiable>
 extends AbstractRepositoryObserver<T>
 {
 	@Override
