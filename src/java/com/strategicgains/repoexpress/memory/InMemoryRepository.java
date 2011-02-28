@@ -32,7 +32,7 @@ public abstract class InMemoryRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 {
 	private static long nextId = 0;
-	private Map<String, T> items = new ConcurrentHashMap<String, T>();
+	protected Map<String, T> items = new ConcurrentHashMap<String, T>();
 
 	@Override
 	public T doCreate(T item)
