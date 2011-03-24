@@ -23,8 +23,8 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
  * @author toddf
  * @since Feb 16, 2011
  */
-public interface IdentiferAdapter
+public interface IdentiferAdapter<T>
 {
-	public Object convert(String id)
+	public T convert(String id)
 	throws InvalidObjectIdException;
 }

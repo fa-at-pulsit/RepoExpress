@@ -27,13 +27,13 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
  * @since Feb 16, 2011
  */
 public class ObjectIdAdapter
-implements IdentiferAdapter
+implements IdentiferAdapter<ObjectId>
 {
 	/**
 	 * throws InvalidObjectIdException if the ID is not a valid MongoDB ObjectId.
 	 */
 	@Override
-	public Object convert(String id)
+	public ObjectId convert(String id)
 	{
 		if (ObjectId.isValid(id))
 		{
