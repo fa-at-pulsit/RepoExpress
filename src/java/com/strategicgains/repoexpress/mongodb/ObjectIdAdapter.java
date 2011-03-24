@@ -18,6 +18,7 @@ package com.strategicgains.repoexpress.mongodb;
 import org.bson.types.ObjectId;
 
 import com.strategicgains.repoexpress.IdentiferAdapter;
+import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
  * Converts a String ID to a MongoDB ObjectId.
@@ -28,9 +29,17 @@ import com.strategicgains.repoexpress.IdentiferAdapter;
 public class ObjectIdAdapter
 implements IdentiferAdapter
 {
+	/**
+	 * throws InvalidObjectIdException if the ID is not a valid MongoDB ObjectId.
+	 */
 	@Override
 	public Object convert(String id)
 	{
-		return new ObjectId(id);
+		if (ObjectId.isValid(id))
+		{
+			return new ObjectId(id);
+		}
+
+		throw new InvalidObjectIdException(id);
 	}
 }

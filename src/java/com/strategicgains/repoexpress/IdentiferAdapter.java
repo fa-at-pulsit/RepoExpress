@@ -15,6 +15,8 @@
 */
 package com.strategicgains.repoexpress;
 
+import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
+
 /**
  * Converts a string ID into an Object, such as an ObjectId before reading.
  * 
@@ -23,5 +25,6 @@ package com.strategicgains.repoexpress;
  */
 public interface IdentiferAdapter
 {
-	public Object convert(String id);
+	public Object convert(String id)
+	throws InvalidObjectIdException;
 }
