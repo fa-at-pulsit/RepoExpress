@@ -14,6 +14,7 @@ import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
+import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
@@ -90,14 +91,21 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doRead(String id)
 	{
-		T remark = datastore.get(inheritanceRoot, convertId(id));
-
-		if (remark == null)
+		try
 		{
-			throw new ItemNotFoundException("ID not found: " + id);
+			T remark = datastore.get(inheritanceRoot, convertId(id));
+	
+			if (remark == null)
+			{
+				throw new ItemNotFoundException("ID not found: " + id);
+			}
+	
+			return remark;
 		}
-
-		return remark;
+		catch (InvalidObjectIdException e)
+		{
+			throw new ItemNotFoundException("ID not found: " + id, e);
+		}
 	}
 
 	@Override
