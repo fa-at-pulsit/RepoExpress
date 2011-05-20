@@ -91,21 +91,14 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doRead(String id)
 	{
-		try
+		T item = datastore.get(inheritanceRoot, convertId(id));
+
+		if (item == null)
 		{
-			T remark = datastore.get(inheritanceRoot, convertId(id));
-	
-			if (remark == null)
-			{
-				throw new ItemNotFoundException("ID not found: " + id);
-			}
-	
-			return remark;
+			throw new ItemNotFoundException("ID not found: " + id);
 		}
-		catch (InvalidObjectIdException e)
-		{
-			throw new ItemNotFoundException("ID not found: " + id, e);
-		}
+
+		return item;
 	}
 
 	@Override
@@ -124,8 +117,15 @@ extends AbstractObservableRepository<T>
 	@Override
 	public void doDelete(String id)
 	{
-		T item = doRead(id);
-		datastore.delete(item);
+		try
+		{
+			T item = doRead(id);
+			datastore.delete(item);
+		}
+		catch (InvalidObjectIdException e)
+		{
+			throw new ItemNotFoundException("ID not found: " + id);
+		}
 	}
 
 	// SECTION: UTILITY
