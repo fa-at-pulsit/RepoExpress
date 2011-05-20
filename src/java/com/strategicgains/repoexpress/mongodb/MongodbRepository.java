@@ -5,8 +5,6 @@ package com.strategicgains.repoexpress.mongodb;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
-
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
 import com.mongodb.Mongo;
@@ -134,7 +132,7 @@ extends AbstractObservableRepository<T>
 	{
 		if (id == null) return false;
 
-		return datastore.getCount(datastore.find(inheritanceRoot, "_id", new ObjectId(id))) > 0;
+		return datastore.getCount(datastore.find(inheritanceRoot, "_id", convertId(id))) > 0;
 	}
 
 	protected Datastore getDataStore()
