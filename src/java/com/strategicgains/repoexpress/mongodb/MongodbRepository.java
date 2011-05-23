@@ -132,11 +132,16 @@ extends AbstractObservableRepository<T>
 	{
 		if (id == null) return false;
 
-		return datastore.getCount(datastore.find(inheritanceRoot, "_id", convertId(id))) > 0;
+		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", convertId(id))) > 0);
 	}
 
 	protected Datastore getDataStore()
 	{
 		return datastore;
+	}
+	
+	protected Mongo getMongo()
+	{
+		return mongo;
 	}
 }
