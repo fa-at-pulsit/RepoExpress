@@ -15,7 +15,23 @@ Dependencies:
 
 Change History:
 ===================================================================================================
+Release 0.3.0
+* Refactored to create separate jars for common functionality and DB-dependent functionality.
+  Now creates 2 jars: RepoExpress...jar and RepoExpress...-mongodb.jar
+
+Release 0.2.2
+* Exposed Mongo driver instance in case you need it for something tricky (that Morphia doesn't
+  support) in sub-classes.
+* Fixed issue in MongodbRepository.exists() where it wasn't calling convertId() and using new
+  ObjectId() directly.
+* Added try/catch in MongodbRepository.doDelete(String) to catch InvalidObjectIdException and
+  translate it to NotFoundException.
+* Introduced InvalidObjectIdException to enable implementations of IdentifierAdapter to throw
+  it when it cannot convert the string to an internal identifier.  This enables upstream callers
+  to handle it and identify the issue.
+
 Release 0.2
 * Update MongodbRepository to allow use of Replication Sets.
+
 Release 0.1
 * Initial import. Combined concepts from RestExpress and JigForJava full-stack framework.
