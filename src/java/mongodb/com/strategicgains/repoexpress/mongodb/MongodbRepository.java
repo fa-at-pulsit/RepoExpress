@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
+import com.google.code.morphia.query.Query;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableRepository;
@@ -14,6 +15,12 @@ import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
+import com.strategicgains.restexpress.query.FilterCallback;
+import com.strategicgains.restexpress.query.OrderCallback;
+import com.strategicgains.restexpress.query.OrderComponent;
+import com.strategicgains.restexpress.query.QueryFilter;
+import com.strategicgains.restexpress.query.QueryOrder;
+import com.strategicgains.restexpress.query.QueryRange;
 
 /**
  * Uses MongoDB as its back-end store. This repository can handle
@@ -126,6 +133,19 @@ extends AbstractObservableRepository<T>
 		}
 	}
 
+	/**
+	 * Count the instances of the given type matching the given filter criteria.
+	 * 
+	 * @param range
+	 * @param filter
+	 * @param order
+	 */
+	public long count(Class<T> type, QueryFilter filter)
+	{
+		return getBaseQuery(type, filter).countAll();
+	}
+
+
 	// SECTION: UTILITY
 
 	protected boolean exists(String id)
@@ -143,5 +163,86 @@ extends AbstractObservableRepository<T>
 	protected Mongo getMongo()
 	{
 		return mongo;
+	}
+
+	/**
+	 * @param range
+	 * @param filter
+	 * @param order
+	 */
+	protected List<T> query(Class<T> type, QueryRange range, QueryFilter filter, QueryOrder order)
+	{
+		Query<T> q = getBaseQuery(type, filter);
+		configureQueryRange(q, range);
+		configureQueryOrder(q, order);
+		return q.asList();
+	}
+
+	private Query<T> getBaseQuery(Class<T> type, QueryFilter filter)
+	{
+		Query<T> q = getDataStore().find(type);
+		configureQueryFilter(q, filter);
+		return q;
+	}
+
+	/**
+	 * @param q
+	 * @param range
+	 */
+	private void configureQueryRange(Query<T> q, QueryRange range)
+	{
+		if (range.isInitialized())
+		{
+			q.offset((int) range.getStart());
+			q.limit(range.getOffset() + 1);
+		}
+	}
+
+	private void configureQueryFilter(final Query<T> q, QueryFilter filter)
+	{
+		filter.iterate(new FilterCallback()
+		{
+			@Override
+			public void filterOn(String name, String value)
+			{
+				q.field(name).contains(value.toLowerCase());
+			}
+		});
+	}
+
+	/**
+	 * @param q
+	 * @param order
+	 */
+	private void configureQueryOrder(Query<T> q, QueryOrder order)
+	{
+		if (order.isSorted())
+		{
+			final StringBuilder sb = new StringBuilder();
+			
+			order.iterate(new OrderCallback()
+			{
+				boolean isFirst = true;
+
+				@Override
+				public void orderBy(OrderComponent component)
+				{
+					if (!isFirst)
+					{
+						sb.append(',');
+					}
+					
+					if (component.isDescending())
+					{
+						sb.append('-');
+					}
+
+					sb.append(component.getFieldName());
+					isFirst = false;
+				}
+			});
+			
+			q.order(sb.toString());
+		}
 	}
 }
