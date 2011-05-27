@@ -6,13 +6,16 @@
 	<property name="dir.src.java" value="${basedir}/src/java"/>
 	<property name="dir.src.common" value="${dir.src.java}/common"/>
 	<property name="dir.src.mongodb" value="${dir.src.java}/mongodb"/>
+	<property name="dir.src.voldemort" value="${dir.src.java}/voldemort"/>
 	<property name="dir.test.java" value="${basedir}/test/java"/>
 	<property name="dir.test.common" value="${dir.test.java}/common"/>
-	<property name="dir.test.mongodb" value="${dir.test.java}/common"/>
+	<property name="dir.test.mongodb" value="${dir.test.java}/mongodb"/>
+	<property name="dir.test.voldemort" value="${dir.test.java}/voldemort"/>
 	<property name="dir.build" value="${basedir}/build"/>
 	<property name="dir.compile" value="${dir.build}/classes"/>
-	<property name="dir.compile.common" value="${dir.compile}/main"/>
+	<property name="dir.compile.common" value="${dir.compile}/common"/>
 	<property name="dir.compile.mongodb" value="${dir.compile}/mongodb"/>
+	<property name="dir.compile.voldemort" value="${dir.compile}/voldemort"/>
 	<property name="dir.compile.test" value="${dir.compile}/test"/>
 	<property name="dir.lib" value="${basedir}/lib"/>
 	<property name="dir.dist" value="${basedir}/dist"/>
@@ -21,6 +24,8 @@
 
 	<path id="compile.classpath">
 		<pathelement location="${dir.compile.common}"/>
+		<pathelement location="${dir.compile.mongodb}"/>
+		<pathelement location="${dir.compile.voldemort}"/>
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar"/>
 		</fileset>
@@ -28,6 +33,8 @@
 
 	<path id="runtime.classpath">
 		<pathelement location="${dir.compile.common}"/>
+		<pathelement location="${dir.compile.mongodb}"/>
+		<pathelement location="${dir.compile.voldemort}"/>
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar"/>
 			<exclude name="**/sources/*"/>
@@ -43,6 +50,7 @@
 		<mkdir dir="${dir.compile}"/>
 		<mkdir dir="${dir.compile.common}"/>
 		<mkdir dir="${dir.compile.mongodb}"/>
+		<mkdir dir="${dir.compile.voldemort}"/>
 		<mkdir dir="${dir.compile.test}"/>
 		<mkdir dir="${dir.dist}"/>
     </target>
@@ -79,6 +87,19 @@
 			</classpath>
 			<src>
 				<pathelement location="${dir.src.mongodb}"/>
+			</src>
+		</javac>
+
+    	<javac destdir="${dir.compile.voldemort}"
+			failonerror="yes"
+			fork="yes"
+    		source="${javac.source}"
+    		debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<src>
+				<pathelement location="${dir.src.voldemort}"/>
 			</src>
 		</javac>
     	
@@ -147,6 +168,9 @@
     	</jar>
 		<jar destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-mongodb.jar">
     		<fileset dir="${dir.compile.mongodb}"/>
+    	</jar>
+		<jar destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-voldemort.jar">
+    		<fileset dir="${dir.compile.voldemort}"/>
     	</jar>
 		<jar destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-src.jar">
     		<fileset dir="${dir.src.common}"/>

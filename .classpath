@@ -3,10 +3,13 @@
 	<classpathentry kind="src" path="src/java/common"/>
 	<classpathentry kind="src" path="src/java/mongodb"/>
 	<classpathentry kind="src" path="test/java/mongodb"/>
+	<classpathentry kind="src" path="src/java/voldemort"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/mongodb/mongo-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/mongodb/morphia-0.99.jar"/>
 	<classpathentry kind="lib" path="lib/RestExpress-0.7.0-snapshot-25.jar"/>
+	<classpathentry kind="lib" path="lib/voldemort/voldemort-0.81.jar"/>
+	<classpathentry kind="lib" path="lib/netty-3.2.4.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
