@@ -52,15 +52,26 @@ extends AbstractObservableAdaptableRepository<T, I>
 
 	/**
 	 * 
+	 * @param mongo a pre-configured Mongo instance.
+	 * @param name the name of the database (in MongoDB).
+	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
+	 */
+	public MongodbRepository(Mongo mongo, String name, Class<? extends T>... entityClasses)
+	{
+		super();
+		this.mongo = mongo;
+		initialize(name, entityClasses);
+	}
+
+	/**
+	 * 
 	 * @param address a ServerAddress representing a single MongoDB server.
 	 * @param name the name of the repository (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
 	 */
 	public MongodbRepository(ServerAddress address, String name, Class<? extends T>... entityClasses)
 	{
-		super();
-		mongo = new Mongo(address);
-		initialize(name, entityClasses);
+		this(new Mongo(address), name, entityClasses);
 	}
 
 	/**
@@ -171,7 +182,7 @@ extends AbstractObservableAdaptableRepository<T, I>
 	{
 		return datastore;
 	}
-	
+
 	protected Mongo getMongo()
 	{
 		return mongo;
