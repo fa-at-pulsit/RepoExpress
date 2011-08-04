@@ -6,6 +6,10 @@ package com.strategicgains.repoexpress;
 import com.strategicgains.repoexpress.domain.Identifiable;
 
 /**
+ * A base, abstract repository implementation that supports observation, as well as,
+ * adaptation of the identifier via an IdentifierAdapter (e.g. from String in the
+ * domain model to, say, some type of ObjectId in the data store and visa versa).
+ * 
  * @author toddf
  * @since May 27, 2011
  */
