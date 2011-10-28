@@ -20,8 +20,8 @@ import java.util.Date;
 import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
 
 /**
- * Sets the createdAt and lastUpdatedAt properties on a TimestampedIdentifiable instace before
- * creation and update, repectively.
+ * Sets the createdAt and lastUpdatedAt properties on a TimestampedIdentifiable instance before
+ * creation and update, respectively.
  * 
  * @author toddf
  * @since Oct 13, 2010
@@ -33,7 +33,9 @@ extends AbstractRepositoryObserver<T>
     public void beforeCreate(T object)
     {
 	    super.beforeCreate(object);
-	    object.setCreatedAt(new Date(System.currentTimeMillis()));
+	    Date now = new Date(System.currentTimeMillis());
+	    object.setCreatedAt(now);
+	    object.setUpdatedAt(now);
     }
 
 	@Override
