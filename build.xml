@@ -7,15 +7,18 @@
 	<property name="dir.src.common" value="${dir.src.java}/common"/>
 	<property name="dir.src.mongodb" value="${dir.src.java}/mongodb"/>
 	<property name="dir.src.voldemort" value="${dir.src.java}/voldemort"/>
+	<property name="dir.src.redis" value="${dir.src.java}/redis"/>
 	<property name="dir.test.java" value="${basedir}/test/java"/>
 	<property name="dir.test.common" value="${dir.test.java}/common"/>
 	<property name="dir.test.mongodb" value="${dir.test.java}/mongodb"/>
 	<property name="dir.test.voldemort" value="${dir.test.java}/voldemort"/>
+	<property name="dir.test.redis" value="${dir.test.java}/redis"/>
 	<property name="dir.build" value="${basedir}/build"/>
 	<property name="dir.compile" value="${dir.build}/classes"/>
 	<property name="dir.compile.common" value="${dir.compile}/common"/>
 	<property name="dir.compile.mongodb" value="${dir.compile}/mongodb"/>
 	<property name="dir.compile.voldemort" value="${dir.compile}/voldemort"/>
+	<property name="dir.compile.redis" value="${dir.compile}/redis"/>
 	<property name="dir.compile.test" value="${dir.compile}/test"/>
 	<property name="dir.lib" value="${basedir}/lib"/>
 	<property name="dir.dist" value="${basedir}/dist"/>
@@ -26,6 +29,7 @@
 		<pathelement location="${dir.compile.common}"/>
 		<pathelement location="${dir.compile.mongodb}"/>
 		<pathelement location="${dir.compile.voldemort}"/>
+		<pathelement location="${dir.compile.redis}"/>
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar"/>
 		</fileset>
@@ -35,6 +39,7 @@
 		<pathelement location="${dir.compile.common}"/>
 		<pathelement location="${dir.compile.mongodb}"/>
 		<pathelement location="${dir.compile.voldemort}"/>
+		<pathelement location="${dir.compile.redis}"/>
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar"/>
 			<exclude name="**/sources/*"/>
@@ -51,6 +56,7 @@
 		<mkdir dir="${dir.compile.common}"/>
 		<mkdir dir="${dir.compile.mongodb}"/>
 		<mkdir dir="${dir.compile.voldemort}"/>
+		<mkdir dir="${dir.compile.redis}"/>
 		<mkdir dir="${dir.compile.test}"/>
 		<mkdir dir="${dir.dist}"/>
     </target>
@@ -102,6 +108,19 @@
 				<pathelement location="${dir.src.voldemort}"/>
 			</src>
 		</javac>
+
+    	<javac destdir="${dir.compile.redis}"
+			failonerror="yes"
+			fork="yes"
+    		source="${javac.source}"
+    		debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<src>
+				<pathelement location="${dir.src.redis}"/>
+			</src>
+		</javac>
     	
 		<javac destdir="${dir.compile.test}"
 			failonerror="yes"
@@ -114,6 +133,8 @@
 			<src>
 				<pathelement location="${dir.test.common}"/>
 				<pathelement location="${dir.test.mongodb}"/>
+				<pathelement location="${dir.test.voldemort}"/>
+				<pathelement location="${dir.test.redis}"/>
 			</src>
 		</javac>
     </target>
@@ -172,9 +193,14 @@
 		<jar destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-voldemort.jar">
     		<fileset dir="${dir.compile.voldemort}"/>
     	</jar>
+		<jar destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-redis.jar">
+    		<fileset dir="${dir.compile.redis}"/>
+    	</jar>
 		<jar destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-src.jar">
     		<fileset dir="${dir.src.common}"/>
     		<fileset dir="${dir.src.mongodb}"/>
+    		<fileset dir="${dir.src.voldemort}"/>
+       		<fileset dir="${dir.src.redis}"/>
     	</jar>
 		<zip destfile="${dir.dist}/${ant.project.name}-${version}-${build.number}-deps.zip">
     		<zipfileset dir="${dir.lib}" excludes="junit/"/>
