@@ -15,40 +15,91 @@
 */
 package com.strategicgains.repoexpress.redis;
 
+import java.util.List;
+
+import redis.clients.johm.JOhm;
+
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.exception.DuplicateItemException;
+import com.strategicgains.repoexpress.exception.ItemNotFoundException;
+import com.strategicgains.restexpress.query.QueryFilter;
+import com.strategicgains.restexpress.query.QueryOrder;
+import com.strategicgains.restexpress.query.QueryRange;
 
 /**
+ * Persist objects to a Redis datastore. Object must be an Identifiable and the ID must be numeric (e.g. Long, Integer).
+ * 
  * @author toddf
  * @since Jun 6, 2012
  */
-public class RedisRepository<T extends Identifiable, I>
-extends AbstractObservableAdaptableRepository<T, I>
+public class RedisRepository<T extends Identifiable>
+extends AbstractObservableAdaptableRepository<T, Integer>
 {
+	private Class<T> entityClass;
+
+	public RedisRepository(Class<T> entityClass)
+	{
+		super();
+		this.entityClass = entityClass;
+		setIdentifierAdapter(new StringIntegerIdAdapter());
+	}
+
 	@Override
 	public T doCreate(T object)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (JOhm.isNew(object))
+		{
+			return JOhm.save(object);
+		}
+		
+		throw new DuplicateItemException(object.getClass().getSimpleName()
+		    + " ID already exists: " + object.getId());
+
 	}
 
 	@Override
 	public void doDelete(String id)
 	{
-		// TODO Auto-generated method stub
+		JOhm.delete(entityClass, adaptId(id));
 	}
 
 	@Override
 	public T doRead(String id)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return JOhm.get(entityClass, adaptId(id));
 	}
 
 	@Override
 	public T doUpdate(T object)
 	{
-		// TODO Auto-generated method stub
+		if (JOhm.isNew(object))
+		{
+			throw new ItemNotFoundException(object.getClass().getSimpleName()
+			    + " ID not found: " + object.getId());
+		}
+
+		return JOhm.save(object);
+	}
+
+	/**
+	 * Perform a query against a Redis datastore. This method is intended to assist in implementation of
+	 * specific query methods (e.g. readAll(), readCustomerOrders(), etc.).  Supports the usage
+	 * of QueryRange, QueryFilter and QueryOrder, which support parsing the Request in known ways.
+	 * 
+	 * @param range
+	 * @param filter
+	 * @param order
+	 * @see QueryRange
+	 * @see QueryFilter
+	 * @see QueryOrder
+	 */
+	protected List<T> query(Class<T> type, QueryRange range, QueryFilter filter, QueryOrder order)
+	{
+//		Query<T> q = getBaseQuery(type, filter);
+//		configureQueryRange(q, range);
+//		configureQueryOrder(q, order);
+//		return q.asList();
 		return null;
 	}
 }
