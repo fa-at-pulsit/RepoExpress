@@ -42,7 +42,7 @@ extends AbstractObservableAdaptableRepository<T, Integer>
 	{
 		super();
 		this.entityClass = entityClass;
-		setIdentifierAdapter(new StringIntegerIdAdapter());
+		setIdentifierAdapter(new StringToIntegerIdAdapter());
 	}
 
 	@Override

@@ -24,7 +24,7 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
  * @author toddf
  * @since Feb 16, 2011
  */
-public class StringIntegerIdAdapter
+public class StringToIntegerIdAdapter
 implements IdentiferAdapter<Integer>
 {
 	/**
