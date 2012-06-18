@@ -24,7 +24,7 @@ import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
  * @author toddf
  * @since Oct 27, 2011
  */
-public abstract class AbstractMongodbPersistable
+public abstract class AbstractMongodbEntity
 extends AbstractTimestampedIdentifiable
 {
 	@Id
