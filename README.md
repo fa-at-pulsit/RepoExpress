@@ -23,6 +23,8 @@ Release 0.3.0
 * Introduced AbstractMongodbPersistable which extends AbstractTimestampedIdentifiable and includes
   id that is a MongoDB ObjectId.  get/set-Id() methods adapt the string to/from an ObjectId.
 * DefaultTimestampedIdentifiableRepositoryObserver now also sets updatedAt on creation.
+* Introduced Voldemort repository.
+* Added Redis repository, using JOhm.
 
 Release 0.2.2
 * Exposed Mongo driver instance in case you need it for something tricky (that Morphia doesn't
