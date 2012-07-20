@@ -1,5 +1,5 @@
 /*
-    Copyright 2011, Strategic Gains, Inc.
+    Copyright 2011-2012, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -19,10 +19,12 @@ import com.strategicgains.repoexpress.IdentiferAdapter;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a String ID to a MongoDB ObjectId.
+ * Converts a String ID to a Redis/JOhm-usable Integer. And back again.
+ * Used in RedisJOhmRepository.
  * 
  * @author toddf
  * @since Feb 16, 2011
+ * @see RedisJOhmRepository
  */
 public class StringToIntegerIdAdapter
 implements IdentiferAdapter<Integer>

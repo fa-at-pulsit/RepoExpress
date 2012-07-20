@@ -27,7 +27,7 @@ import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
  * @author toddf
  * @since June 18, 2012
  */
-public abstract class AbstractTimestampedRedisEntity
+public abstract class AbstractRedisJOhmEntity
 extends AbstractTimestampedIdentifiable
 {
 	@Id

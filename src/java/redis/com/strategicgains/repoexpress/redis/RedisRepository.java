@@ -20,12 +20,23 @@ import redis.clients.jedis.JedisPool;
 
 import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.event.AbstractRepositoryObserver;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
+import com.strategicgains.repoexpress.exception.RepositoryException;
 
 /**
+ * This Redis repository works on simpler objects than RedisJOhmRepository, in that, the persisted
+ * entities must only implement Identifiable and can have String types as their ID.
+ * <p/>
+ * Note that this repository requires the client to set appropriate ID values.  Otherwise, since
+ * this repository is 'observable', a RepositoryObserver may be used to perform that task automatically
+ * on a create operation if desired. 
+ * 
  * @author toddf
  * @since Jul 19, 2012
+ * @see AbstractRepositoryObserver
+ * @see RedisJOhmRepository
  */
 public abstract class RedisRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
@@ -53,8 +64,12 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			String json = jedis.set(item.getId(), marshalFrom(item));
-			return marshalTo(json, entityClass);
+			if (!jedis.set(item.getId(), marshalFrom(item)).equalsIgnoreCase("OK"))
+			{
+				throw new RepositoryException("Error creating object: " + item.getId());
+			}
+
+			return item;
 		}
 		finally
 		{
@@ -116,8 +131,12 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			String json = jedis.set(item.getId(), marshalFrom(item));
-			return marshalTo(json, entityClass);
+			if (!jedis.set(item.getId(), marshalFrom(item)).equalsIgnoreCase("OK"))
+			{
+				throw new RepositoryException("Error updating object: " + item.getId());
+			}
+
+			return item;
 		}
 		finally
 		{

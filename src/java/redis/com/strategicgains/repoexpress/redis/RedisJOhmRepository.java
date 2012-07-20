@@ -28,10 +28,12 @@ import com.strategicgains.restexpress.query.QueryOrder;
 import com.strategicgains.restexpress.query.QueryRange;
 
 /**
- * Persist objects to a Redis datastore. Object must be an Identifiable and the ID must be numeric (e.g. Long, Integer).
+ * Persist objects (mainly sub-classes of AbstractRedisJOhmEntity) to a Redis datastore using JOhm.
+ * The Object must implement Identifiable and the ID must be numeric (e.g. Long, Integer).
  * 
  * @author toddf
  * @since Jun 6, 2012
+ * @see AbstractRedisJOhmEntity
  */
 public class RedisJOhmRepository<T extends Identifiable>
 extends AbstractObservableAdaptableRepository<T, Integer>
