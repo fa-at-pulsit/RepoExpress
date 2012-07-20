@@ -12,94 +12,132 @@
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	See the License for the specific language governing permissions and
 	limitations under the License.
-*/
+ */
 package com.strategicgains.repoexpress.redis;
 
-import java.util.List;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
-import redis.clients.johm.JOhm;
-
-import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
+import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
-import com.strategicgains.restexpress.query.QueryFilter;
-import com.strategicgains.restexpress.query.QueryOrder;
-import com.strategicgains.restexpress.query.QueryRange;
 
 /**
- * Persist objects to a Redis datastore. Object must be an Identifiable and the ID must be numeric (e.g. Long, Integer).
- * 
  * @author toddf
- * @since Jun 6, 2012
+ * @since Jul 19, 2012
  */
-public class RedisRepository<T extends Identifiable>
-extends AbstractObservableAdaptableRepository<T, Integer>
+public abstract class RedisRepository<T extends Identifiable>
+extends AbstractObservableRepository<T>
 {
-	private Class<T> entityClass;
+	private JedisPool jedisPool;
+	private Class<? extends T> entityClass;
 
-	public RedisRepository(Class<T> entityClass)
+	public RedisRepository(JedisPool jedisPool, Class<? extends T> entityClass)
 	{
 		super();
+		this.jedisPool = jedisPool;
 		this.entityClass = entityClass;
-		setIdentifierAdapter(new StringToIntegerIdAdapter());
 	}
 
 	@Override
-	public T doCreate(T object)
+	public T doCreate(T item)
 	{
-		if (JOhm.isNew(object))
+		if (exists(item.getId()))
 		{
-			return JOhm.save(object);
+			throw new DuplicateItemException(item.getClass().getSimpleName()
+			    + " ID already exists: " + item.getId());
 		}
-		
-		throw new DuplicateItemException(object.getClass().getSimpleName()
-		    + " ID already exists: " + object.getId());
 
+		Jedis jedis = jedisPool.getResource();
+		
+		try
+		{
+			String json = jedis.set(item.getId(), marshalFrom(item));
+			return marshalTo(json, entityClass);
+		}
+		finally
+		{
+			jedisPool.returnResource(jedis);
+		}
 	}
 
 	@Override
 	public void doDelete(String id)
 	{
-		JOhm.delete(entityClass, adaptId(id));
+		Jedis jedis = jedisPool.getResource();
+
+		try
+		{
+			Long reply = jedis.del(id);
+			if (reply < 1)
+			{
+				throw new ItemNotFoundException("ID not found: " + id);
+			}
+		}
+		finally
+		{
+			jedisPool.returnResource(jedis);
+		}
 	}
 
 	@Override
 	public T doRead(String id)
 	{
-		return JOhm.get(entityClass, adaptId(id));
+		Jedis jedis = jedisPool.getResource();
+
+		try
+		{
+			String json = jedis.get(id);
+			return marshalTo(json, entityClass);
+		}
+		finally
+		{
+			jedisPool.returnResource(jedis);
+		}
 	}
 
 	@Override
-	public T doUpdate(T object)
+	public T doUpdate(T item)
 	{
-		if (JOhm.isNew(object))
+		if (!exists(item.getId()))
 		{
-			throw new ItemNotFoundException(object.getClass().getSimpleName()
-			    + " ID not found: " + object.getId());
+			throw new ItemNotFoundException(item.getClass().getSimpleName()
+			    + " ID not found: " + item.getId());
 		}
 
-		return JOhm.save(object);
+		Jedis jedis = jedisPool.getResource();
+		
+		try
+		{
+			String json = jedis.set(item.getId(), marshalFrom(item));
+			return marshalTo(json, entityClass);
+		}
+		finally
+		{
+			jedisPool.returnResource(jedis);
+		}
 	}
 
-	/**
-	 * Perform a query against a Redis datastore. This method is intended to assist in implementation of
-	 * specific query methods (e.g. readAll(), readCustomerOrders(), etc.).  Supports the usage
-	 * of QueryRange, QueryFilter and QueryOrder, which support parsing the Request in known ways.
-	 * 
-	 * @param range
-	 * @param filter
-	 * @param order
-	 * @see QueryRange
-	 * @see QueryFilter
-	 * @see QueryOrder
-	 */
-	protected List<T> query(Class<T> type, QueryRange range, QueryFilter filter, QueryOrder order)
+
+	// SECTION: UTILITY
+
+	protected boolean exists(String id)
 	{
-//		Query<T> q = getBaseQuery(type, filter);
-//		configureQueryRange(q, range);
-//		configureQueryOrder(q, order);
-//		return q.asList();
-		return null;
+		if (id == null) return false;
+
+		Jedis jedis = jedisPool.getResource();
+		
+		try
+		{
+			return jedis.exists(id);
+		}
+		finally
+		{
+			jedisPool.returnResource(jedis);
+		}
 	}
+	
+	protected abstract T marshalTo(String json, Class<? extends T> entityClass);
+	protected abstract String marshalFrom(T instance);
 }
