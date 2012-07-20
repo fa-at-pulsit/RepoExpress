@@ -89,6 +89,12 @@ extends AbstractObservableRepository<T>
 		try
 		{
 			String json = jedis.get(id);
+
+			if (json == null || json.trim().isEmpty())
+			{
+				throw new ItemNotFoundException("ID not found: " + id);
+			}
+
 			return marshalTo(json, entityClass);
 		}
 		finally
