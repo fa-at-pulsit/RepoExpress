@@ -31,7 +31,13 @@ import com.strategicgains.repoexpress.exception.RepositoryException;
  * <p/>
  * Note that this repository requires the client to set appropriate ID values.  Otherwise, since
  * this repository is 'observable', a RepositoryObserver may be used to perform that task automatically
- * on a create operation if desired. 
+ * on a create operation if desired.
+ * <p/>
+ * Usage of this repository requires de/serialization to occur during the persistence operation.
+ * Consequently, sub-classes must implement the marshalFrom(T) and marshalTo(String, T) methods.
+ * If using this within a RestExpress service suite, DefaultJsonProcessor or DefaultXmlProcessor
+ * can be used.  Or, if the RestExpress kickstart process was used, ResponseProcessors.JSON_SERIALIZER
+ * or ResponseProcessors.XML_SERIALIZER may be leveraged.
  * 
  * @author toddf
  * @since Jul 19, 2012
