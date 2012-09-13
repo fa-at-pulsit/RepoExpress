@@ -6,6 +6,7 @@
 	<classpathentry kind="src" path="src/java/voldemort"/>
 	<classpathentry kind="src" path="src/java/redis"/>
 	<classpathentry kind="src" path="src/java/cassandra"/>
+	<classpathentry kind="src" path="src/java/eclipselink"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/netty-3.4.4.Final.jar"/>
@@ -16,5 +17,6 @@
 	<classpathentry kind="lib" path="lib/redis/commons-pool-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/redis/johm-0.5.0.jar"/>
 	<classpathentry kind="lib" path="lib/mongodb/mongo-2.8.0.jar"/>
+	<classpathentry kind="lib" path="lib/eclipselink/eclipselink.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

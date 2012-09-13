@@ -8,17 +8,20 @@
 	<property name="dir.src.mongodb" value="${dir.src.java}/mongodb"/>
 	<property name="dir.src.voldemort" value="${dir.src.java}/voldemort"/>
 	<property name="dir.src.redis" value="${dir.src.java}/redis"/>
+	<property name="dir.src.eclipselink" value="${dir.src.java}/eclipselink"/>
 	<property name="dir.test.java" value="${basedir}/test/java"/>
 	<property name="dir.test.common" value="${dir.test.java}/common"/>
 	<property name="dir.test.mongodb" value="${dir.test.java}/mongodb"/>
 	<property name="dir.test.voldemort" value="${dir.test.java}/voldemort"/>
 	<property name="dir.test.redis" value="${dir.test.java}/redis"/>
+	<property name="dir.test.eclipselink" value="${dir.test.java}/eclipselink"/>
 	<property name="dir.build" value="${basedir}/build"/>
 	<property name="dir.compile" value="${dir.build}/classes"/>
 	<property name="dir.compile.common" value="${dir.compile}/common"/>
 	<property name="dir.compile.mongodb" value="${dir.compile}/mongodb"/>
 	<property name="dir.compile.voldemort" value="${dir.compile}/voldemort"/>
 	<property name="dir.compile.redis" value="${dir.compile}/redis"/>
+	<property name="dir.compile.eclipselink" value="${dir.compile}/eclipselink"/>
 	<property name="dir.compile.test" value="${dir.compile}/test"/>
 	<property name="dir.lib" value="${basedir}/lib"/>
 	<property name="dir.dist" value="${basedir}/dist"/>
@@ -57,6 +60,7 @@
 		<mkdir dir="${dir.compile.mongodb}"/>
 		<mkdir dir="${dir.compile.voldemort}"/>
 		<mkdir dir="${dir.compile.redis}"/>
+		<mkdir dir="${dir.compile.eclipselink}"/>
 		<mkdir dir="${dir.compile.test}"/>
 		<mkdir dir="${dir.dist}"/>
     </target>
@@ -121,6 +125,19 @@
 				<pathelement location="${dir.src.redis}"/>
 			</src>
 		</javac>
+
+    	<javac destdir="${dir.compile.eclipselink}"
+			failonerror="yes"
+			fork="yes"
+    		source="${javac.source}"
+    		debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<src>
+				<pathelement location="${dir.src.eclipselink}"/>
+			</src>
+		</javac>
     	
 		<javac destdir="${dir.compile.test}"
 			failonerror="yes"
@@ -135,6 +152,7 @@
 				<pathelement location="${dir.test.mongodb}"/>
 				<pathelement location="${dir.test.voldemort}"/>
 				<pathelement location="${dir.test.redis}"/>
+				<pathelement location="${dir.test.eclipselink}"/>
 			</src>
 		</javac>
     </target>
