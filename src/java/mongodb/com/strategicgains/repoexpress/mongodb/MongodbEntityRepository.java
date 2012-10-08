@@ -27,10 +27,9 @@ import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableReposi
 public abstract class MongodbEntityRepository<T extends AbstractMongodbEntity>
 extends MongodbRepository<T, ObjectId>
 {
-	@SuppressWarnings("unchecked")
-    public MongodbEntityRepository(Mongo mongo, String databaseName, Class<T> type)
+    public MongodbEntityRepository(Mongo mongo, String databaseName, Class<T>... types)
     {
-	    super(mongo, databaseName, type);
+	    super(mongo, databaseName, types);
 	    initializeObservers();
 	    setIdentifierAdapter(new ObjectIdAdapter());
     }

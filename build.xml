@@ -121,7 +121,7 @@
 				<pathelement location="${dir.src.redis}"/>
 			</src>
 		</javac>
-    	
+
 		<javac destdir="${dir.compile.test}"
 			failonerror="yes"
 			fork="yes"
@@ -152,7 +152,7 @@
 	<!-- ====================================================================== 
           target: unit-test
          ====================================================================== -->
-    <target name="unit-test" depends="_init, compile" description="--> Execute RestExpress unit tests">
+    <target name="unit-test" depends="_init, compile" description="--> Execute RepoExpress unit tests">
         <delete dir="${dir.test.results}"/>
     	<mkdir dir="${dir.test.results}"/>
     	<junit printsummary="true">
