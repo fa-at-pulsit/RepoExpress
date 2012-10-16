@@ -28,6 +28,7 @@ import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 import com.strategicgains.restexpress.query.FilterCallback;
+import com.strategicgains.restexpress.query.FilterComponent;
 import com.strategicgains.restexpress.query.OrderCallback;
 import com.strategicgains.restexpress.query.OrderComponent;
 import com.strategicgains.restexpress.query.QueryFilter;
@@ -217,7 +218,7 @@ extends AbstractObservableAdaptableRepository<T, I>
 		if (range.isInitialized())
 		{
 			q.offset((int) range.getStart());
-			q.limit(range.getOffset() + 1);
+			q.limit(range.getLimit());
 		}
 	}
 
@@ -226,9 +227,9 @@ extends AbstractObservableAdaptableRepository<T, I>
 		filter.iterate(new FilterCallback()
 		{
 			@Override
-			public void filterOn(String name, String value)
+			public void filterOn(FilterComponent c)
 			{
-				q.field(name).contains(value.toLowerCase());
+				q.field(c.getField()).contains(c.getValue().toLowerCase());
 			}
 		});
 	}
