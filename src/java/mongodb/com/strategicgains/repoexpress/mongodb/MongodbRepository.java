@@ -158,11 +158,37 @@ extends AbstractObservableAdaptableRepository<T, I>
 	}
 
 	/**
-	 * Count the instances of the given type matching the given filter criteria.
+	 * Impliments a 'default' readAll' method that queries for all instances of the inheritance
+	 * root class matching the given criteria.
+	 * 
+	 * This method does not invoke an observer method, so is not observable by default.  Override,
+	 * calling super() to get that functionality, if desired.
 	 * 
 	 * @param range
 	 * @param filter
 	 * @param order
+	 * @return
+	 */
+	public List<T> readAll(QueryRange range, QueryFilter filter, QueryOrder order)
+	{
+		return query(inheritanceRoot, range, filter, order);
+	}
+
+	/**
+	 * Count the instances of the inheritance root (class) that match the given filter criteria.
+	 * 
+	 * @param filter
+	 */
+	public long count(QueryFilter filter)
+	{
+		return count(inheritanceRoot, filter);
+	}
+
+	/**
+	 * Count the instances of the given type matching the given filter criteria.
+	 * 
+	 * @param type
+	 * @param filter
 	 */
 	public long count(Class<T> type, QueryFilter filter)
 	{
