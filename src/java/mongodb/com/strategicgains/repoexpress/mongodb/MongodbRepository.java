@@ -158,20 +158,20 @@ extends AbstractObservableAdaptableRepository<T, I>
 	}
 
 	/**
-	 * Impliments a 'default' readAll' method that queries for all instances of the inheritance
+	 * Implements a 'default' readAll' method that queries for all instances of the inheritance
 	 * root class matching the given criteria.
 	 * 
 	 * This method does not invoke an observer method, so is not observable by default.  Override,
 	 * calling super() to get that functionality, if desired.
 	 * 
-	 * @param range
 	 * @param filter
+	 * @param range
 	 * @param order
 	 * @return
 	 */
-	public List<T> readAll(QueryRange range, QueryFilter filter, QueryOrder order)
+	public List<T> readAll(QueryFilter filter, QueryRange range, QueryOrder order)
 	{
-		return query(inheritanceRoot, range, filter, order);
+		return query(inheritanceRoot, filter, range, order);
 	}
 
 	/**
@@ -220,7 +220,7 @@ extends AbstractObservableAdaptableRepository<T, I>
 	 * @param filter
 	 * @param order
 	 */
-	protected List<T> query(Class<T> type, QueryRange range, QueryFilter filter, QueryOrder order)
+	protected List<T> query(Class<T> type, QueryFilter filter, QueryRange range, QueryOrder order)
 	{
 		Query<T> q = getBaseQuery(type, filter);
 		configureQueryRange(q, range);

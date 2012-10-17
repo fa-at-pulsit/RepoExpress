@@ -24,7 +24,7 @@ import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableReposi
  * @author toddf
  * @since Sept 23, 2012
  */
-public abstract class MongodbEntityRepository<T extends AbstractMongodbEntity>
+public class MongodbEntityRepository<T extends AbstractMongodbEntity>
 extends MongodbRepository<T, ObjectId>
 {
     public MongodbEntityRepository(Mongo mongo, String databaseName, Class<T>... types)
