@@ -16,6 +16,9 @@
  */
 package com.strategicgains.repoexpress;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.strategicgains.repoexpress.domain.Identifiable;
 
 /**
@@ -25,7 +28,10 @@ import com.strategicgains.repoexpress.domain.Identifiable;
 public interface Repository<T extends Identifiable>
 {
 	public T create(T object);
-	public T read(String id);
-	public T update(T object);
 	public void delete(String id);
+	public void delete(T object);
+	public boolean exists(String id);
+	public T read(String id);
+	public List<T> readList(Collection<String> ids);
+	public T update(T object);
 }

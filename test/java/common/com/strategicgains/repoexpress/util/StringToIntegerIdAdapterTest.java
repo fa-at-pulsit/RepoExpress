@@ -1,5 +1,5 @@
 /*
-    Copyright 2011, Strategic Gains, Inc.
+    Copyright 2012, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -13,38 +13,40 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.mongodb;
+package com.strategicgains.repoexpress.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.bson.types.ObjectId;
 import org.junit.Test;
 
+import com.strategicgains.repoexpress.adapter.StringToIntegerIdAdapter;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
  * @author toddf
- * @since Mar 24, 2011
+ * @since Oct 25, 2011
  */
-public class ObjectIdAdapterTest
+public class StringToIntegerIdAdapterTest
 {
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldThrowExceptionOnInvalidId()
 	{
-		new ObjectIdAdapter().convert("invalid");
+		new StringToIntegerIdAdapter().convert("invalid");
 	}
 
 	@Test(expected=InvalidObjectIdException.class)
-	public void shouldThrowExceptionOnNullId()
+	public void shouldHandleNull()
 	{
-		new ObjectIdAdapter().convert(null);
+		new StringToIntegerIdAdapter().convert(null);
 	}
 
 	@Test
 	public void shouldConvertToId()
 	{
-		String stringValue = new ObjectId().toString();
-		ObjectId objectId = new ObjectIdAdapter().convert(stringValue);
+		String stringValue = String.valueOf(655);
+		Integer objectId = new StringToIntegerIdAdapter().convert(stringValue);
 		assertNotNull(objectId);
+		assertEquals(Integer.valueOf(655), objectId);
 	}
 }

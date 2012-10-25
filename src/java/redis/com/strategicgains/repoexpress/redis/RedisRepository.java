@@ -84,16 +84,17 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public void doDelete(String id)
+	public void doDelete(T object)
 	{
 		Jedis jedis = jedisPool.getResource();
 
 		try
 		{
-			Long reply = jedis.del(id);
+			Long reply = jedis.del(object.getId());
+
 			if (reply < 1)
 			{
-				throw new ItemNotFoundException("ID not found: " + id);
+				throw new ItemNotFoundException("ID not found: " + object.getId());
 			}
 		}
 		finally
@@ -150,10 +151,8 @@ extends AbstractObservableRepository<T>
 		}
 	}
 
-
-	// SECTION: UTILITY
-
-	protected boolean exists(String id)
+	@Override
+	public boolean exists(String id)
 	{
 		if (id == null) return false;
 
@@ -168,6 +167,9 @@ extends AbstractObservableRepository<T>
 			jedisPool.returnResource(jedis);
 		}
 	}
+
+
+	// SECTION: UTILITY
 	
 	protected abstract T marshalTo(String json, Class<? extends T> entityClass);
 	protected abstract String marshalFrom(T instance);

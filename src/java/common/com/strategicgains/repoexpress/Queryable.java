@@ -1,5 +1,5 @@
 /*
-    Copyright 2011, Strategic Gains, Inc.
+    Copyright 2012, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -15,16 +15,22 @@
 */
 package com.strategicgains.repoexpress;
 
-import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
+import java.util.List;
+
+import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.restexpress.query.QueryFilter;
+import com.strategicgains.restexpress.query.QueryOrder;
+import com.strategicgains.restexpress.query.QueryRange;
 
 /**
- * Converts a string ID into an Object, such as an ObjectId (e.g. MongoDB) before reading.
+ * Defines the interface for a repository implementation that supports dynamic query
+ * capabilities.
  * 
  * @author toddf
- * @since Feb 16, 2011
+ * @since Oct 25, 2012
  */
-public interface IdentiferAdapter<I>
+public interface Queryable<T extends Identifiable>
 {
-	public I convert(String id)
-	throws InvalidObjectIdException;
+	public long count(QueryFilter filter);
+	public List<T> readAll(QueryFilter filter, QueryRange range, QueryOrder order);
 }

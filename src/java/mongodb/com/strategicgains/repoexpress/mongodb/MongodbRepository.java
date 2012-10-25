@@ -15,6 +15,7 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.google.code.morphia.Datastore;
@@ -23,6 +24,7 @@ import com.google.code.morphia.query.Query;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
+import com.strategicgains.repoexpress.Queryable;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
@@ -45,6 +47,7 @@ import com.strategicgains.restexpress.query.QueryRange;
  */
 public class MongodbRepository<T extends Identifiable, I>
 extends AbstractObservableAdaptableRepository<T, I>
+implements Queryable<T>
 {
 	private Mongo mongo;
 	private Morphia morphia;
@@ -144,16 +147,15 @@ extends AbstractObservableAdaptableRepository<T, I>
 	}
 
 	@Override
-	public void doDelete(String id)
+	public void doDelete(T object)
 	{
 		try
 		{
-			T item = doRead(id);
-			datastore.delete(item);
+			datastore.delete(object);
 		}
 		catch (InvalidObjectIdException e)
 		{
-			throw new ItemNotFoundException("ID not found: " + id);
+			throw new ItemNotFoundException("ID not found: " + object.getId());
 		}
 	}
 
@@ -169,9 +171,16 @@ extends AbstractObservableAdaptableRepository<T, I>
 	 * @param order
 	 * @return
 	 */
+	@Override
 	public List<T> readAll(QueryFilter filter, QueryRange range, QueryOrder order)
 	{
 		return query(inheritanceRoot, filter, range, order);
+	}
+	
+	@Override
+	public List<T> readList(Collection<String> ids)
+	{
+		return getDataStore().find(inheritanceRoot).field("_id").in(new AdaptedIdIterable(ids)).asList();
 	}
 
 	/**
@@ -179,6 +188,7 @@ extends AbstractObservableAdaptableRepository<T, I>
 	 * 
 	 * @param filter
 	 */
+	@Override
 	public long count(QueryFilter filter)
 	{
 		return count(inheritanceRoot, filter);
@@ -195,15 +205,16 @@ extends AbstractObservableAdaptableRepository<T, I>
 		return getBaseQuery(type, filter).countAll();
 	}
 
-
-	// SECTION: UTILITY
-
-	protected boolean exists(String id)
+	@Override
+	public boolean exists(String id)
 	{
 		if (id == null) return false;
 
 		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", adaptId(id))) > 0);
 	}
+
+
+	// SECTION: UTILITY
 
 	protected Datastore getDataStore()
 	{

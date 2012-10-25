@@ -129,11 +129,11 @@ extends AbstractObservableAdaptableRepository<T, String>
 	}
 
 	@Override
-	public void doDelete(String id)
+	public void doDelete(T object)
 	{
 		try
 		{
-			boolean result = performDelete((String) adaptId(id));
+			boolean result = performDelete((String) adaptId(object.getId()));
 
 			if (!result)
 			{

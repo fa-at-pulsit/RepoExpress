@@ -17,7 +17,7 @@ package com.strategicgains.repoexpress.mongodb;
 
 import org.bson.types.ObjectId;
 
-import com.strategicgains.repoexpress.IdentiferAdapter;
+import com.strategicgains.repoexpress.adapter.IdentiferAdapter;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**

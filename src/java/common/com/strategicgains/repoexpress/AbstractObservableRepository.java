@@ -16,7 +16,6 @@
 package com.strategicgains.repoexpress;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -94,11 +93,11 @@ implements ObservableRepository<T>
     }
 
 	@Override
-    public final void delete(String id)
+    public final void delete(T object)
     {
-		notifyBeforeDelete(id);
-		doDelete(id);
-		notifyAfterDelete(id);
+		notifyBeforeDelete(object);
+		doDelete(object);
+		notifyAfterDelete(object);
     }
 
 	@Override
@@ -118,18 +117,6 @@ implements ObservableRepository<T>
 		notifyAfterUpdate(object);
 		return result;
     }
-
-	public List<T> readList(Collection<String> ids)
-    {
-    	List<T> results = new ArrayList<T>(ids.size());
-    	
-    	for (String id : ids)
-    	{
-    		results.add(read(id));
-    	}
-    	
-    	return results;
-    }
 	
 	
 	// SECTION: EVENT OBSERVATION
@@ -142,11 +129,11 @@ implements ObservableRepository<T>
 		}
 	}
 	
-	private void notifyAfterDelete(String id)
+	private void notifyAfterDelete(T object)
 	{
 		for (RepositoryObserver<T> observer : getObservers())
 		{
-			observer.afterDelete(id);
+			observer.afterDelete(object);
 		}
 	}
 	
@@ -174,11 +161,11 @@ implements ObservableRepository<T>
 		}
 	}
 	
-	private void notifyBeforeDelete(String id)
+	private void notifyBeforeDelete(T object)
 	{
 		for (RepositoryObserver<T> observer : getObservers())
 		{
-			observer.beforeDelete(id);
+			observer.beforeDelete(object);
 		}
 	}
 	

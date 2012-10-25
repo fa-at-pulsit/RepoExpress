@@ -25,6 +25,9 @@ import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
+ * An extremely basic in-memory repository backed by a Map implementation.  Filtering, sorting, etc.
+ * are not supported, so methods operate over the entire collection.
+ * 
  * @author toddf
  * @since Oct 12, 2010
  */
@@ -33,6 +36,12 @@ extends AbstractObservableRepository<T>
 {
 	private static long nextId = 0;
 	protected Map<String, T> items = new ConcurrentHashMap<String, T>();
+	
+	@Override
+	public boolean exists(String id)
+	{
+		return items.containsKey(id);
+	}
 
 	@Override
 	public T doCreate(T item)
@@ -79,13 +88,13 @@ extends AbstractObservableRepository<T>
     }
 
     @Override
-    public void doDelete(String id)
+    public void doDelete(T object)
     {
-    	T item = items.remove(id);
+    	T item = items.remove(object.getId());
 
     	if (item == null)
     	{
-    		throw new ItemNotFoundException("ID not found: " + id);
+    		throw new ItemNotFoundException("ID not found: " + object.getId());
     	}
     }
 }

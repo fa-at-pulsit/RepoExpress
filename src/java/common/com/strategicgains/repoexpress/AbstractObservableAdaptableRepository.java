@@ -1,8 +1,23 @@
 /*
- * Copyright 2011, eCollege, Inc.  All rights reserved.
- */
+    Copyright 2011, Strategic Gains, Inc.
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 package com.strategicgains.repoexpress;
 
+import java.util.Iterator;
+
+import com.strategicgains.repoexpress.adapter.IdentiferAdapter;
 import com.strategicgains.repoexpress.domain.Identifiable;
 
 /**
@@ -45,5 +60,68 @@ implements Adaptable<I>
 		}
 
 		return (I) id;
+	}
+
+	
+	// SECTION: INNER CLASSES
+
+	/**
+	 * An Iterable implementation returning an Iterator that essentially converts
+	 * a Collection of String IDs into a Collection of native object IDs.
+	 *  
+	 * @author toddf
+	 * @since Oct 25, 2012
+	 */
+	protected class AdaptedIdIterable
+	implements Iterable<I>
+	{
+		private Iterable<String> iterable;
+
+		public AdaptedIdIterable(Iterable<String> iterable)
+		{
+			this.iterable = iterable;
+		}
+
+        @Override
+        public Iterator<I> iterator()
+        {
+	        return new IdAdapterIterator(iterable.iterator());
+        }
+	}
+	
+	/**
+	 * Takes an Iterator of String instances and converts them, while iterating,
+	 * to native object IDs using the adaptId() method.
+	 * 
+	 * @author toddf
+	 * @since Oct 25, 2012
+	 */
+	protected class IdAdapterIterator
+	implements Iterator<I>
+	{
+		private Iterator<String> iterator;
+
+		public IdAdapterIterator(Iterator<String> iterator)
+		{
+			this.iterator = iterator;
+		}
+
+        @Override
+        public boolean hasNext()
+        {
+	        return iterator.hasNext();
+        }
+
+        @Override
+        public I next()
+        {
+	        return adaptId(iterator.next());
+        }
+
+        @Override
+        public void remove()
+        {
+        	iterator.remove();
+        }
 	}
 }

@@ -22,7 +22,7 @@ import voldemort.client.StoreClientFactory;
 import voldemort.versioning.Versioned;
 
 import com.strategicgains.repoexpress.Adaptable;
-import com.strategicgains.repoexpress.IdentiferAdapter;
+import com.strategicgains.repoexpress.adapter.IdentiferAdapter;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 import com.strategicgains.repoexpress.exception.RepositoryException;

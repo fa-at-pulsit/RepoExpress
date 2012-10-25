@@ -13,24 +13,21 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.redis;
+package com.strategicgains.repoexpress.adapter;
 
-import com.strategicgains.repoexpress.IdentiferAdapter;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a String ID to a Redis/JOhm-usable Integer. And back again.
- * Used in RedisJOhmRepository.
+ * Converts a String ID to an Integer.
  * 
  * @author toddf
  * @since Feb 16, 2011
- * @see RedisJOhmRepository
  */
 public class StringToIntegerIdAdapter
 implements IdentiferAdapter<Integer>
 {
 	/**
-	 * throws InvalidObjectIdException if the ID is not a valid MongoDB ObjectId.
+	 * throws InvalidObjectIdException if the ID is not a valid integer.
 	 */
 	@Override
 	public Integer convert(String id)

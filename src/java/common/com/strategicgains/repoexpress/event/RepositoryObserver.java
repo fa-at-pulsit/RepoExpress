@@ -24,12 +24,12 @@ import com.strategicgains.repoexpress.domain.Identifiable;
 public interface RepositoryObserver<T extends Identifiable>
 {
 	public void afterCreate(T object);
-	public void afterDelete(String id);
+	public void afterDelete(T object);
 	public void afterRead(T object);
 	public void afterUpdate(T object);
 
 	public void beforeCreate(T object);
-	public void beforeDelete(String id);
+	public void beforeDelete(T object);
 	public void beforeRead(String id);
 	public void beforeUpdate(T object);
 }

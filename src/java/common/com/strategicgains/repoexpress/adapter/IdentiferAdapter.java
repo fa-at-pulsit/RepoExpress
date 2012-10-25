@@ -1,5 +1,5 @@
 /*
-    Copyright 2012, Strategic Gains, Inc.
+    Copyright 2011, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -13,31 +13,18 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.redis;
+package com.strategicgains.repoexpress.adapter;
 
-import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * This super-class implements the Identifiable interface by using a String
- * ID.
+ * Converts a string ID into an Object, such as an ObjectId (e.g. MongoDB) before reading.
  * 
  * @author toddf
- * @since Jul 19, 2012
+ * @since Feb 16, 2011
  */
-public class AbstractRedisEntity
-implements Identifiable
+public interface IdentiferAdapter<I>
 {
-	private String id;
-
-	@Override
-	public String getId()
-	{
-		return id;
-	}
-
-	@Override
-	public void setId(String id)
-	{
-		this.id = id;
-	}
+	public I convert(String id)
+	throws InvalidObjectIdException;
 }

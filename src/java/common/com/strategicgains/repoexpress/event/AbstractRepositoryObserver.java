@@ -34,7 +34,7 @@ implements RepositoryObserver<T>
     }
 
 	@Override
-    public void afterDelete(String id)
+    public void afterDelete(T object)
     {
 		// default behavior is to do nothing.
     }
@@ -58,7 +58,7 @@ implements RepositoryObserver<T>
     }
 
 	@Override
-    public void beforeDelete(String id)
+    public void beforeDelete(T object)
     {
 		// default behavior is to do nothing.
     }
