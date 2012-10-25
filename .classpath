@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="test/java/mongodb"/>
 	<classpathentry kind="src" path="src/java/voldemort"/>
 	<classpathentry kind="src" path="src/java/redis"/>
+	<classpathentry kind="src" path="test/java/common"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/mongodb/morphia-0.99.1-SNAPSHOT.jar"/>
