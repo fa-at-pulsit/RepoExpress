@@ -121,65 +121,65 @@ implements ObservableRepository<T>
 	
 	// SECTION: EVENT OBSERVATION
 	
-	private void notifyAfterCreate(T object)
+	protected void notifyAfterCreate(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.afterCreate(object);
 		}
 	}
 	
-	private void notifyAfterDelete(T object)
+	protected void notifyAfterDelete(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.afterDelete(object);
 		}
 	}
 	
-	private void notifyAfterRead(T object)
+	protected void notifyAfterRead(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.afterRead(object);
 		}
 	}
 	
-	private void notifyAfterUpdate(T object)
+	protected void notifyAfterUpdate(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.afterUpdate(object);
 		}
 	}
 
-	private void notifyBeforeCreate(T object)
+	protected void notifyBeforeCreate(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.beforeCreate(object);
 		}
 	}
 	
-	private void notifyBeforeDelete(T object)
+	protected void notifyBeforeDelete(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.beforeDelete(object);
 		}
 	}
 	
-	private void notifyBeforeRead(String id)
+	protected void notifyBeforeRead(String id)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.beforeRead(id);
 		}
 	}
 	
-	private void notifyBeforeUpdate(T object)
+	protected void notifyBeforeUpdate(T object)
 	{
-		for (RepositoryObserver<T> observer : getObservers())
+		for (RepositoryObserver<T> observer : getObserversInternal())
 		{
 			observer.beforeUpdate(object);
 		}
