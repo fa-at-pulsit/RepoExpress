@@ -164,19 +164,27 @@ implements Queryable<T>
 	 * root class matching the given criteria.
 	 * 
 	 * This method does not invoke an observer method, so is not observable by default.  Override,
-	 * calling super() to get that functionality, if desired.
+	 * calling super() to get that functionality, or call notifyBeforeXXX() and/or notifyAfterXXX()
+	 * methods, if desired.
 	 * 
 	 * @param filter
 	 * @param range
 	 * @param order
-	 * @return
+	 * @return a list of results. Never null.
 	 */
 	@Override
 	public List<T> readAll(QueryFilter filter, QueryRange range, QueryOrder order)
 	{
 		return query(inheritanceRoot, filter, range, order);
 	}
-	
+
+	/**
+	 * Read each of the instances corresponding to the given Collection of IDs, returning the 
+	 * results as a list.  If an ID in the provided Collection does not exist, it is simply
+	 * not included in the returned results.
+	 * 
+	 * @param ids a Collection of IDs to read.
+	 */
 	@Override
 	public List<T> readList(Collection<String> ids)
 	{
@@ -202,44 +210,87 @@ implements Queryable<T>
 	 */
 	public long count(Class<T> type, QueryFilter filter)
 	{
-		return getBaseQuery(type, filter).countAll();
+		return getBaseFilterQuery(type, filter).countAll();
 	}
 
+	/**
+	 * Returns true if the given id exists in the repository.
+	 * 
+	 * @param id the identifier of the object.
+	 */
 	@Override
 	public boolean exists(String id)
 	{
 		if (id == null) return false;
 
 		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", adaptId(id))) > 0);
+		
+		// is the above line more efficient, or the following one?
+//		return (datastore.find(inheritanceRoot, "_id", adaptId(id)).countAll() > 0);
 	}
 
 
 	// SECTION: UTILITY
 
+	/**
+	 * Get the underlying Morphia Datastore object with which to construct queries against.
+	 * 
+	 * @return the underlying Morphia Datastore.
+	 */
 	protected Datastore getDataStore()
 	{
 		return datastore;
 	}
 
+	/**
+	 * Return the underlying Mongo instance.
+	 * 
+	 * @return the underlying Mongo instance.
+	 */
 	protected Mongo getMongo()
 	{
 		return mongo;
 	}
 
 	/**
+	 * Execute a query against the repository, using QueryFilter, QueryRange and QueryOrder
+	 * as criteria against the type.  Returns the results as a List.
+	 * 
+	 * @param type
 	 * @param range
 	 * @param filter
 	 * @param order
 	 */
 	protected List<T> query(Class<T> type, QueryFilter filter, QueryRange range, QueryOrder order)
 	{
-		Query<T> q = getBaseQuery(type, filter);
-		configureQueryRange(q, range);
-		configureQueryOrder(q, order);
-		return q.asList();
+		return getBaseQuery(type, filter, range, order).asList();
 	}
 
-	private Query<T> getBaseQuery(Class<T> type, QueryFilter filter)
+	/**
+	 * Create and configure a basic query utilizing provided QueryFilter, QueryRange and QueryOrder
+	 * criteria, returning the query.
+	 * 
+	 * @param type
+	 * @param range
+	 * @param filter
+	 * @param order
+	 */
+	protected Query<T> getBaseQuery(Class<T> type, QueryFilter filter, QueryRange range, QueryOrder order)
+	{
+		Query<T> q = getBaseFilterQuery(type, filter);
+		configureQueryRange(q, range);
+		configureQueryOrder(q, order);
+		return q;
+	}
+
+	/**
+	 * Create and configure a basic query utilizing just QueryFilter as criteria.
+	 * 
+	 * @param type
+	 * @param filter
+	 * @return a Morphia Query instance configured for the QueryFilter criteria.
+	 */
+	private Query<T> getBaseFilterQuery(Class<T> type, QueryFilter filter)
 	{
 		Query<T> q = getDataStore().find(type);
 		configureQueryFilter(q, filter);
