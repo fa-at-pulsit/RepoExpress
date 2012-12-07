@@ -21,6 +21,8 @@ import com.google.code.morphia.annotations.Id;
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
 
 /**
+ * A base MongoDB-specific entity type that uses a MongoDB ObjectId as its identifier.
+ * 
  * @author toddf
  * @since Oct 27, 2011
  */
@@ -30,20 +32,45 @@ extends AbstractTimestampedIdentifiable
 	@Id
 	private ObjectId id;
 
+	/**
+	 * Returns a string representation of the underlying ObjectId for this entity.
+	 * 
+	 * @return a string representation of the underlying ObjectId.  May be null.
+	 */
 	@Override
 	public String getId()
 	{
 		return (id == null ? null : id.toString());
 	}
 
+	/**
+	 * Set the underlying ObjectId of this entity from a string representation.
+	 * 
+	 * @param idString must be a valid ObjectId string representation.
+	 */
 	@Override
 	public void setId(String idString)
 	{
 		this.id = (idString ==null ? null : new ObjectId(idString));
 	}
 	
+	/**
+	 * Return the underlying ObjectId of this entity. May be null.
+	 * 
+	 * @return the underlying ObjectId. May be null.
+	 */
 	public ObjectId getObjectId()
 	{
 		return id;
+	}
+
+	/**
+	 * Set the underlying ObjectId directly.
+	 * 
+	 * @param oid is a valid ObjectId or null.
+	 */
+	public void setObjectId(ObjectId oid)
+	{
+		this.id = oid;
 	}
 }
