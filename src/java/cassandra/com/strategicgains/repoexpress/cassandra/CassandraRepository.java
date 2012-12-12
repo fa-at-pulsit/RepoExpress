@@ -12,17 +12,16 @@
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	See the License for the specific language governing permissions and
 	limitations under the License.
-*/
+ */
 package com.strategicgains.repoexpress.cassandra;
 
 import java.util.Collection;
 import java.util.List;
 
-import com.google.code.morphia.Datastore;
-import com.google.code.morphia.Morphia;
-import com.google.code.morphia.query.Query;
-import com.mongodb.Mongo;
-import com.mongodb.ServerAddress;
+import com.datastax.driver.core.Query;
+import com.datastax.driver.core.Session;
+import com.pearson.cassandra.mapper.CassandraMapper;
+import com.pearson.cassandra.mapper.Datastore;
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
 import com.strategicgains.repoexpress.Queryable;
 import com.strategicgains.repoexpress.domain.Identifiable;
@@ -49,23 +48,28 @@ public class CassandraRepository<T extends Identifiable, I>
 extends AbstractObservableAdaptableRepository<T, I>
 implements Queryable<T>
 {
+	private Datastore cassandra;
 	private Class<T> inheritanceRoot;
+	private CassandraMapper mapper;
 
 	/**
 	 * 
-	 * @param mongo a pre-configured Mongo instance.
-	 * @param dbName the name of the database (in MongoDB).
+	 * @param cluster a pre-configured Cassandra cluster instance.
 	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
 	 */
-	public CassandraRepository(Mongo mongo, String dbName, Class<? extends T>... entityClasses)
+	public CassandraRepository(Session session, Class<? extends T>... entityClasses)
 	{
 		super();
-		initialize(dbName, entityClasses);
+		initialize(session, entityClasses);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void initialize(String name, Class<? extends T>... entityClasses)
+	private void initialize(Session session, Class<? extends T>... entityClasses)
 	{
+		mapper = new CassandraMapper(session);
+		mapper.mapClass(entityClasses);
+		cassandra = mapper.createDatastore();
+		cassandra.createKeyspace();
+		cassandra.ensureIndexes();
 	}
 
 	@Override
@@ -77,14 +81,14 @@ implements Queryable<T>
 			    + " ID already exists: " + item.getId());
 		}
 
-		datastore.save(item);
+		cassandra.save(item);
 		return item;
 	}
 
 	@Override
 	public T doRead(String id)
 	{
-		T item = datastore.get(inheritanceRoot, adaptId(id));
+		T item = cassandra.get(inheritanceRoot, adaptId(id));
 
 		if (item == null)
 		{
@@ -103,7 +107,7 @@ implements Queryable<T>
 			    + " ID not found: " + item.getId());
 		}
 
-		datastore.save(item);
+		cassandra.save(item);
 		return item;
 	}
 
@@ -112,7 +116,7 @@ implements Queryable<T>
 	{
 		try
 		{
-			datastore.delete(object);
+			cassandra.delete(object);
 		}
 		catch (InvalidObjectIdException e)
 		{
@@ -121,12 +125,12 @@ implements Queryable<T>
 	}
 
 	/**
-	 * Implements a 'default' readAll' method that queries for all instances of the inheritance
-	 * root class matching the given criteria.
+	 * Implements a 'default' readAll' method that queries for all instances of
+	 * the inheritance root class matching the given criteria.
 	 * 
-	 * This method does not invoke an observer method, so is not observable by default.  Override,
-	 * calling super() to get that functionality, or call notifyBeforeXXX() and/or notifyAfterXXX()
-	 * methods, if desired.
+	 * This method does not invoke an observer method, so is not observable by
+	 * default. Override, calling super() to get that functionality, or call
+	 * notifyBeforeXXX() and/or notifyAfterXXX() methods, if desired.
 	 * 
 	 * @param filter
 	 * @param range
@@ -134,26 +138,30 @@ implements Queryable<T>
 	 * @return a list of results. Never null.
 	 */
 	@Override
-	public List<T> readAll(QueryFilter filter, QueryRange range, QueryOrder order)
+	public List<T> readAll(QueryFilter filter, QueryRange range,
+	    QueryOrder order)
 	{
 		return query(inheritanceRoot, filter, range, order);
 	}
 
 	/**
-	 * Read each of the instances corresponding to the given Collection of IDs, returning the 
-	 * results as a list.  If an ID in the provided Collection does not exist, it is simply
-	 * not included in the returned results.
+	 * Read each of the instances corresponding to the given Collection of IDs,
+	 * returning the results as a list. If an ID in the provided Collection does
+	 * not exist, it is simply not included in the returned results.
 	 * 
-	 * @param ids a Collection of IDs to read.
+	 * @param ids
+	 *            a Collection of IDs to read.
 	 */
 	@Override
 	public List<T> readList(Collection<String> ids)
 	{
-		return getDataStore().find(inheritanceRoot).field("_id").in(new AdaptedIdIterable(ids)).asList();
+		return getDataStore().find(inheritanceRoot).field("_id")
+		    .in(new AdaptedIdIterable(ids)).asList();
 	}
 
 	/**
-	 * Count the instances of the inheritance root (class) that match the given filter criteria.
+	 * Count the instances of the inheritance root (class) that match the given
+	 * filter criteria.
 	 * 
 	 * @param filter
 	 */
@@ -177,83 +185,79 @@ implements Queryable<T>
 	/**
 	 * Returns true if the given id exists in the repository.
 	 * 
-	 * @param id the identifier of the object.
+	 * @param id
+	 *            the identifier of the object.
 	 */
 	@Override
 	public boolean exists(String id)
 	{
 		if (id == null) return false;
 
-		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", adaptId(id))) > 0);
-		
-		// is the above line more efficient, or the following one?
-//		return (datastore.find(inheritanceRoot, "_id", adaptId(id)).countAll() > 0);
-	}
+		return (cassandra.getCount(cassandra.find(inheritanceRoot, "_id",
+		    adaptId(id))) > 0);
 
+		// is the above line more efficient, or the following one?
+		// return (datastore.find(inheritanceRoot, "_id",
+		// adaptId(id)).countAll() > 0);
+	}
 
 	// SECTION: UTILITY
 
 	/**
-	 * Get the underlying Morphia Datastore object with which to construct queries against.
+	 * Get the underlying Morphia Datastore object with which to construct
+	 * queries against.
 	 * 
 	 * @return the underlying Morphia Datastore.
 	 */
 	protected Datastore getDataStore()
 	{
-		return datastore;
+		return cassandra;
 	}
 
 	/**
-	 * Return the underlying Mongo instance.
-	 * 
-	 * @return the underlying Mongo instance.
-	 */
-	protected Mongo getMongo()
-	{
-		return mongo;
-	}
-
-	/**
-	 * Execute a query against the repository, using QueryFilter, QueryRange and QueryOrder
-	 * as criteria against the type.  Returns the results as a List.
+	 * Execute a query against the repository, using QueryFilter, QueryRange and
+	 * QueryOrder as criteria against the type. Returns the results as a List.
 	 * 
 	 * @param type
 	 * @param range
 	 * @param filter
 	 * @param order
 	 */
-	protected List<T> query(Class<T> type, QueryFilter filter, QueryRange range, QueryOrder order)
+	protected List<T> query(Class<T> type, QueryFilter filter,
+	    QueryRange range, QueryOrder order)
 	{
 		return getBaseQuery(type, filter, range, order).asList();
 	}
 
 	/**
-	 * Create and configure a basic query utilizing provided QueryFilter, QueryRange and QueryOrder
-	 * criteria, returning the query.
+	 * Create and configure a basic query utilizing provided QueryFilter,
+	 * QueryRange and QueryOrder criteria, returning the query.
 	 * 
 	 * @param type
 	 * @param range
 	 * @param filter
 	 * @param order
 	 */
-	protected Query<T> getBaseQuery(Class<T> type, QueryFilter filter, QueryRange range, QueryOrder order)
+	protected Query getBaseQuery(Class<T> type, QueryFilter filter,
+	    QueryRange range, QueryOrder order)
 	{
-		Query<T> q = getBaseFilterQuery(type, filter);
+		Query q = getBaseFilterQuery(type, filter);
 		configureQueryRange(q, range);
 		configureQueryOrder(q, order);
 		return q;
 	}
 
 	/**
-	 * Create and configure a basic query utilizing just QueryFilter as criteria.
+	 * Create and configure a basic query utilizing just QueryFilter as
+	 * criteria.
 	 * 
 	 * @param type
 	 * @param filter
 	 * @return a Morphia Query instance configured for the QueryFilter criteria.
 	 */
-	private Query<T> getBaseFilterQuery(Class<T> type, QueryFilter filter)
+	private Query getBaseFilterQuery(Class<T> type, QueryFilter filter)
 	{
-		Query<T> q = getDataStore().find(type);
+		Query q = getDataStore().find(type);
 		configureQueryFilter(q, filter);
 		return q;
 	}
@@ -262,7 +266,7 @@ implements Queryable<T>
 	 * @param q
 	 * @param range
 	 */
-	private void configureQueryRange(Query<T> q, QueryRange range)
+	private void configureQueryRange(Query q, QueryRange range)
 	{
 		if (range.isInitialized())
 		{
@@ -271,7 +275,7 @@ implements Queryable<T>
 		}
 	}
 
-	private void configureQueryFilter(final Query<T> q, QueryFilter filter)
+	private void configureQueryFilter(final Query q, QueryFilter filter)
 	{
 		filter.iterate(new FilterCallback()
 		{
@@ -287,12 +291,12 @@ implements Queryable<T>
 	 * @param q
 	 * @param order
 	 */
-	private void configureQueryOrder(Query<T> q, QueryOrder order)
+	private void configureQueryOrder(Query q, QueryOrder order)
 	{
 		if (order.isSorted())
 		{
 			final StringBuilder sb = new StringBuilder();
-			
+
 			order.iterate(new OrderCallback()
 			{
 				boolean isFirst = true;
@@ -304,7 +308,7 @@ implements Queryable<T>
 					{
 						sb.append(',');
 					}
-					
+
 					if (component.isDescending())
 					{
 						sb.append('-');
@@ -314,7 +318,7 @@ implements Queryable<T>
 					isFirst = false;
 				}
 			});
-			
+
 			q.order(sb.toString());
 		}
 	}

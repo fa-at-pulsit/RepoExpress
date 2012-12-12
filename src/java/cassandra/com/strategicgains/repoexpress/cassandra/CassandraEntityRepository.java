@@ -15,7 +15,7 @@
 */
 package com.strategicgains.repoexpress.cassandra;
 
-import com.mongodb.Mongo;
+import com.datastax.driver.core.Cluster;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 
 /**
@@ -25,9 +25,9 @@ import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableReposi
 public class CassandraEntityRepository<T extends AbstractCassandraEntity>
 extends CassandraRepository<T, String>
 {
-    public CassandraEntityRepository(Mongo mongo, String databaseName, Class<T>... types)
+    public CassandraEntityRepository(Cluster cassandra, String keyspace, Class<T>... types)
     {
-	    super(mongo, databaseName, types);
+	    super(cassandra, keyspace, types);
 	    initializeObservers();
 //	    setIdentifierAdapter(new ObjectIdAdapter());
     }
