@@ -14,7 +14,7 @@
 	<classpathentry kind="lib" path="lib/redis/commons-pool-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/redis/johm-0.5.0.jar"/>
 	<classpathentry kind="lib" path="lib/RestExpress-0.8.0-build-101.jar" sourcepath="/Users/toddf/src/RestExpress/lib/RestExpress-0.8.0-build-101-src.jar"/>
-	<classpathentry kind="lib" path="lib/netty-3.5.8.Final.jar"/>
 	<classpathentry kind="lib" path="lib/mongodb/mongo-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/netty-3.5.10.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
