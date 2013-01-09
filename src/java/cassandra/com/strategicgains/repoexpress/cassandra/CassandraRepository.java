@@ -20,6 +20,8 @@ import java.util.List;
 
 import com.datastax.driver.core.Query;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.utils.querybuilder.Clause;
+import com.datastax.driver.core.utils.querybuilder.QueryBuilder;
 import com.pearson.cassandra.mapper.CassandraMapper;
 import com.pearson.cassandra.mapper.Datastore;
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
@@ -48,7 +50,7 @@ public class CassandraRepository<T extends Identifiable, I>
 extends AbstractObservableAdaptableRepository<T, I>
 implements Queryable<T>
 {
-	private Datastore cassandra;
+	private Datastore<T> cassandra;
 	private Class<T> inheritanceRoot;
 	private CassandraMapper mapper;
 
@@ -81,14 +83,13 @@ implements Queryable<T>
 			    + " ID already exists: " + item.getId());
 		}
 
-		cassandra.save(item);
-		return item;
+		return cassandra.save(item);
 	}
 
 	@Override
 	public T doRead(String id)
 	{
-		T item = cassandra.get(inheritanceRoot, adaptId(id));
+		T item = cassandra.read(inheritanceRoot, adaptId(id));
 
 		if (item == null)
 		{
@@ -138,8 +139,7 @@ implements Queryable<T>
 	 * @return a list of results. Never null.
 	 */
 	@Override
-	public List<T> readAll(QueryFilter filter, QueryRange range,
-	    QueryOrder order)
+	public List<T> readAll(QueryFilter filter, QueryRange range, QueryOrder order)
 	{
 		return query(inheritanceRoot, filter, range, order);
 	}
@@ -155,8 +155,10 @@ implements Queryable<T>
 	@Override
 	public List<T> readList(Collection<String> ids)
 	{
-		return getDataStore().find(inheritanceRoot).field("_id")
-		    .in(new AdaptedIdIterable(ids)).asList();
+//		return mapper.select(getDataStore().find(inheritanceRoot).where(Clause.in("_id", ids.toArray())));
+//		return getDataStore().find(inheritanceRoot).field("_id")
+//		    .in(new AdaptedIdIterable(ids)).asList();
+		return null;
 	}
 
 	/**
@@ -179,7 +181,8 @@ implements Queryable<T>
 	 */
 	public long count(Class<T> type, QueryFilter filter)
 	{
-		return getBaseFilterQuery(type, filter).countAll();
+//		return getBaseFilterQuery(type, filter).countAll();
+		return 0l;
 	}
 
 	/**
@@ -193,23 +196,24 @@ implements Queryable<T>
 	{
 		if (id == null) return false;
 
-		return (cassandra.getCount(cassandra.find(inheritanceRoot, "_id",
-		    adaptId(id))) > 0);
+//		return (cassandra.getCount(cassandra.find(inheritanceRoot, "_id", adaptId(id))) > 0);
 
 		// is the above line more efficient, or the following one?
 		// return (datastore.find(inheritanceRoot, "_id",
 		// adaptId(id)).countAll() > 0);
+		
+		return false;
 	}
 
 	// SECTION: UTILITY
 
 	/**
-	 * Get the underlying Morphia Datastore object with which to construct
+	 * Get the underlying Cassandra Datastore object with which to construct
 	 * queries against.
 	 * 
-	 * @return the underlying Morphia Datastore.
+	 * @return the underlying Cassandra Datastore.
 	 */
-	protected Datastore getDataStore()
+	protected Datastore<T> getDataStore()
 	{
 		return cassandra;
 	}
@@ -226,7 +230,8 @@ implements Queryable<T>
 	protected List<T> query(Class<T> type, QueryFilter filter,
 	    QueryRange range, QueryOrder order)
 	{
-		return getBaseQuery(type, filter, range, order).asList();
+//		return getBaseQuery(type, filter, range, order).asList();
+		return null;
 	}
 
 	/**
@@ -253,13 +258,14 @@ implements Queryable<T>
 	 * 
 	 * @param type
 	 * @param filter
-	 * @return a Morphia Query instance configured for the QueryFilter criteria.
+	 * @return a Cassandra Query instance configured for the QueryFilter criteria.
 	 */
 	private Query getBaseFilterQuery(Class<T> type, QueryFilter filter)
 	{
-		Query q = getDataStore().find(type);
-		configureQueryFilter(q, filter);
-		return q;
+//		Query q = getDataStore().find(type);
+//		configureQueryFilter(q, filter);
+//		return q;
+		return null;
 	}
 
 	/**
@@ -268,11 +274,11 @@ implements Queryable<T>
 	 */
 	private void configureQueryRange(Query q, QueryRange range)
 	{
-		if (range.isInitialized())
-		{
-			q.offset((int) range.getStart());
-			q.limit(range.getLimit());
-		}
+//		if (range.isInitialized())
+//		{
+//			q.offset((int) range.getStart());
+//			q.limit(range.getLimit());
+//		}
 	}
 
 	private void configureQueryFilter(final Query q, QueryFilter filter)
@@ -282,7 +288,7 @@ implements Queryable<T>
 			@Override
 			public void filterOn(FilterComponent c)
 			{
-				q.field(c.getField()).contains(c.getValue().toLowerCase());
+//				q.field(c.getField()).contains(c.getValue().toLowerCase());
 			}
 		});
 	}
@@ -319,7 +325,7 @@ implements Queryable<T>
 				}
 			});
 
-			q.order(sb.toString());
+//			q.order(sb.toString());
 		}
 	}
 }
