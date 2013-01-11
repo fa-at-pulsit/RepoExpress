@@ -37,7 +37,7 @@
 			<artifactId>morphia</artifactId>
 			<version>0.99.1-SNAPSHOT</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/../lib/mongodb/morphia-0.99.1-SNAPSHOT.jar</systemPath>
+			<systemPath>${basedir}/lib/morphia-0.99.1-SNAPSHOT.jar</systemPath>
 		</dependency>
 	</dependencies>
 

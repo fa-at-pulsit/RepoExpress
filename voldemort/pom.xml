@@ -32,7 +32,7 @@
 			<artifactId>voldemort</artifactId>
 			<version>0.90.1</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/../lib/voldemort/voldemort-0.90.1.jar</systemPath>
+			<systemPath>${basedir}/lib/voldemort-0.90.1.jar</systemPath>
 		</dependency>
 	</dependencies>
 
