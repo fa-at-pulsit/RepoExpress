@@ -33,11 +33,9 @@
 			<version>2.10.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.morphia</groupId>
+			<groupId>com.strategicgains.morphia</groupId>
 			<artifactId>morphia</artifactId>
 			<version>0.99.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/morphia-0.99.1-SNAPSHOT.jar</systemPath>
 		</dependency>
 	</dependencies>
 
