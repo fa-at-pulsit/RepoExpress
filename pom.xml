@@ -1,19 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>RepoExpress</name>
+	<name>repoexpress-parent</name>
 	<description>Storage Repository Pattern for MongoDB, Voldemort, Cassandra, etc.</description>
 	<url>https://github.com/RestExpress/RepoExpress</url>
-	<groupId>com.strategicgains</groupId>
-	<artifactId>RepoExpress</artifactId>
+	<groupId>com.strategicgains.repoexpress</groupId>
+	<artifactId>parent</artifactId>
 	<version>0.3.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
+	
+	<modules>
+		<module>common</module>
+		<module>mongodb</module>
+		<module>redis</module>
+		<module>voldemort</module>
+	</modules>
 
 	<licenses>
 		<license>
@@ -57,10 +64,6 @@
 	</scm>
 
 	<build>
-		<defaultGoal>compile</defaultGoal>
-		<sourceDirectory>src/java/common</sourceDirectory>
-		<testSourceDirectory>test/java/common</testSourceDirectory>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -69,6 +72,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
