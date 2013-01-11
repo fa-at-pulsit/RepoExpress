@@ -29,13 +29,13 @@ import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
-import com.strategicgains.restexpress.query.FilterCallback;
-import com.strategicgains.restexpress.query.FilterComponent;
-import com.strategicgains.restexpress.query.OrderCallback;
-import com.strategicgains.restexpress.query.OrderComponent;
-import com.strategicgains.restexpress.query.QueryFilter;
-import com.strategicgains.restexpress.query.QueryOrder;
-import com.strategicgains.restexpress.query.QueryRange;
+import com.strategicgains.restexpress.common.query.FilterCallback;
+import com.strategicgains.restexpress.common.query.FilterComponent;
+import com.strategicgains.restexpress.common.query.OrderCallback;
+import com.strategicgains.restexpress.common.query.OrderComponent;
+import com.strategicgains.restexpress.common.query.QueryFilter;
+import com.strategicgains.restexpress.common.query.QueryOrder;
+import com.strategicgains.restexpress.common.query.QueryRange;
 
 /**
  * Uses MongoDB as its back-end store. This repository can handle

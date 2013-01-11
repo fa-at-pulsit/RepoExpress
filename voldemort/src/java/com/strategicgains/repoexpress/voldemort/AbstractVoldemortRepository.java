@@ -22,7 +22,7 @@ import voldemort.client.StoreClientFactory;
 import voldemort.versioning.Versioned;
 
 import com.strategicgains.repoexpress.Adaptable;
-import com.strategicgains.restexpress.exception.ServiceException;
+import com.strategicgains.repoexpress.exception.RepositoryException;
 
 /**
  * @author toddf
@@ -104,7 +104,7 @@ implements Adaptable<String>
 			{
 				if (++retries > getWriteRetries())
 				{
-					throw new ServiceException(e);
+					throw new RepositoryException(e);
 				}
 
 				logError("Error on put(String, String). Key: " + key, retries,
@@ -129,7 +129,7 @@ implements Adaptable<String>
 			{
 				if (++retries > getWriteRetries())
 				{
-					throw new ServiceException(e);
+					throw new RepositoryException(e);
 				}
 
 				logError("Error on put(String, Versioned). Key: " + key,
@@ -153,7 +153,7 @@ implements Adaptable<String>
 			{
 				if (++retries > getWriteRetries())
 				{
-					throw new ServiceException(e);
+					throw new RepositoryException(e);
 				}
 
 				logError("Error on delete(String). Key: " + key, retries,
@@ -177,7 +177,7 @@ implements Adaptable<String>
 			{
 				if (++retries > getReadRetries())
 				{
-					throw new ServiceException(e);
+					throw new RepositoryException(e);
 				}
 
 				logError("Error on get(String). Key: " + key, retries,

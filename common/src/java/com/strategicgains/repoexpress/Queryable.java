@@ -18,9 +18,9 @@ package com.strategicgains.repoexpress;
 import java.util.List;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
-import com.strategicgains.restexpress.query.QueryFilter;
-import com.strategicgains.restexpress.query.QueryOrder;
-import com.strategicgains.restexpress.query.QueryRange;
+import com.strategicgains.restexpress.common.query.QueryFilter;
+import com.strategicgains.restexpress.common.query.QueryOrder;
+import com.strategicgains.restexpress.common.query.QueryRange;
 
 /**
  * Defines the interface for a repository implementation that supports dynamic query
