@@ -56,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.3.2</version>
+			<version>0.3.1</version>
 		</dependency>
 ```
 Development:
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.3.3-SNAPSHOT</version>
+			<version>0.3.2-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the jar directly from: 
