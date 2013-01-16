@@ -20,6 +20,7 @@ Release 0.3.2 - in development (branch 'master')
 
 Release 0.3.1
 * Introduced Maven build.
+* Switched to com.github.jmkgreen.morphia version of Morphia (v 1.2.2)
 
 Release 0.3.0
 * Refactored to create separate jars for common functionality and DB-dependent functionality.

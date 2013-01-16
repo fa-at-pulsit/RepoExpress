@@ -33,9 +33,9 @@
 			<version>2.10.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.strategicgains.morphia</groupId>
+			<groupId>com.github.jmkgreen.morphia</groupId>
 			<artifactId>morphia</artifactId>
-			<version>0.99.1-SNAPSHOT</version>
+			<version>1.2.2</version>
 		</dependency>
 	</dependencies>
 
