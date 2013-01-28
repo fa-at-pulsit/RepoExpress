@@ -1,3 +1,5 @@
+[![Build Status](https://buildhive.cloudbees.com/job/RestExpress/job/RepoExpress/badge/icon)](https://buildhive.cloudbees.com/job/RestExpress/job/RepoExpress/)
+
 RepoExpress is a thin wrapper on MongoDB and Morphia to provide a simple and easy way to create
 domain storage options using the Repository pattern.
 
