@@ -38,7 +38,7 @@ implements IdentiferAdapter<Long>
 		}
 		catch (NumberFormatException e)
 		{
-			throw new InvalidObjectIdException(id);
+			throw new InvalidObjectIdException(id, e);
 		}
 	}
 }
