@@ -37,7 +37,7 @@ implements IdentiferAdapter<byte[]>
 	@Override
 	public byte[] convert(String id)
 	{
-		if (id == null) throw new InvalidObjectIdException("null");
+		if (id == null) throw new InvalidObjectIdException("null ID");
 
         return id.getBytes(UTF8);
 	}
