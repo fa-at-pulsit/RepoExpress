@@ -27,7 +27,7 @@ import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableReposi
 public class MongodbEntityRepository<T extends AbstractMongodbEntity>
 extends MongodbRepository<T, ObjectId>
 {
-    public MongodbEntityRepository(Mongo mongo, String databaseName, Class<T>... types)
+    public MongodbEntityRepository(Mongo mongo, String databaseName, Class<? extends T>... types)
     {
 	    super(mongo, databaseName, types);
 	    initializeObservers();
