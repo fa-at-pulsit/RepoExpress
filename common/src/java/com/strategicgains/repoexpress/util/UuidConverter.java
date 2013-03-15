@@ -59,8 +59,8 @@ public class UuidConverter
 	 * Given a UUID representation (either a short or long form), return a
 	 * UUID from it.
 	 * <p/>
-	 * If the uuidString is longer than our short, 22-character form, it is
-	 * assumed to be a full-length 36-character UUID string.
+	 * If the uuidString is longer than our short, 22-character form (or 24 with padding),
+	 * it is assumed to be a full-length 36-character UUID string.
 	 * 
 	 * @param uuidString a string representation of a UUID.
 	 * @return a UUID instance
@@ -71,7 +71,7 @@ public class UuidConverter
 	{
 		if (uuidString == null) throw new NullPointerException("Null UUID string");
 
-		if (uuidString.length() > 22)
+		if (uuidString.length() > 24)
 		{
 			return UUID.fromString(uuidString);
 		}
@@ -135,8 +135,8 @@ public class UuidConverter
 	}
 
 	/**
-	 * Base64 decodes a short, 22-character UUID string into a byte array.
-	 * The resulting byte array contains 16 bytes.
+	 * Base64 decodes a short, 22-character UUID string (or 24-characters with padding)
+	 * into a byte array. The resulting byte array contains 16 bytes.
 	 * <p/>
 	 * Base64 decoding essentially takes each four characters from the string and converts
 	 * them into three bytes. This implementation, not using padding, converts the final
@@ -148,7 +148,7 @@ public class UuidConverter
 	private byte[] decodeBase64(String s)
 	{
 		if (s == null) throw new NullPointerException("Cannot decode null string");
-		if (s.isEmpty() || (s.length() != 22)) throw new IllegalArgumentException("Invalid short UUID");
+		if (s.isEmpty() || (s.length() > 24)) throw new IllegalArgumentException("Invalid short UUID");
 
 		byte[] bytes = new byte[16];
 		int i = 0, j = 0;

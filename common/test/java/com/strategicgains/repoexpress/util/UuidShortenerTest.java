@@ -34,7 +34,7 @@ public class UuidShortenerTest
 		UUID expanded = converter.expand(longUuid);
 		assertEquals(uuid, expanded);
 	}
-	
+
 	@Test
 	public void shouldHandleThisUuid1()
 	{
@@ -49,6 +49,16 @@ public class UuidShortenerTest
 		assertEquals(expect, expanded);
 		
 		expanded = converter.expand(base64);
+		assertEquals(expect, expanded);
+	}
+
+	@Test
+	public void shouldHandlePaddedShortForm()
+	{
+		String base64 = "b8tRS7h4TJ2Vt43Dp85v2A==";
+		UUID expect = UUID.fromString("6fcb514b-b878-4c9d-95b7-8dc3a7ce6fd8");
+		
+		UUID expanded = converter.expand(base64);
 		assertEquals(expect, expanded);
 	}
 }
