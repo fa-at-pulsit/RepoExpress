@@ -18,7 +18,12 @@ Dependencies:
 
 Change History:
 ===================================================================================================
-Release 0.3.2 - in development (branch 'master')
+Release 0.3.3 - in development (branch 'master')
+* Fixed issue with MongoDB repository query filter implementation where it converted the
+  value to lower-case erroneously.
+
+Release 0.3.2
+* Updated to latest RestExpress-Common, refactoring for QueryFilter addition of operator.
 
 Release 0.3.1
 * Introduced Maven build.
