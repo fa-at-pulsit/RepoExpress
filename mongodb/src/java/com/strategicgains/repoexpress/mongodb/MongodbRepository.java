@@ -317,7 +317,7 @@ implements Queryable<T>
 			@Override
 			public void filterOn(FilterComponent c)
 			{
-				q.field(c.getField()).contains(c.getValue().toLowerCase());
+				q.field(c.getField()).contains(c.getValue());
 			}
 		});
 	}
