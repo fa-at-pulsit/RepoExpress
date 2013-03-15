@@ -36,7 +36,7 @@ public class UuidShortenerTest
 	}
 	
 	@Test
-	public void shouldDoSomethingHereToo()
+	public void shouldHandleThisUuid1()
 	{
 		String base64 = "b8tRS7h4TJ2Vt43Dp85v2A";
 		String name = "6fcb514b-b878-4c9d-95b7-8dc3a7ce6fd8";

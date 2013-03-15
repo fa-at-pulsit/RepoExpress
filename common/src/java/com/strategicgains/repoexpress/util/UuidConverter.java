@@ -16,24 +16,22 @@
 package com.strategicgains.repoexpress.util;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.UUID;
 
 /**
- * Utility class to convert between a UUID and a short (22-character) string representation of it.
- * Implements a very efficient URL-safe base64 encoding/decoding algorithm to shorthen/expand the
- * UUID.
+ * Utility class to convert between a UUID and a short (22-character) string
+ * representation of it (and back). Implements a very efficient URL-safe base64
+ * encoding/decoding algorithm to shorten/expand the UUID.
  * 
  * @author toddf
  * @since Mar 13, 2013
  */
 public class UuidConverter
 {
-	private static final char[] C64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".toCharArray();
+	private static final char[] C64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 	private static final int[] I256 = new int[256];
 	static
 	{
-		Arrays.fill(I256, -1);
 		for (int i = 0; i < C64.length; i++)
 		{
 			I256[C64[i]] = i;
@@ -41,28 +39,38 @@ public class UuidConverter
 	}
 
 	/**
-	 * Given a UUID instance, return a short (22-character) string representation of it.
+	 * Given a UUID instance, return a short (22-character) string
+	 * representation of it.
 	 * 
 	 * @param uuid a UUID instance.
 	 * @return a short string representation of the UUID.
+	 * @throws NullPointerException if the UUID instance is null.
+	 * @throws IllegalArgumentException if the underlying UUID implementation is not 16 bytes.
 	 */
 	public String shorten(UUID uuid)
 	{
+		if (uuid == null) throw new NullPointerException("Null UUID");
+
 		byte[] bytes = toByteArray(uuid);
 		return encodeBase64(bytes);
 	}
 
 	/**
-	 * Given a UUID representation (either a short or long version), return a UUID from it.
+	 * Given a UUID representation (either a short or long form), return a
+	 * UUID from it.
+	 * <p/>
+	 * If the uuidString is longer than our short, 22-character form, it is
+	 * assumed to be a full-length 36-character UUID string.
 	 * 
 	 * @param uuidString a string representation of a UUID.
-	 * @return a UUID
+	 * @return a UUID instance
 	 * @throws IllegalArgumentException if the uuidString is not a valid UUID representation.
+	 * @throws NullPointerException if the uuidString is null.
 	 */
 	public UUID expand(String uuidString)
 	{
 		if (uuidString == null) throw new NullPointerException("Null UUID string");
-		
+
 		if (uuidString.length() > 22)
 		{
 			return UUID.fromString(uuidString);
@@ -78,7 +86,7 @@ public class UuidConverter
 	/**
 	 * Extracts the bytes from a UUID instance in MSB, LSB order.
 	 * 
-	 * @param uuid
+	 * @param uuid a UUID instance.
 	 * @return the bytes from the UUID instance.
 	 */
 	private byte[] toByteArray(UUID uuid)
@@ -89,31 +97,72 @@ public class UuidConverter
 		return bb.array();
 	}
 
+	/**
+	 * Accepts a UUID byte array (of exactly 16 bytes) and base64 encodes it, using a URL-safe
+	 * encoding scheme.  The resulting string will be 22 characters in length with no extra
+	 * padding on the end (e.g. no "==" on the end).
+	 * <p/>
+	 * Base64 encoding essentially takes each three bytes from the array and converts them into
+	 * four characters.  This implementation, not using padding, converts the last byte into two
+	 * characters.
+	 * 
+	 * @param bytes a UUID byte array.
+	 * @return a URL-safe base64-encoded string.
+	 */
 	private String encodeBase64(byte[] bytes)
-    {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-	private byte[] decodeBase64(String s)
-    {
-		if (s == null) throw new NullPointerException("Cannot decode null string");
+	{
+		if (bytes == null) throw new NullPointerException("Null UUID byte array");
+		if (bytes.length != 16) throw new IllegalArgumentException("UUID must be 16 bytes");
 		
-		if (s.isEmpty()) return new byte[0];
+		char[] chars = new char[22];
 		
-		byte[] bytes = new byte[16];
-		char[] chars = s.toCharArray();
+		int i = 0, j = 0;
 		
-		for (int j = 0, i = 0; j < 15;)
+		while(i < 15)
 		{
-			
-			int d = I256[chars[i++]] << 18 | I256[chars[i++]] << 12 | I256[chars[i++]] << 6 | I256[chars[i++]];
-			
-			bytes[j++] = (byte) (d >> 16);
-			bytes[j++] = (byte) (d >> 8);
-			bytes[j++] = (byte) j;
+			int d = (bytes[i++] & 0xff) << 16 | (bytes[i++] & 0xff) << 8 | (bytes[i++] & 0xff);
+			chars[j++] = C64[(d >>> 18) & 0x3f];
+			chars[j++] = C64[(d >>> 12) & 0x3f];
+			chars[j++] = C64[(d >>> 6) & 0x3f];
+			chars[j++] = C64[d & 0x3f];
+		}
+		
+		// Account for the padding...
+		int d = (bytes[i] & 0xff) << 10;
+		chars[j++] = C64[d >> 12];
+		chars[j++] = C64[(d >>> 6) & 0x3f];
+		return new String(chars);
+	}
+
+	/**
+	 * Base64 decodes a short, 22-character UUID string into a byte array.
+	 * The resulting byte array contains 16 bytes.
+	 * <p/>
+	 * Base64 decoding essentially takes each four characters from the string and converts
+	 * them into three bytes. This implementation, not using padding, converts the final
+	 * two characters into one byte.
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private byte[] decodeBase64(String s)
+	{
+		if (s == null) throw new NullPointerException("Cannot decode null string");
+		if (s.isEmpty() || (s.length() != 22)) throw new IllegalArgumentException("Invalid short UUID");
+
+		byte[] bytes = new byte[16];
+		int i = 0, j = 0;
+
+		while (i < 15)
+		{
+			int d = I256[s.charAt(j++)] << 18 | I256[s.charAt(j++)] << 12 | I256[s.charAt(j++)] << 6 | I256[s.charAt(j++)];
+			bytes[i++] = (byte) (d >> 16);
+			bytes[i++] = (byte) (d >> 8);
+			bytes[i++] = (byte) d;
 		}
 
-	    return bytes;
-    }
+		// Pad the end.
+		bytes[i] = (byte) ((I256[s.charAt(j++)] << 18 | I256[s.charAt(j++)] << 12) >> 16);
+		return bytes;
+	}
 }
