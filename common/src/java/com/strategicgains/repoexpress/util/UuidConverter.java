@@ -21,14 +21,16 @@ import java.util.UUID;
 /**
  * Utility class to convert between a UUID and a short (22-character) string
  * representation of it (and back). Implements a very efficient URL-safe base64
- * encoding/decoding algorithm to shorten/expand the UUID.
+ * encoding/decoding algorithm to format/parse the UUID.
  * 
  * @author toddf
  * @since Mar 13, 2013
  */
-public class UuidConverter
+public abstract class UuidConverter
 {
-	private static final char[] C64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+	// Varies from standard Base64 by the last two characters in this string ("-" and "_").
+	// The standard characters are "+" and "/" respectively, but are not URL safe.
+	private static final char[] C64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".toCharArray();
 	private static final int[] I256 = new int[256];
 	static
 	{
@@ -47,7 +49,7 @@ public class UuidConverter
 	 * @throws NullPointerException if the UUID instance is null.
 	 * @throws IllegalArgumentException if the underlying UUID implementation is not 16 bytes.
 	 */
-	public String shorten(UUID uuid)
+	public static String format(UUID uuid)
 	{
 		if (uuid == null) throw new NullPointerException("Null UUID");
 
@@ -67,13 +69,18 @@ public class UuidConverter
 	 * @throws IllegalArgumentException if the uuidString is not a valid UUID representation.
 	 * @throws NullPointerException if the uuidString is null.
 	 */
-	public UUID expand(String uuidString)
+	public static UUID parse(String uuidString)
 	{
 		if (uuidString == null) throw new NullPointerException("Null UUID string");
 
 		if (uuidString.length() > 24)
 		{
 			return UUID.fromString(uuidString);
+		}
+		
+		if (uuidString.length() < 22)
+		{
+			throw new IllegalArgumentException("Short UUID must be 22 characters: " + uuidString);
 		}
 
 		byte[] bytes = decodeBase64(uuidString);
@@ -89,7 +96,7 @@ public class UuidConverter
 	 * @param uuid a UUID instance.
 	 * @return the bytes from the UUID instance.
 	 */
-	private byte[] toByteArray(UUID uuid)
+	private static byte[] toByteArray(UUID uuid)
 	{
 		ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
 		bb.putLong(uuid.getMostSignificantBits());
@@ -109,25 +116,30 @@ public class UuidConverter
 	 * @param bytes a UUID byte array.
 	 * @return a URL-safe base64-encoded string.
 	 */
-	private String encodeBase64(byte[] bytes)
+	private static String encodeBase64(byte[] bytes)
 	{
 		if (bytes == null) throw new NullPointerException("Null UUID byte array");
 		if (bytes.length != 16) throw new IllegalArgumentException("UUID must be 16 bytes");
 		
+		// Output is always 22 characters.
 		char[] chars = new char[22];
 		
-		int i = 0, j = 0;
+		int i = 0;
+		int j = 0;
 		
 		while(i < 15)
 		{
+			// Get the next three bytes.
 			int d = (bytes[i++] & 0xff) << 16 | (bytes[i++] & 0xff) << 8 | (bytes[i++] & 0xff);
+			
+			// Put them in these four characters
 			chars[j++] = C64[(d >>> 18) & 0x3f];
 			chars[j++] = C64[(d >>> 12) & 0x3f];
 			chars[j++] = C64[(d >>> 6) & 0x3f];
 			chars[j++] = C64[d & 0x3f];
 		}
 		
-		// Account for the padding...
+		// The last byte of the input gets put into two characters at the end of the string.
 		int d = (bytes[i] & 0xff) << 10;
 		chars[j++] = C64[d >> 12];
 		chars[j++] = C64[(d >>> 6) & 0x3f];
@@ -145,23 +157,28 @@ public class UuidConverter
 	 * @param s
 	 * @return
 	 */
-	private byte[] decodeBase64(String s)
+	private static byte[] decodeBase64(String s)
 	{
 		if (s == null) throw new NullPointerException("Cannot decode null string");
 		if (s.isEmpty() || (s.length() > 24)) throw new IllegalArgumentException("Invalid short UUID");
 
+		// Output is always 16 bytes (UUID).
 		byte[] bytes = new byte[16];
-		int i = 0, j = 0;
+		int i = 0;
+		int j = 0;
 
 		while (i < 15)
 		{
+			// Get the next four characters.
 			int d = I256[s.charAt(j++)] << 18 | I256[s.charAt(j++)] << 12 | I256[s.charAt(j++)] << 6 | I256[s.charAt(j++)];
+
+			// Put them in these three bytes.
 			bytes[i++] = (byte) (d >> 16);
 			bytes[i++] = (byte) (d >> 8);
 			bytes[i++] = (byte) d;
 		}
 
-		// Pad the end.
+		// Add the last two characters from the string into the last byte.
 		bytes[i] = (byte) ((I256[s.charAt(j++)] << 18 | I256[s.charAt(j++)] << 12) >> 16);
 		return bytes;
 	}

@@ -7,31 +7,30 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-public class UuidShortenerTest
+public class UuidConverterTest
 {
 	private String longUuid = "00993542-ba2f-4d9f-82bf-0000cd938f95";
-	private String shortUuid = "AJk1QrovTZ+CvwAAzZOPlQ";
+	private String shortUuid = "AJk1QrovTZ-CvwAAzZOPlQ";
 	private UUID uuid = UUID.fromString(longUuid);
-	private UuidConverter converter = new UuidConverter();
 
 	@Test
 	public void shouldShortenUuid()
 	{
-		String shortened = converter.shorten(uuid);
+		String shortened = UuidConverter.format(uuid);
 		assertEquals(shortUuid, shortened);
 	}
 
 	@Test
 	public void shouldExpandShortUuid() throws IOException
 	{
-		UUID expanded = converter.expand(shortUuid);
+		UUID expanded = UuidConverter.parse(shortUuid);
 		assertEquals(uuid, expanded);
 	}
 
 	@Test
 	public void shouldExpandLongUuid() throws IOException
 	{
-		UUID expanded = converter.expand(longUuid);
+		UUID expanded = UuidConverter.parse(longUuid);
 		assertEquals(uuid, expanded);
 	}
 
@@ -42,13 +41,13 @@ public class UuidShortenerTest
 		String name = "6fcb514b-b878-4c9d-95b7-8dc3a7ce6fd8";
 		UUID expect = UUID.fromString(name);
 
-		String shortened = converter.shorten(expect);
+		String shortened = UuidConverter.format(expect);
 		assertEquals(base64, shortened);
 
-		UUID expanded = converter.expand(name);
+		UUID expanded = UuidConverter.parse(name);
 		assertEquals(expect, expanded);
 		
-		expanded = converter.expand(base64);
+		expanded = UuidConverter.parse(base64);
 		assertEquals(expect, expanded);
 	}
 
@@ -58,7 +57,7 @@ public class UuidShortenerTest
 		String base64 = "b8tRS7h4TJ2Vt43Dp85v2A==";
 		UUID expect = UUID.fromString("6fcb514b-b878-4c9d-95b7-8dc3a7ce6fd8");
 		
-		UUID expanded = converter.expand(base64);
+		UUID expanded = UuidConverter.parse(base64);
 		assertEquals(expect, expanded);
 	}
 }

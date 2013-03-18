@@ -18,6 +18,7 @@ package com.strategicgains.repoexpress.adapter;
 import java.util.UUID;
 
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
+import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
  * Accepts an ID string in UUID Type 3 format (or Base64 encoded Type 3 format) and
@@ -26,7 +27,7 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
  * @author toddf
  * @since Mar 11, 2013
  */
-public class StringToUuidAdapter
+public class UuidAdapter
 implements IdentiferAdapter<UUID>
 {
 	@Override
@@ -35,7 +36,7 @@ implements IdentiferAdapter<UUID>
     {
 		try
 		{
-			return UUID.fromString(id);
+			return UuidConverter.parse(id);
 		}
 		catch(IllegalArgumentException e)
 		{
