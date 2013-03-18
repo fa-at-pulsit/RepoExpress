@@ -21,6 +21,13 @@ import com.mongodb.Mongo;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 
 /**
+ * A MongoDB repository that manages sub-types of AbstractMongodbEntity. It uses
+ * {@link DefaultTimestampedIdentifiableRepositoryObserver} to set the createdAt
+ * and updatedAt dates at the appropriate times.
+ * <p/>
+ * To implement single-table inheritance, simply pass in all the sub-classes that
+ * exist in this collection, with the inheritance-root listed first.
+ * 
  * @author toddf
  * @since Sept 23, 2012
  */

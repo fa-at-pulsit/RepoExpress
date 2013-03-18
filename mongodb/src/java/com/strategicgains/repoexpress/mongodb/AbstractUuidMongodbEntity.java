@@ -1,5 +1,5 @@
 /*
-    Copyright 2011, Strategic Gains, Inc.
+    Copyright 2013, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -15,44 +15,48 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import org.bson.types.ObjectId;
+import java.util.UUID;
 
 import com.github.jmkgreen.morphia.annotations.Id;
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.UuidIdentifiable;
+import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
- * An Entity object that is identified by a MongoDB ObjectId. It also
- * has createdAt and updatedAt properties.
- * <p/>
- * Note that, while this ObjectId only occupies three (3) bytes of storage
- * and a UUID occupies four (4), it is arguably more readable and universally
- * usable to have a base64-encoded, 22-character UUID in a URL, than a
- * proprietary MongoDB ID.
+ * An MongoDB entity object that is identified by a UUID as its primary identifier.
+ * It also has createdAt and updatedAt properties.
  * 
  * @author toddf
- * @since Oct 27, 2011
- * @see MongodbUuidEntityRepository
+ * @since Mar 18, 2013
  */
-public abstract class AbstractMongodbEntity
+public abstract class AbstractUuidMongodbEntity
 extends AbstractTimestampedIdentifiable
+implements UuidIdentifiable
 {
 	@Id
-	private ObjectId id;
+	private UUID id;
 
 	@Override
 	public String getId()
 	{
-		return (id == null ? null : id.toString());
+		return (id == null ? null : UuidConverter.format(id));
 	}
 
 	@Override
 	public void setId(String idString)
 	{
-		this.id = (idString ==null ? null : new ObjectId(idString));
+		this.id = (idString ==null ? null : UuidConverter.parse(idString));
 	}
-	
-	public ObjectId getObjectId()
-	{
-		return id;
-	}
+
+	@Override
+    public UUID getUuid()
+    {
+	    return id;
+    }
+
+	@Override
+    public void setUuid(UUID uuid)
+    {
+		this.id = uuid;
+    }
 }

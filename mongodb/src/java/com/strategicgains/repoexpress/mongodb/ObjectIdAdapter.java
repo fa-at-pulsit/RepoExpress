@@ -34,6 +34,7 @@ implements IdentiferAdapter<ObjectId>
 	 */
 	@Override
 	public ObjectId convert(String id)
+	throws InvalidObjectIdException
 	{
 		if (ObjectId.isValid(id))
 		{

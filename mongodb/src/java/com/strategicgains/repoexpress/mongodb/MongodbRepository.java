@@ -40,7 +40,7 @@ import com.strategicgains.restexpress.common.query.QueryRange;
 /**
  * Uses MongoDB as its back-end store. This repository can handle
  * "single-table inheritance" by passing all the supported types into the
- * constructor, with the inheritance root first.
+ * constructor, with the inheritance root listed first.
  * 
  * @author toddf
  * @since Aug 24, 2010
