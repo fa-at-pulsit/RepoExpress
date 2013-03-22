@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>RepoExpress-Voldemort</name>
+	<url>https://github.com/RestExpress/RepoExpress</url>
+	<groupId>com.strategicgains.repoexpress</groupId>
+	<artifactId>repoexpress-voldemort</artifactId>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>com.strategicgains.repoexpress</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.3.3-SNAPSHOT</version>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>repoexpress-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.strategicgains</groupId>
+			<artifactId>RestExpress</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.6.2.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>linkedin</groupId>
+			<artifactId>voldemort</artifactId>
+			<version>0.90.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/voldemort-0.90.1.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>compile</defaultGoal>
+		<sourceDirectory>src/java</sourceDirectory>
+		<testSourceDirectory>test/java</testSourceDirectory>
+	</build>
+</project>
