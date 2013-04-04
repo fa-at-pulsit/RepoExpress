@@ -20,7 +20,6 @@ import java.util.UUID;
 import com.github.jmkgreen.morphia.annotations.Id;
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
 import com.strategicgains.repoexpress.domain.UuidIdentifiable;
-import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
  * An MongoDB entity object that is identified by a UUID as its primary identifier.
@@ -39,13 +38,13 @@ implements UuidIdentifiable
 	@Override
 	public String getId()
 	{
-		return (id == null ? null : UuidConverter.format(id));
+		return (id == null ? null : id.toString()); //UuidConverter.format(id));
 	}
 
 	@Override
 	public void setId(String idString)
 	{
-		this.id = (idString ==null ? null : UuidConverter.parse(idString));
+		this.id = (idString ==null ? null : UUID.fromString(idString)); //UuidConverter.parse(idString));
 	}
 
 	@Override
