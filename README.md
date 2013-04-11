@@ -21,6 +21,7 @@ Change History:
 Release 0.3.3 - in development (branch 'master')
 * Fixed issue with MongoDB repository query filter implementation where it converted the
   value to lower-case erroneously.
+* Added MongodbRepository.find(QueryFilter) method.
 
 Release 0.3.2
 * Updated to latest RestExpress-Common, refactoring for QueryFilter addition of operator.
