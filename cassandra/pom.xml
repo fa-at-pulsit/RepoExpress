@@ -2,7 +2,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<name>RepoExpress-Cassandra</name>
-	<description>Uses PlayORM/Astyanix to provide object mapping to Cassandra</description>
 	<url>https://github.com/RestExpress/RepoExpress</url>
 	<groupId>com.strategicgains.repoexpress</groupId>
 	<artifactId>repoexpress-cassandra</artifactId>
@@ -29,15 +28,24 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.alvazan</groupId>
-			<artifactId>playorm</artifactId>
-			<version>1.4.42g</version>
+			<groupId>com.netflix.astyanax</groupId>
+			<artifactId>astyanax-cassandra</artifactId>
+			<version>1.56.37</version>
 		</dependency>
 		<dependency>
 			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax</artifactId>
-			<version>1.56.18</version>
+			<artifactId>astyanax-core</artifactId>
+			<version>1.56.37</version>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.astyanax</groupId>
+			<artifactId>astyanax-thrift</artifactId>
+			<version>1.56.37</version>
+		</dependency>
+		<dependency>
+			<groupId>com.netflix.astyanax</groupId>
+			<artifactId>astyanax-entity-mapper</artifactId>
+			<version>1.56.37</version>
 		</dependency>
 	</dependencies>
-
 </project>
