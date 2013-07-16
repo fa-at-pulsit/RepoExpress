@@ -337,7 +337,35 @@ implements Queryable<T>
 			@Override
 			public void filterOn(FilterComponent c)
 			{
-				q.field(c.getField()).contains(c.getValue());
+				switch(c.getOperator())
+				{
+					case CONTAINS:		// String-related
+						q.field(c.getField()).contains((c.getValue().toString()));
+						break;
+					case STARTS_WITH:	// String-related
+						q.field(c.getField()).startsWith(c.getValue().toString());
+						break;
+					case GREATER_THAN:
+						q.field(c.getField()).greaterThan(c.getValue());
+						break;
+					case GREATER_THAN_OR_EQUAL_TO:
+						q.field(c.getField()).greaterThanOrEq(c.getValue());
+						break;
+					case LESS_THAN:
+						q.field(c.getField()).lessThan(c.getValue());
+						break;
+					case LESS_THAN_OR_EQUAL_TO:
+						q.field(c.getField()).lessThanOrEq(c.getValue());
+						break;
+					case NOT_EQUALS:
+						q.field(c.getField()).notEqual(c.getValue());
+						break;
+					case EQUALS:
+					default:
+						q.field(c.getField()).equal(c.getValue());
+						break;
+					
+				}
 			}
 		});
 	}
