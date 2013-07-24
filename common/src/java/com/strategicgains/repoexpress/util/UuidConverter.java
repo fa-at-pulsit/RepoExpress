@@ -20,7 +20,7 @@ import java.util.UUID;
 
 /**
  * Utility class to convert between a UUID and a short (22-character) string
- * representation of it (and back). Implements a very efficient URL-safe base64
+ * representation of it (and back). Implements a very efficient URL-safe Base64
  * encoding/decoding algorithm to format/parse the UUID.
  * 
  * @author toddf
