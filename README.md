@@ -18,9 +18,18 @@ Dependencies:
 
 Change History:
 ===================================================================================================
-Release 0.3.3 - in development (branch 'master')
+Release 0.3.3 - 17 Jul 2013
 * Fixed issue with MongoDB repository query filter implementation where it converted the
   value to lower-case erroneously.
+* Added MongodbRepository.find(QueryFilter) method.
+* Changed message in InvalidObjectIdException thrown within StringToByteArrayAdapter.convert().
+* Changed generic type on AbstractRepositoryObserver from T extends TimestampedIdentifiable to T extends Identifiable.
+* Changed generic type on types parameter of MongodbEntityRepository constructor from Class<T> to Class<? extends T> to allow subclasses of T to be passed in.
+* Fixed issued in configureQueryFilter(), removing call to toLowerCase() on the value portion of the contains query.
+* Introduced MongodbUuidEntityRepository and related support classes, including UuidConverter
+  to produce/parse URL-safe UUID instances.
+* Changed MongodbRepository.configureQueryFilter() to leverage FilterOperator settings in FilterComponent
+  and support Object values in FilterComponent.
 
 Release 0.3.2
 * Updated to latest RestExpress-Common, refactoring for QueryFilter addition of operator.

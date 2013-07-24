@@ -160,6 +160,22 @@ implements Queryable<T>
 	}
 
 	/**
+	 * A general-purpose 'finder' method, useful for implementing alternate-key queries. Since
+	 * it does not support ordering and range sub-sets, it's best for creating queries that
+	 * return a list size of 1.
+	 * <p/>
+	 * Essentially, just calls readAll() with null range and order.  So if you need ordering,
+	 * call readAll(filter, null, order).
+	 * 
+	 * @param filter query criteria.
+	 * @return
+	 */
+	public List<T> find(QueryFilter filter)
+	{
+		return readAll(filter, null, null);
+	}
+
+	/**
 	 * Implements a 'default' readAll' method that queries for all instances of the inheritance
 	 * root class matching the given criteria.
 	 * 
@@ -303,6 +319,8 @@ implements Queryable<T>
 	 */
 	private void configureQueryRange(Query<T> q, QueryRange range)
 	{
+		if (range == null) return;
+
 		if (range.isInitialized())
 		{
 			q.offset((int) range.getStart());
@@ -312,12 +330,42 @@ implements Queryable<T>
 
 	private void configureQueryFilter(final Query<T> q, QueryFilter filter)
 	{
+		if (filter == null) return;
+
 		filter.iterate(new FilterCallback()
 		{
 			@Override
 			public void filterOn(FilterComponent c)
 			{
-				q.field(c.getField()).contains(c.getValue());
+				switch(c.getOperator())
+				{
+					case CONTAINS:		// String-related
+						q.field(c.getField()).contains((c.getValue().toString()));
+						break;
+					case STARTS_WITH:	// String-related
+						q.field(c.getField()).startsWith(c.getValue().toString());
+						break;
+					case GREATER_THAN:
+						q.field(c.getField()).greaterThan(c.getValue());
+						break;
+					case GREATER_THAN_OR_EQUAL_TO:
+						q.field(c.getField()).greaterThanOrEq(c.getValue());
+						break;
+					case LESS_THAN:
+						q.field(c.getField()).lessThan(c.getValue());
+						break;
+					case LESS_THAN_OR_EQUAL_TO:
+						q.field(c.getField()).lessThanOrEq(c.getValue());
+						break;
+					case NOT_EQUALS:
+						q.field(c.getField()).notEqual(c.getValue());
+						break;
+					case EQUALS:
+					default:
+						q.field(c.getField()).equal(c.getValue());
+						break;
+					
+				}
 			}
 		});
 	}
@@ -328,6 +376,8 @@ implements Queryable<T>
 	 */
 	private void configureQueryOrder(Query<T> q, QueryOrder order)
 	{
+		if (order == null) return;
+
 		if (order.isSorted())
 		{
 			final StringBuilder sb = new StringBuilder();
