@@ -29,9 +29,22 @@ extends RedisRepository<T>
 	@Override
 	public T doCreate(T item)
 	{
+		//Item expires immediately, so no sense in storing it.
+		if (item.getTtlSeconds() == 0)
+		{
+			return item;
+		}
+
 		item = super.doCreate(item);
 
-		return expire(item);
+		//Redis uses a ttl value of -1 if the key never expires. This is the default,
+		//so no need to expire it.
+		if (item.getTtlSeconds() > 0)
+		{
+			item = expire(item);
+		}
+
+		return item;
 	}
 
 	@Override
