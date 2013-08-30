@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.strategicgains.repoexpress</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.3.3-SNAPSHOT</version>
+		<version>0.3.4-SNAPSHOT</version>
 	</parent>
 
 	<licenses>
@@ -28,24 +28,9 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax-cassandra</artifactId>
-			<version>1.56.37</version>
-		</dependency>
-		<dependency>
-			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax-core</artifactId>
-			<version>1.56.37</version>
-		</dependency>
-		<dependency>
-			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax-thrift</artifactId>
-			<version>1.56.37</version>
-		</dependency>
-		<dependency>
-			<groupId>com.netflix.astyanax</groupId>
-			<artifactId>astyanax-entity-mapper</artifactId>
-			<version>1.56.37</version>
+			<groupId>com.datastax.cassandra</groupId>
+			<artifactId>cassandra-driver-core</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 	</dependencies>
 </project>

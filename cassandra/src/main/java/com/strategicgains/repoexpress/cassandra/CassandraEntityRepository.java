@@ -16,9 +16,7 @@ package com.strategicgains.repoexpress.cassandra;
 */
 
 
-import java.util.UUID;
-
-import com.strategicgains.repoexpress.adapter.UuidAdapter;
+import com.datastax.driver.core.Session;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 
@@ -36,14 +34,14 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * @author toddf
  * @since Apr 12, 2013
  */
-public class CassandraEntityRepository<T extends AbstractCassandraEntity>
-extends CassandraRepository<T, UUID>
+public abstract class CassandraEntityRepository<T extends AbstractCassandraEntity>
+extends AbstractCassandraRepository<T>
 {
-    public CassandraEntityRepository(CassandraConfiguration config, String databaseName, Class<? extends T>... types)
+    public CassandraEntityRepository(Session session, String databaseName, Class<? extends T>... types)
     {
-	    super(config, databaseName, types);
+	    super(session);
 	    initializeObservers();
-	    setIdentifierAdapter(new UuidAdapter());
+//	    setIdentifierAdapter(new UuidAdapter());
     }
 
     protected void initializeObservers()

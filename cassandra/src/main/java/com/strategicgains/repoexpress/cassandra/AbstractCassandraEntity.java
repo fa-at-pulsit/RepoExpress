@@ -1,4 +1,3 @@
-package com.strategicgains.repoexpress.cassandra;
 /*
     Copyright 2013, Strategic Gains, Inc.
 
@@ -14,12 +13,13 @@ package com.strategicgains.repoexpress.cassandra;
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-
+package com.strategicgains.repoexpress.cassandra;
 
 import java.util.UUID;
 
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
 import com.strategicgains.repoexpress.domain.UuidIdentifiable;
+import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
  * A Cassandra entity that is identified by a UUID as its primary identifier.
@@ -37,15 +37,15 @@ implements UuidIdentifiable
 	@Override
 	public String getId()
 	{
-//		return (id == null ? null : UuidConverter.format(id));
-		return (id == null ? null : id.toString());
+		return (id == null ? null : UuidConverter.format(id));
+//		return (id == null ? null : id.toString());
 	}
 
 	@Override
 	public void setId(String idString)
 	{
-//		this.id = (idString ==null ? null : UuidConverter.parse(idString));
-		this.id = (idString ==null ? null : UUID.fromString(idString));
+		this.id = (idString ==null ? null : UuidConverter.parse(idString));
+//		this.id = (idString ==null ? null : UUID.fromString(idString));
 	}
 
 	@Override
