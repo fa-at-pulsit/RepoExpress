@@ -36,6 +36,7 @@ import com.strategicgains.restexpress.serialization.SerializationProcessor;
  * @author toddf
  * @since May 27, 2011
  */
+@Deprecated
 public class VoldemortSerializingRepository<T extends Identifiable>
 extends AbstractObservableAdaptableRepository<T, String>
 {

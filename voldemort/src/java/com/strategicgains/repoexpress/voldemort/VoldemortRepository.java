@@ -33,6 +33,7 @@ import com.strategicgains.repoexpress.exception.RepositoryException;
  * @author toddf
  * @since May 27, 2011
  */
+@Deprecated
 public class VoldemortRepository
 implements Adaptable<String>
 {

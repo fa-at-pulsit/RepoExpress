@@ -18,6 +18,9 @@ Dependencies:
 
 Change History:
 ===================================================================================================
+Release 0.3.4 - SNAPSHOT (in branch 'master')
+* Voldemort support is deprecated.
+
 Release 0.3.3 - 17 Jul 2013
 * Fixed issue with MongoDB repository query filter implementation where it converted the
   value to lower-case erroneously.
