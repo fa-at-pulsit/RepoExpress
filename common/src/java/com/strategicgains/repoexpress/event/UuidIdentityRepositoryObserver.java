@@ -12,7 +12,7 @@
 	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 	See the License for the specific language governing permissions and
 	limitations under the License.
-*/
+ */
 package com.strategicgains.repoexpress.event;
 
 import java.util.UUID;
@@ -30,12 +30,16 @@ public class UuidIdentityRepositoryObserver<T extends UuidIdentifiable>
 extends AbstractRepositoryObserver<T>
 {
 	@Override
-    public void beforeCreate(T object)
-    {
-	    super.beforeCreate(object);
-	    object.setUuid(UUID.randomUUID());
-    }
-	
+	public void beforeCreate(T object)
+	{
+		super.beforeCreate(object);
+
+		if (object.getUuid() == null)
+		{
+			object.setUuid(UUID.randomUUID());
+		}
+	}
+
 	@Override
 	public void beforeUpdate(T object)
 	{
