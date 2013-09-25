@@ -15,7 +15,6 @@
  */
 package com.strategicgains.repoexpress.cassandra;
 
-import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 import com.strategicgains.repoexpress.AbstractObservableRepository;

@@ -28,7 +28,7 @@ import com.strategicgains.repoexpress.util.UuidConverter;
  * @author toddf
  * @since Mar 18, 2013
  */
-public abstract class AbstractCassandraEntity
+public abstract class AbstractUuidCassandraEntity
 extends AbstractTimestampedIdentifiable
 implements UuidIdentifiable
 {

@@ -34,7 +34,7 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * @author toddf
  * @since Apr 12, 2013
  */
-public abstract class CassandraEntityRepository<T extends AbstractCassandraEntity>
+public abstract class CassandraEntityRepository<T extends AbstractUuidCassandraEntity>
 extends AbstractCassandraRepository<T>
 {
     public CassandraEntityRepository(Session session, String databaseName, Class<? extends T>... types)
