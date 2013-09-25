@@ -39,7 +39,7 @@ import com.strategicgains.repoexpress.exception.RepositoryException;
  * can be used.  Or, if the RestExpress kickstart process was used, ResponseProcessors.JSON_SERIALIZER
  * or ResponseProcessors.XML_SERIALIZER may be leveraged.
  * 
- * @author toddf
+ * @author toddf, seans
  * @since Jul 19, 2012
  * @see AbstractRepositoryObserver
  * @see RedisJOhmRepository
@@ -47,6 +47,7 @@ import com.strategicgains.repoexpress.exception.RepositoryException;
 public abstract class RedisRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 {
+	private static final int NEVER_EXPIRE = -1;
 	private JedisPool jedisPool;
 	private Class<? extends T> entityClass;
 
@@ -60,7 +61,7 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doCreate(T item)
 	{
-		return doCreate(item, -1);
+		return doCreate(item, NEVER_EXPIRE);
 	}
 
 	protected T doCreate(T item, int ttlSeconds)
@@ -70,6 +71,7 @@ extends AbstractObservableRepository<T>
 		{
 			return item;
 		}
+
 		if (exists(item.getId()))
 		{
 			throw new DuplicateItemException(item.getClass().getSimpleName()
@@ -138,7 +140,7 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doUpdate(T item)
 	{
-		return doUpdate(item, -1);
+		return doUpdate(item, NEVER_EXPIRE);
 	}
 
 	protected T doUpdate(T item, int ttlSeconds)

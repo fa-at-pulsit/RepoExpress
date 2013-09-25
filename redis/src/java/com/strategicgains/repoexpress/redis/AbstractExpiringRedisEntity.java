@@ -5,9 +5,12 @@ import com.strategicgains.repoexpress.domain.ExpiringIdentifiable;
 /**
  * This class implements the Expiring interface by using an int TtlSeconds.
  * 
+ * @author seans
  * @since Aug 24, 2013
  */
-public class AbstractExpiringRedisEntity extends AbstractRedisEntity implements ExpiringIdentifiable
+public class AbstractExpiringRedisEntity
+extends AbstractRedisEntity
+implements ExpiringIdentifiable
 {
 	private int ttlSeconds;
 
