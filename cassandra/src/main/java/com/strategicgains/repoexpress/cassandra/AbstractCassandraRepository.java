@@ -41,15 +41,18 @@ extends AbstractObservableRepository<T>
 	private static final String EXISTENCE_CQL = "select count(*) from %s where %s = %s";
 
 	private Session session;
+	private String dbName;
 	private PreparedStatement existStmt;
 
 	/**
 	 * @param session a pre-configured Session instance.
+	 * @param databaseName the name of a database this repository works against.
 	 */
-    public AbstractCassandraRepository(Session session)
+    public AbstractCassandraRepository(Session session, String databaseName)
 	{
 		super();
 		this.session = session;
+		this.dbName = databaseName;
 		initialize();
 	}
 

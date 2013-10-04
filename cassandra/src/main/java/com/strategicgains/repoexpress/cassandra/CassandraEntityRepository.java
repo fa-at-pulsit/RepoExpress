@@ -1,4 +1,3 @@
-package com.strategicgains.repoexpress.cassandra;
 /*
     Copyright 2013, Strategic Gains, Inc.
 
@@ -14,7 +13,7 @@ package com.strategicgains.repoexpress.cassandra;
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-
+package com.strategicgains.repoexpress.cassandra;
 
 import com.datastax.driver.core.Session;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
@@ -39,7 +38,7 @@ extends AbstractCassandraRepository<T>
 {
     public CassandraEntityRepository(Session session, String databaseName, Class<? extends T>... types)
     {
-	    super(session);
+	    super(session, databaseName);
 	    initializeObservers();
 //	    setIdentifierAdapter(new UuidAdapter());
     }
