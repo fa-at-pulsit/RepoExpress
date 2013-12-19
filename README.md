@@ -1,4 +1,6 @@
-[![Build Status](https://buildhive.cloudbees.com/job/RestExpress/job/RepoExpress/badge/icon)](https://buildhive.cloudbees.com/job/RestExpress/job/RepoExpress/)
+**Build Status** [![Build Status](https://buildhive.cloudbees.com/job/RestExpress/job/RepoExpress/badge/icon)](https://buildhive.cloudbees.com/job/RestExpress/job/RepoExpress/)
+
+**Waffle.io** [![Stories in Ready](https://badge.waffle.io/RestExpress/RepoExpress.png?label=ready)](https://waffle.io/RestExpress/RepoExpress)
 
 RepoExpress is a thin wrapper on MongoDB and Morphia to provide a simple and easy way to create
 domain storage options using the Repository pattern.
