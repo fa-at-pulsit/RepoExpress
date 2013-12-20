@@ -2,8 +2,9 @@
 
 **Waffle.io** [![Stories in Ready](https://badge.waffle.io/RestExpress/RepoExpress.png?label=ready)](https://waffle.io/RestExpress/RepoExpress)
 
-RepoExpress is a thin wrapper on MongoDB and Morphia to provide a simple and easy way to create
-domain storage options using the Repository pattern.
+RepoExpress is a set of thin wrappers to provide a simple and easy way to create
+domain storage (CRUD persistence) options using the Repository pattern. There are various
+repositories supporting MongoDB, Redis, Cassandra, and Voldemort (deprecated).
 
 Designed to be utilized in conjunction with RestExpress, RepoExpress is easy to use:
 1) Create a new InMemoryRepository() or new MongodbRepository() extending them if necessary.
@@ -11,17 +12,11 @@ Designed to be utilized in conjunction with RestExpress, RepoExpress is easy to 
 3) Call the CRUD methods.
 4) Extend the repository if custom queries or other unique functionality is required.
 
-Dependencies:
-* If MongodbRepository is used, MongoDB must be running.
-* MongoDB drivers (jar).
-* Morphia mapping library (jar).
-* Voldemort drivers (jar).
-* Junit, to run unit tests.
-
 Change History:
 ===================================================================================================
 Release 0.3.4 - SNAPSHOT (in branch 'master')
 * Voldemort support is deprecated.
+* Introduced initial Cassandra repository support.
 
 Release 0.3.3 - 17 Jul 2013
 * Fixed issue with MongoDB repository query filter implementation where it converted the
