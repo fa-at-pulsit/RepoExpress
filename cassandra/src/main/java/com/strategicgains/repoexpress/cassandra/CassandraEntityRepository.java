@@ -15,7 +15,10 @@
 */
 package com.strategicgains.repoexpress.cassandra;
 
+import java.util.UUID;
+
 import com.datastax.driver.core.Session;
+import com.strategicgains.repoexpress.adapter.UuidAdapter;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 
@@ -26,21 +29,18 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * to set the createAt and updatedAt dates on the object as appropriate.
  * <p/>
  * Storing a UUID as the ID (as this repository does) requires four (4) bytes for the ID.
- * <p/>
- * To implement single-table inheritance, simply pass in all the sub-classes that
- * exist in this collection, with the inheritance-root listed first.
  * 
  * @author toddf
  * @since Apr 12, 2013
  */
 public abstract class CassandraEntityRepository<T extends AbstractUuidCassandraEntity>
-extends AbstractCassandraRepository<T>
+extends AbstractCassandraRepository<T, UUID>
 {
-    public CassandraEntityRepository(Session session, String databaseName, Class<? extends T>... types)
+    public CassandraEntityRepository(Session session, String tableName, String rowKeyName)
     {
-	    super(session, databaseName);
+	    super(session, tableName, rowKeyName);
 	    initializeObservers();
-//	    setIdentifierAdapter(new UuidAdapter());
+	    setIdentifierAdapter(new UuidAdapter());
     }
 
     protected void initializeObservers()
