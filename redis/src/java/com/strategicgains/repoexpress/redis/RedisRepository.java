@@ -20,6 +20,7 @@ import redis.clients.jedis.JedisPool;
 
 import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.event.AbstractRepositoryObserver;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
@@ -82,7 +83,7 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			if (!jedis.setex(item.getId(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
+			if (!jedis.setex(item.getId().primaryKey().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
 			{
 				throw new RepositoryException("Error creating object: " + item.getId());
 			}
@@ -102,7 +103,7 @@ extends AbstractObservableRepository<T>
 
 		try
 		{
-			Long reply = jedis.del(object.getId());
+			Long reply = jedis.del(object.getId().primaryKey().toString());
 
 			if (reply < 1)
 			{
@@ -116,13 +117,13 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public T doRead(String id)
+	public T doRead(Identifier id)
 	{
 		Jedis jedis = jedisPool.getResource();
 
 		try
 		{
-			String json = jedis.get(id);
+			String json = jedis.get(id.primaryKey().toString());
 
 			if (json == null || json.trim().isEmpty())
 			{
@@ -155,7 +156,7 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			if (!jedis.setex(item.getId(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
+			if (!jedis.setex(item.getId().primaryKey().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
 			{
 				throw new RepositoryException("Error updating object: " + item.getId());
 			}
@@ -169,7 +170,7 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public boolean exists(String id)
+	public boolean exists(Identifier id)
 	{
 		if (id == null) return false;
 
@@ -177,7 +178,7 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			return jedis.exists(id);
+			return jedis.exists(id.primaryKey().toString());
 		}
 		finally
 		{

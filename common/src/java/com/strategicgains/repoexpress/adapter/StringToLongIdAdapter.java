@@ -15,6 +15,7 @@
 */
 package com.strategicgains.repoexpress.adapter;
 
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
@@ -30,15 +31,18 @@ implements IdentiferAdapter<Long>
 	 * throws InvalidObjectIdException if the ID is not a valid long integer.
 	 */
 	@Override
-	public Long convert(String id)
+	public Long convert(Identifier id)
 	{
+		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
+		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
+
 		try
 		{
-			return Long.valueOf(id);
+			return Long.valueOf(id.components().get(0).toString());
 		}
 		catch (NumberFormatException e)
 		{
-			throw new InvalidObjectIdException(id, e);
+			throw new InvalidObjectIdException(id.toString(), e);
 		}
 	}
 }

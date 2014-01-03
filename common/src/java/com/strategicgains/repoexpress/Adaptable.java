@@ -15,8 +15,10 @@
 */
 package com.strategicgains.repoexpress;
 
+import com.strategicgains.repoexpress.domain.Identifier;
+
 /**
- * Defines the interface to adapt a String identifer to an object.
+ * Defines the interface to adapt an identifer to another instance type.
  * 
  * @author toddf
  * @since May 27, 2011
@@ -24,5 +26,5 @@ package com.strategicgains.repoexpress;
  */
 public interface Adaptable<I>
 {
-	public I adaptId(String id);
+	public I adaptId(Identifier id);
 }

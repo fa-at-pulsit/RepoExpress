@@ -17,6 +17,7 @@ package com.strategicgains.repoexpress.adapter;
 
 import java.nio.charset.Charset;
 
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 
@@ -35,10 +36,11 @@ implements IdentiferAdapter<byte[]>
 	 * throws InvalidObjectIdException if the ID is null.
 	 */
 	@Override
-	public byte[] convert(String id)
+	public byte[] convert(Identifier id)
 	{
-		if (id == null) throw new InvalidObjectIdException("null ID");
+		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
+		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
 
-        return id.getBytes(UTF8);
+        return id.components().get(0).toString().getBytes(UTF8);
 	}
 }

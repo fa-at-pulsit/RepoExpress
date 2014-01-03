@@ -15,11 +15,12 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.bson.types.ObjectId;
 import org.junit.Test;
 
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
@@ -31,7 +32,7 @@ public class ObjectIdAdapterTest
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldThrowExceptionOnInvalidId()
 	{
-		new ObjectIdAdapter().convert("invalid");
+		new ObjectIdAdapter().convert(new Identifier("invalid"));
 	}
 
 	@Test(expected=InvalidObjectIdException.class)
@@ -44,7 +45,7 @@ public class ObjectIdAdapterTest
 	public void shouldConvertToId()
 	{
 		String stringValue = new ObjectId().toString();
-		ObjectId objectId = new ObjectIdAdapter().convert(stringValue);
+		ObjectId objectId = new ObjectIdAdapter().convert(new Identifier(stringValue));
 		assertNotNull(objectId);
 	}
 }

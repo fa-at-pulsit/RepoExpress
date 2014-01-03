@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 public class UuidAdapterTest
@@ -18,21 +19,21 @@ public class UuidAdapterTest
 	@Test
 	public void shouldConvertStringToUuid()
 	{
-		UUID result = adapter.convert(uuid.toString());
+		UUID result = adapter.convert(new Identifier(uuid.toString()));
 		assertEquals(uuid, result);
 	}
 
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldThrowInvalidObjectIdException()
 	{
-		UUID result = adapter.convert("abcde");
+		UUID result = adapter.convert(new Identifier("abcde"));
 		assertEquals(uuid, result);
 	}
 
 	@Test
 	public void shouldConvertShortStringToUuid()
 	{
-		UUID result = adapter.convert(uuidEncoded);
+		UUID result = adapter.convert(new Identifier(uuidEncoded));
 		assertEquals(uuid, result);
 	}
 }

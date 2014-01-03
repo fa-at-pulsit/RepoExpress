@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 import com.strategicgains.repoexpress.adapter.IdentiferAdapter;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * A base, abstract repository implementation that supports observation, as well as,
@@ -52,7 +53,7 @@ implements Adaptable<I>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public I adaptId(String id)
+	public I adaptId(Identifier id)
 	{
 		if (hasIdentifierAdapter())
 		{
@@ -75,9 +76,9 @@ implements Adaptable<I>
 	protected class AdaptedIdIterable
 	implements Iterable<I>
 	{
-		private Iterable<String> iterable;
+		private Iterable<Identifier> iterable;
 
-		public AdaptedIdIterable(Iterable<String> iterable)
+		public AdaptedIdIterable(Iterable<Identifier> iterable)
 		{
 			this.iterable = iterable;
 		}
@@ -99,9 +100,9 @@ implements Adaptable<I>
 	protected class IdAdapterIterator
 	implements Iterator<I>
 	{
-		private Iterator<String> iterator;
+		private Iterator<Identifier> iterator;
 
-		public IdAdapterIterator(Iterator<String> iterator)
+		public IdAdapterIterator(Iterator<Identifier> iterator)
 		{
 			this.iterator = iterator;
 		}

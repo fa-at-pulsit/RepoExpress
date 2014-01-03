@@ -13,38 +13,43 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.cassandra;
+package com.strategicgains.repoexpress.domain;
 
 import java.util.UUID;
 
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.domain.UuidIdentifiable;
+import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
- * A Cassandra entity that is identified by a UUID as its primary identifier.
+ * An entity that is identified by a UUID as its primary identifier.
  * It also has createdAt and updatedAt properties.
  * 
  * @author toddf
  * @since Mar 18, 2013
  */
-public abstract class AbstractUuidCassandraEntity
+public abstract class AbstractUuidEntity
 extends AbstractTimestampedIdentifiable
 implements UuidIdentifiable
 {
 	private UUID id;
 
 	@Override
-	public String getId()
+	public Identifier getId()
 	{
-//		return (id == null ? null : UuidConverter.format(id));
-		return (id == null ? null : id.toString());
+		return (id == null ? null : new Identifier(id));
 	}
 
+	/**
+	 * Assumes the id is either null or empty, or has only one element: a valid UUID-formatted string.
+	 * 
+	 * @throws IllegalArgumentException - if the first component of the id is not a valid UUID representation.
+	 */
 	@Override
-	public void setId(String idString)
+	public void setId(Identifier id)
 	{
-//		this.id = (idString ==null ? null : UuidConverter.parse(idString));
-		this.id = (idString ==null ? null : UUID.fromString(idString));
+		this.id = (id ==null || id.isEmpty() ? null : UuidConverter.parse((String) id.primaryKey()));
 	}
 
 	@Override

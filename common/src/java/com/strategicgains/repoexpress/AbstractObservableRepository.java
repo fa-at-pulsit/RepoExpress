@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.event.RepositoryObserver;
 
 /**
@@ -101,7 +102,7 @@ implements ObservableRepository<T>
     }
 
 	@Override
-    public final T read(String id)
+    public final T read(Identifier id)
     {
 		notifyBeforeRead(id);
 		T result = doRead(id);
@@ -169,7 +170,7 @@ implements ObservableRepository<T>
 		}
 	}
 	
-	protected void notifyBeforeRead(String id)
+	protected void notifyBeforeRead(Identifier id)
 	{
 		for (RepositoryObserver<T> observer : getObserversInternal())
 		{

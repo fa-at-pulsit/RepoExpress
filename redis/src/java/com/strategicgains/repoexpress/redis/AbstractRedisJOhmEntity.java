@@ -18,6 +18,7 @@ package com.strategicgains.repoexpress.redis;
 import redis.clients.johm.Id;
 
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * A base object representing an entity stored in Redis.  The ID is a Long that has the potential
@@ -34,15 +35,15 @@ extends AbstractTimestampedIdentifiable
 	private Long id;
 
 	@Override
-	public String getId()
+	public Identifier getId()
 	{
-		return (id == null ? null : String.valueOf(id));
+		return (id == null ? null : new Identifier(id));
 	}
 
 	@Override
-	public void setId(String idString)
+	public void setId(Identifier id)
 	{
-		this.id = (idString ==null ? null : Long.valueOf(idString));
+		this.id = (id == null || id.isEmpty() ? null : Long.valueOf(id.components().get(0).toString()));
 	}
 	
 	public Long getObjectId()

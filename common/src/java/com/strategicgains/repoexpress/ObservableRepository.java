@@ -16,6 +16,7 @@
 package com.strategicgains.repoexpress;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.event.Observable;
 
 /**
@@ -27,6 +28,6 @@ extends Repository<T>, Observable<T>
 {
 	public T doCreate(T object);
 	public void doDelete(T object);
-	public T doRead(String id);
+	public T doRead(Identifier id);
 	public T doUpdate(T object);
 }

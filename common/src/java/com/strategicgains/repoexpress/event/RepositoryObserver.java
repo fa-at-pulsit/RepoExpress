@@ -16,6 +16,7 @@
 package com.strategicgains.repoexpress.event;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * @author toddf
@@ -30,6 +31,6 @@ public interface RepositoryObserver<T extends Identifiable>
 
 	public void beforeCreate(T object);
 	public void beforeDelete(T object);
-	public void beforeRead(String id);
+	public void beforeRead(Identifier id);
 	public void beforeUpdate(T object);
 }

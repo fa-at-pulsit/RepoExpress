@@ -16,6 +16,7 @@
 package com.strategicgains.repoexpress.redis;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * This super-class implements the Identifiable interface by using a String ID.
@@ -29,14 +30,14 @@ implements Identifiable
 	private String id;
 
 	@Override
-	public String getId()
+	public Identifier getId()
 	{
-		return id;
+		return (id == null ? new Identifier() : new Identifier(id));
 	}
 
 	@Override
-	public void setId(String id)
+	public void setId(Identifier id)
 	{
-		this.id = id;
+		this.id = (id == null || id.isEmpty() ? null : id.components().get(0).toString());
 	}
 }

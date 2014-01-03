@@ -18,6 +18,7 @@ package com.strategicgains.repoexpress.util;
 import java.util.Iterator;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 
 /**
@@ -37,7 +38,7 @@ import com.strategicgains.repoexpress.domain.Identifiable;
  * @since Oct 25, 2012
  */
 public class IdentifiableIterable
-implements Iterable<String>
+implements Iterable<Identifier>
 {
 	private Iterable<? extends Identifiable> iterable;
 
@@ -47,7 +48,7 @@ implements Iterable<String>
 	}
 
 	@Override
-	public Iterator<String> iterator()
+	public Iterator<Identifier> iterator()
 	{
 		return new IdentifierIterator(iterable);
 	}

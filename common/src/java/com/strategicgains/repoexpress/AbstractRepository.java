@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
+import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 import com.strategicgains.repoexpress.exception.RepositoryException;
 
@@ -39,7 +41,7 @@ implements Repository<T>
 	 * @throws InvalidObjectIdException if the give ID is invalid (for the repository).
 	 */
 	@Override
-	public void delete(String id)
+	public void delete(Identifier id)
 	{
 		T object = read(id);
 		delete(object);
@@ -56,11 +58,11 @@ implements Repository<T>
 	 * if none of the IDs are found (or valid). Never null.
 	 */
 	@Override
-	public List<T> readList(Collection<String> ids)
+	public List<T> readList(Collection<Identifier> ids)
     {
     	List<T> results = new ArrayList<T>(ids.size());
     	
-    	for (String id : ids)
+    	for (Identifier id : ids)
     	{
     		try
     		{
@@ -84,7 +86,7 @@ implements Repository<T>
 	 * should optimize this, if applicable, by overriding the behavior.
 	 */
 	@Override
-	public boolean exists(String id)
+	public boolean exists(Identifier id)
 	{
 		try
 		{
@@ -101,6 +103,6 @@ implements Repository<T>
 
 	protected boolean hasId(T item)
 	{
-		return (item.getId() != null && !item.getId().trim().isEmpty());
+		return (item.getId() != null && !item.getId().isEmpty());
 	}
 }

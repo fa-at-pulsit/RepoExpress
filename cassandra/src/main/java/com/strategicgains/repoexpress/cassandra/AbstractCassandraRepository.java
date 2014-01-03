@@ -15,58 +15,51 @@
  */
 package com.strategicgains.repoexpress.cassandra;
 
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
+import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
- * Uses Cassandra as its back-end store. Since Cassandra is a little different
- * than say, MongoDB, this repository doesn't do much except existence checking
- * and observer notification.  Object mapping, CQL queries, etc. are left as an
- * exercise for the implementor.
+ * Uses Cassandra as its back-end store, supporting compound-identifier based tables.
  * <p/>
- * Sub-classes must implement the, createEntity(), updateEntity(), readEntityById() and deleteEntity()
- * abstract methods. Along with any other custom-query-type methods.
+ * Since Cassandra is a little different than say, MongoDB, this repository doesn't do much.
+ * Object mapping, CQL queries, etc. are left as an exercise for the implementor.
+ * <p/>
+ * Sub-classes must implement the, createEntity(), updateEntity(), readEntityById(), exists()
+ * and deleteEntity() abstract methods. Along with any other custom-query-type methods.
  * 
  * @author toddf
  * @since Apr 12, 2013
  */
-public abstract class AbstractCassandraRepository<T extends Identifiable, I>
-extends AbstractObservableAdaptableRepository<T, I>
+public abstract class AbstractCassandraRepository<T extends Identifiable>
+extends AbstractObservableRepository<T>
 {
-	private static final String EXISTENCE_CQL = "select count(*) from %s where %s = ?";
-	private static final String READ_CQL = "SELECT * FROM %s WHERE %s = ?";
-
-
 	private Session session;
 	private String table;
-	private String rowKey;
-	private PreparedStatement existStmt;
-	private PreparedStatement readStmt;
 
 	/**
 	 * @param session a pre-configured Session instance.
-	 * @param databaseName the name of a database this repository works against.
+	 * @param tableName the name of the Cassandra table entities are stored in.
 	 */
-    public AbstractCassandraRepository(Session session, String tableName, String rowKeyName)
+    public AbstractCassandraRepository(Session session, String tableName)
 	{
 		super();
 		this.session = session;
 		this.table = tableName;
-		this.rowKey = rowKeyName;
-		initialize();
 	}
-
-	protected void initialize()
+    
+    protected Session getSession()
     {
-		existStmt = session.prepare(String.format(EXISTENCE_CQL, table, rowKey));
-		readStmt = session.prepare(String.format(READ_CQL, table, rowKey));
+    	return session;
+    }
+    
+    protected String getTable()
+    {
+    	return table;
     }
 
 	@Override
@@ -75,20 +68,20 @@ extends AbstractObservableAdaptableRepository<T, I>
 		if (exists(entity.getId()))
 		{
 			throw new DuplicateItemException(entity.getClass().getSimpleName()
-			    + " ID already exists: " + entity.getId());
+			    + " ID already exists: " + entity.getId().toString());
 		}
 
 		return createEntity(entity);
 	}
 
 	@Override
-	public T doRead(String id)
+	public T doRead(Identifier id)
 	{
 		T item = readEntityById(id);
 
 		if (item == null)
 		{
-			throw new ItemNotFoundException("ID not found: " + id);
+			throw new ItemNotFoundException("ID not found: " + id.toString());
 		}
 
 		return item;
@@ -100,7 +93,7 @@ extends AbstractObservableAdaptableRepository<T, I>
 		if (!exists(entity.getId()))
 		{
 			throw new ItemNotFoundException(entity.getClass().getSimpleName()
-			    + " ID not found: " + entity.getId());
+			    + " ID not found: " + entity.getId().toString());
 		}
 
 		return updateEntity(entity);
@@ -115,30 +108,11 @@ extends AbstractObservableAdaptableRepository<T, I>
 		}
 		catch (InvalidObjectIdException e)
 		{
-			throw new ItemNotFoundException("ID not found: " + entity.getId());
+			throw new ItemNotFoundException("ID not found: " + entity.getId().toString());
 		}
 	}
 
-	@Override
-	public boolean exists(String identifier)
-	{
-		if (identifier == null) return false;
-
-		BoundStatement bs = new BoundStatement(existStmt);
-		bs.bind(adaptId(identifier));
-		return (session.execute(bs).one().getInt(0) > 0);
-	}
-
-	protected T readEntityById(String identifier)
-	{
-		if (identifier == null) return null;
-		
-		BoundStatement bs = new BoundStatement(readStmt);
-		bs.bind(adaptId(identifier));
-		return marshalRow(session.execute(bs).one());
-	}
-
-	protected abstract T marshalRow(Row row);
+	protected abstract T readEntityById(Identifier identifier);
 	protected abstract T createEntity(T entity);
 	protected abstract T updateEntity(T entity);
 	protected abstract void deleteEntity(T entity);

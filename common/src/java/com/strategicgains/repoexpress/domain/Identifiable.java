@@ -21,6 +21,6 @@ package com.strategicgains.repoexpress.domain;
  */
 public interface Identifiable
 {
-	public String getId();
-	public void setId(String id);
+	public Identifier getId();
+	public void setId(Identifier id);
 }

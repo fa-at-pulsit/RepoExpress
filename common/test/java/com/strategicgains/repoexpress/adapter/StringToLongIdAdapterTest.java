@@ -13,37 +13,41 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.util;
+package com.strategicgains.repoexpress.adapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.nio.charset.Charset;
-import java.util.Arrays;
-
 import org.junit.Test;
 
-import com.strategicgains.repoexpress.adapter.StringToByteArrayIdAdapter;
+import com.strategicgains.repoexpress.adapter.StringToLongIdAdapter;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
  * @author toddf
  * @since Oct 25, 2011
  */
-public class StringToByteArrayIdAdapterTest
+public class StringToLongIdAdapterTest
 {
 	@Test(expected=InvalidObjectIdException.class)
-	public void shouldThrowExceptionOnNullId()
+	public void shouldThrowExceptionOnInvalidId()
 	{
-		new StringToByteArrayIdAdapter().convert(null);
+		new StringToLongIdAdapter().convert(new Identifier("invalid"));
+	}
+
+	@Test(expected=InvalidObjectIdException.class)
+	public void shouldHandleNull()
+	{
+		new StringToLongIdAdapter().convert(null);
 	}
 
 	@Test
 	public void shouldConvertToId()
 	{
-		String stringValue = "something of a byte array 123456";
-		byte[] objectId = new StringToByteArrayIdAdapter().convert(stringValue);
+		String stringValue = String.valueOf(65536l);
+		Long objectId = new StringToLongIdAdapter().convert(new Identifier(stringValue));
 		assertNotNull(objectId);
-		assertEquals(Arrays.toString(stringValue.getBytes(Charset.forName("UTF-8"))), Arrays.toString(objectId));
+		assertEquals(Long.valueOf(65536l), objectId);
 	}
 }

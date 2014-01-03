@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * @author toddf
@@ -28,10 +29,10 @@ import com.strategicgains.repoexpress.domain.Identifiable;
 public interface Repository<T extends Identifiable>
 {
 	public T create(T object);
-	public void delete(String id);
+	public void delete(Identifier id);
 	public void delete(T object);
-	public boolean exists(String id);
-	public T read(String id);
-	public List<T> readList(Collection<String> ids);
+	public boolean exists(Identifier id);
+	public T read(Identifier id);
+	public List<T> readList(Collection<Identifier> ids);
 	public T update(T object);
 }

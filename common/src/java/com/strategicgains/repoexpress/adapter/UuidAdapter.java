@@ -17,6 +17,7 @@ package com.strategicgains.repoexpress.adapter;
 
 import java.util.UUID;
 
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.util.UuidConverter;
 
@@ -31,12 +32,15 @@ public class UuidAdapter
 implements IdentiferAdapter<UUID>
 {
 	@Override
-    public UUID convert(String id)
+    public UUID convert(Identifier id)
     throws InvalidObjectIdException
     {
+		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
+		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
+
 		try
 		{
-			return UuidConverter.parse(id);
+			return UuidConverter.parse(id.primaryKey().toString());
 		}
 		catch(IllegalArgumentException e)
 		{

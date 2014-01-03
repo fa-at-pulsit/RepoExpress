@@ -7,5 +7,4 @@ package com.strategicgains.repoexpress.domain;
 public interface ExpiringIdentifiable
 extends Expiring, Identifiable
 {
-
 }

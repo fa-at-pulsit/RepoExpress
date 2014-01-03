@@ -13,40 +13,38 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.util;
+package com.strategicgains.repoexpress.adapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.nio.charset.Charset;
+import java.util.Arrays;
+
 import org.junit.Test;
 
-import com.strategicgains.repoexpress.adapter.StringToIntegerIdAdapter;
+import com.strategicgains.repoexpress.adapter.StringToByteArrayIdAdapter;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
  * @author toddf
  * @since Oct 25, 2011
  */
-public class StringToIntegerIdAdapterTest
+public class StringToByteArrayIdAdapterTest
 {
 	@Test(expected=InvalidObjectIdException.class)
-	public void shouldThrowExceptionOnInvalidId()
+	public void shouldThrowExceptionOnNullId()
 	{
-		new StringToIntegerIdAdapter().convert("invalid");
-	}
-
-	@Test(expected=InvalidObjectIdException.class)
-	public void shouldHandleNull()
-	{
-		new StringToIntegerIdAdapter().convert(null);
+		new StringToByteArrayIdAdapter().convert(null);
 	}
 
 	@Test
 	public void shouldConvertToId()
 	{
-		String stringValue = String.valueOf(655);
-		Integer objectId = new StringToIntegerIdAdapter().convert(stringValue);
+		String stringValue = "something of a byte array 123456";
+		byte[] objectId = new StringToByteArrayIdAdapter().convert(new Identifier(stringValue));
 		assertNotNull(objectId);
-		assertEquals(Integer.valueOf(655), objectId);
+		assertEquals(Arrays.toString(stringValue.getBytes(Charset.forName("UTF-8"))), Arrays.toString(objectId));
 	}
 }

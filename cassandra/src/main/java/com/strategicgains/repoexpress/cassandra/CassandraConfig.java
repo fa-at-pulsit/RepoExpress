@@ -17,12 +17,13 @@ package com.strategicgains.repoexpress.cassandra;
 
 import java.util.Properties;
 
+import org.restexpress.common.exception.ConfigurationException;
+
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Cluster.Builder;
 import com.datastax.driver.core.ConsistencyLevel;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.policies.DCAwareRoundRobinPolicy;
-import com.strategicgains.restexpress.common.exception.ConfigurationException;
 
 /**
  * @author toddf

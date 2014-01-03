@@ -18,6 +18,7 @@ package com.strategicgains.repoexpress.mongodb;
 import org.bson.types.ObjectId;
 
 import com.strategicgains.repoexpress.adapter.IdentiferAdapter;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
@@ -33,14 +34,19 @@ implements IdentiferAdapter<ObjectId>
 	 * throws InvalidObjectIdException if the ID is not a valid MongoDB ObjectId.
 	 */
 	@Override
-	public ObjectId convert(String id)
+	public ObjectId convert(Identifier id)
 	throws InvalidObjectIdException
 	{
-		if (ObjectId.isValid(id))
+		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
+		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
+
+		String idString = id.components().get(0).toString();
+
+		if (ObjectId.isValid(idString))
 		{
-			return new ObjectId(id);
+			return new ObjectId(idString);
 		}
 
-		throw new InvalidObjectIdException(id);
+		throw new InvalidObjectIdException(id.toString());
 	}
 }

@@ -16,6 +16,7 @@
 package com.strategicgains.repoexpress.event;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * This default implementation does nothing, but allows sub-classes to
@@ -64,7 +65,7 @@ implements RepositoryObserver<T>
     }
 
 	@Override
-    public void beforeRead(String id)
+    public void beforeRead(Identifier id)
     {
 		// default behavior is to do nothing.
     }

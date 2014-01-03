@@ -18,6 +18,14 @@ package com.strategicgains.repoexpress.mongodb;
 import java.util.Collection;
 import java.util.List;
 
+import org.restexpress.common.query.FilterCallback;
+import org.restexpress.common.query.FilterComponent;
+import org.restexpress.common.query.OrderCallback;
+import org.restexpress.common.query.OrderComponent;
+import org.restexpress.common.query.QueryFilter;
+import org.restexpress.common.query.QueryOrder;
+import org.restexpress.common.query.QueryRange;
+
 import com.github.jmkgreen.morphia.Datastore;
 import com.github.jmkgreen.morphia.Morphia;
 import com.github.jmkgreen.morphia.query.Query;
@@ -26,16 +34,10 @@ import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
 import com.strategicgains.repoexpress.Queryable;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
-import com.strategicgains.restexpress.common.query.FilterCallback;
-import com.strategicgains.restexpress.common.query.FilterComponent;
-import com.strategicgains.restexpress.common.query.OrderCallback;
-import com.strategicgains.restexpress.common.query.OrderComponent;
-import com.strategicgains.restexpress.common.query.QueryFilter;
-import com.strategicgains.restexpress.common.query.QueryOrder;
-import com.strategicgains.restexpress.common.query.QueryRange;
 
 /**
  * Uses MongoDB as its back-end store. This repository can handle
@@ -72,6 +74,7 @@ implements Queryable<T>
 	 * @param address a ServerAddress representing a single MongoDB server.
 	 * @param dbName the name of the repository (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
+	 * @deprecated
 	 */
 	public MongodbRepository(ServerAddress address, String dbName, Class<? extends T>... entityClasses)
 	{
@@ -83,6 +86,7 @@ implements Queryable<T>
 	 * @param bootstraps a list of ServerAddress that represent a Replication Set servers.
 	 * @param name the name of the repository (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
+	 * @deprecated
 	 */
 	public MongodbRepository(List<ServerAddress> bootstraps, String name, Class<? extends T>... entityClasses)
 	{
@@ -121,7 +125,7 @@ implements Queryable<T>
 	}
 
 	@Override
-	public T doRead(String id)
+	public T doRead(Identifier id)
 	{
 		T item = datastore.get(inheritanceRoot, adaptId(id));
 
@@ -202,7 +206,7 @@ implements Queryable<T>
 	 * @param ids a Collection of IDs to read.
 	 */
 	@Override
-	public List<T> readList(Collection<String> ids)
+	public List<T> readList(Collection<Identifier> ids)
 	{
 		return getDataStore().find(inheritanceRoot).field("_id").in(new AdaptedIdIterable(ids)).asList();
 	}
@@ -235,7 +239,7 @@ implements Queryable<T>
 	 * @param id the identifier of the object.
 	 */
 	@Override
-	public boolean exists(String id)
+	public boolean exists(Identifier id)
 	{
 		if (id == null) return false;
 

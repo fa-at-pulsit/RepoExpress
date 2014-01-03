@@ -3,9 +3,10 @@ package com.strategicgains.repoexpress.mongodb;
 import java.net.UnknownHostException;
 import java.util.Properties;
 
+import org.restexpress.common.exception.ConfigurationException;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.strategicgains.restexpress.common.exception.ConfigurationException;
 
 public class MongoConfig
 {

@@ -20,6 +20,7 @@ import redis.clients.johm.JOhm;
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
 import com.strategicgains.repoexpress.adapter.StringToLongIdAdapter;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
@@ -63,7 +64,7 @@ extends AbstractObservableAdaptableRepository<T, Long>
 	}
 
 	@Override
-	public T doRead(String id)
+	public T doRead(Identifier id)
 	{
 		return JOhm.get(entityClass, adaptId(id));
 	}
@@ -81,7 +82,7 @@ extends AbstractObservableAdaptableRepository<T, Long>
 	}
 
     @Override
-    public boolean exists(String id)
+    public boolean exists(Identifier id)
     {
     	return (JOhm.get(entityClass, adaptId(id)) != null);
     }

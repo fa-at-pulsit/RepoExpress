@@ -4,7 +4,7 @@
 
 RepoExpress is a set of thin wrappers to provide a simple and easy way to create
 domain storage (CRUD persistence) options using the Repository pattern. There are various
-repositories supporting MongoDB, Redis, Cassandra, and Voldemort (deprecated).
+repositories supporting MongoDB, Redis, and Cassandra.
 
 Designed to be utilized in conjunction with RestExpress, RepoExpress is easy to use:
 1) Create a new InMemoryRepository() or new MongodbRepository() extending them if necessary.
@@ -14,7 +14,13 @@ Designed to be utilized in conjunction with RestExpress, RepoExpress is easy to 
 
 Change History:
 ===================================================================================================
-Release 0.3.4 - SNAPSHOT (in branch 'master')
+Release 0.4.0 - SNAPSHOT (in branch 'master')
+* **Breaking Change** Introduced Identifier class that now supports compound identifiers.
+  This change ripples through the Identifiable interface so that getId() now returns
+  an Identifier instead of a String. Also, setId() now takes an Identifier as an argument.
+* **Voldemort Support Removed** due to lack of usage and desire to maintain it.
+
+Release 0.3.4 - SNAPSHOT (never actually released)
 * Voldemort support is deprecated.
 * Introduced initial Cassandra repository support.
 
@@ -80,7 +86,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.3.3-SNAPSHOT</version>
+			<version>0.4.0-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the jar directly from: 

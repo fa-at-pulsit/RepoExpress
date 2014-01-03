@@ -19,6 +19,7 @@ import org.bson.types.ObjectId;
 
 import com.github.jmkgreen.morphia.annotations.Id;
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
  * An Entity object that is identified by a MongoDB ObjectId. It also
@@ -40,15 +41,15 @@ extends AbstractTimestampedIdentifiable
 	private ObjectId id;
 
 	@Override
-	public String getId()
+	public Identifier getId()
 	{
-		return (id == null ? null : id.toString());
+		return (id == null ? null : new Identifier(id));
 	}
 
 	@Override
-	public void setId(String idString)
+	public void setId(Identifier id)
 	{
-		this.id = (idString ==null ? null : new ObjectId(idString));
+		this.id = (id ==null || id.isEmpty() ? null : new ObjectId(id.components().get(0).toString()));
 	}
 	
 	public ObjectId getObjectId()

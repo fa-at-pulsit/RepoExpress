@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
+import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
@@ -35,10 +36,10 @@ public abstract class InMemoryRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 {
 	private static long nextId = 0;
-	protected Map<String, T> items = new ConcurrentHashMap<String, T>();
+	protected Map<Identifier, T> items = new ConcurrentHashMap<Identifier, T>();
 	
 	@Override
-	public boolean exists(String id)
+	public boolean exists(Identifier id)
 	{
 		return items.containsKey(id);
 	}
@@ -51,7 +52,7 @@ extends AbstractObservableRepository<T>
 			try
 			{
 				read(item.getId());
-				throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId());
+				throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId().toString());
 			}
 			catch(ItemNotFoundException e)
 			{
@@ -60,7 +61,7 @@ extends AbstractObservableRepository<T>
 		}
 		else
 		{
-			item.setId(item.getClass().getSimpleName() + ++nextId);
+			item.setId(new Identifier(item.getClass().getSimpleName(), ++nextId));
 		}
 
 		items.put(item.getId(), item);
@@ -68,13 +69,13 @@ extends AbstractObservableRepository<T>
 	}
 
     @Override
-    public T doRead(String id)
+    public T doRead(Identifier id)
     {
     	T b = items.get(id);
     	
     	if (b == null)
     	{
-    		throw new ItemNotFoundException("ID not found: " + id);
+    		throw new ItemNotFoundException("ID not found: " + id.toString());
     	}
 
     	return b;
@@ -94,7 +95,7 @@ extends AbstractObservableRepository<T>
 
     	if (item == null)
     	{
-    		throw new ItemNotFoundException("ID not found: " + object.getId());
+    		throw new ItemNotFoundException("ID not found: " + object.getId().toString());
     	}
     }
 }

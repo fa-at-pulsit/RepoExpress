@@ -1,5 +1,5 @@
 /*
-    Copyright 2011, Strategic Gains, Inc.
+    Copyright 2013, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -13,19 +13,30 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.repoexpress.adapter;
+package com.strategicgains.repoexpress.domain;
 
-import com.strategicgains.repoexpress.domain.Identifier;
-import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a string ID into an Object, such as an ObjectId (e.g. MongoDB) before reading.
+ * A Cassandra entity that is identified by a UUID as its primary identifier.
+ * It also has createdAt and updatedAt properties.
  * 
  * @author toddf
- * @since Feb 16, 2011
+ * @since Mar 18, 2013
  */
-public interface IdentiferAdapter<I>
+public abstract class AbstractEntity
+extends AbstractTimestampedIdentifiable
 {
-	public I convert(Identifier id)
-	throws InvalidObjectIdException;
+	private Identifier id;
+
+	@Override
+	public Identifier getId()
+	{
+		return id;
+	}
+
+	@Override
+	public void setId(Identifier id)
+	{
+		this.id = new Identifier(id);
+	}
 }
