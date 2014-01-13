@@ -3,14 +3,84 @@
 **Waffle.io** [![Stories in Ready](https://badge.waffle.io/RestExpress/RepoExpress.png?label=ready)](https://waffle.io/RestExpress/RepoExpress)
 
 RepoExpress is a set of thin wrappers to provide a simple and easy way to create
-domain storage (CRUD persistence) options using the Repository pattern. There are various
-repositories supporting MongoDB, Redis, and Cassandra.
+domain storage (CRUD persistence) options using the Repository pattern against NoSQL
+databases. There are various repositories supporting MongoDB, Redis, and Cassandra.
 
-Designed to be utilized in conjunction with RestExpress, RepoExpress is easy to use:
-1) Create a new InMemoryRepository() or new MongodbRepository() extending them if necessary.
-2) Annotate your domain model using the Morphia annotations.
-3) Call the CRUD methods.
-4) Extend the repository if custom queries or other unique functionality is required.
+Designed to be utilized in conjunction with RestExpress, but stands alone and does not
+require RestExpress to be used.
+
+MongoDB Usage
+=============
+Stable:
+```xml
+		<dependency>
+			<groupId>com.strategicgains.repoexpress</groupId>
+			<artifactId>repoexpress-mongodb</artifactId>
+			<version>0.3.2</version>
+		</dependency>
+```
+Development:
+```xml
+		<dependency>
+			<groupId>com.strategicgains.repoexpress</groupId>
+			<artifactId>repoexpress-mongodb</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+		</dependency>
+```
+Or download the 'stable' jar directly from: 
+http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22RepoExpress%22
+
+Cassandra Usage
+===============
+Development:
+```xml
+		<dependency>
+			<groupId>com.strategicgains.repoexpress</groupId>
+			<artifactId>repoexpress-cassandra</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+		</dependency>
+```
+
+Redis Usage
+=============
+Stable:
+```xml
+		<dependency>
+			<groupId>com.strategicgains.repoexpress</groupId>
+			<artifactId>repoexpress-redis</artifactId>
+			<version>0.3.2</version>
+		</dependency>
+```
+Development:
+```xml
+		<dependency>
+			<groupId>com.strategicgains.repoexpress</groupId>
+			<artifactId>repoexpress-redis</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+		</dependency>
+```
+Or download the 'stable' jar directly from: 
+http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22RepoExpress%22
+
+About Maven Snapshots
+=====================
+Note that to use the SNAPSHOT Maven versions mentioned above, you must enable snapshots and a repository in your pom file as follows:
+```xml
+  <profiles>
+    <profile>
+       <id>allow-snapshots</id>
+          <activation><activeByDefault>true</activeByDefault></activation>
+       <repositories>
+         <repository>
+           <id>snapshots-repo</id>
+           <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+           <releases><enabled>false</enabled></releases>
+           <snapshots><enabled>true</enabled></snapshots>
+         </repository>
+       </repositories>
+     </profile>
+  </profiles>
+```
 
 Change History:
 ===================================================================================================
@@ -19,6 +89,7 @@ Release 0.4.0 - SNAPSHOT (in branch 'master')
   This change ripples through the Identifiable interface so that getId() now returns
   an Identifier instead of a String. Also, setId() now takes an Identifier as an argument.
 * **Voldemort Support Removed** due to lack of usage and desire to maintain it.
+* Upgraded to latest official MongoDB Morphia release (0.105).
 
 Release 0.3.4 - SNAPSHOT (never actually released)
 * Voldemort support is deprecated.
@@ -70,42 +141,3 @@ Release 0.2
 
 Release 0.1
 * Initial import. Combined concepts from RestExpress and JigForJava full-stack framework.
-
-Maven Usage
-===========
-Stable:
-```xml
-		<dependency>
-			<groupId>com.strategicgains.repoexpress</groupId>
-			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.3.2</version>
-		</dependency>
-```
-Development:
-```xml
-		<dependency>
-			<groupId>com.strategicgains.repoexpress</groupId>
-			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
-		</dependency>
-```
-Or download the jar directly from: 
-http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22RestExpress%22
-
-Note that to use the SNAPSHOT version, you must enable snapshots and a repository in your pom file as follows:
-```xml
-  <profiles>
-    <profile>
-       <id>allow-snapshots</id>
-          <activation><activeByDefault>true</activeByDefault></activation>
-       <repositories>
-         <repository>
-           <id>snapshots-repo</id>
-           <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-           <releases><enabled>false</enabled></releases>
-           <snapshots><enabled>true</enabled></snapshots>
-         </repository>
-       </repositories>
-     </profile>
-  </profiles>
-```

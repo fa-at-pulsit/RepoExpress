@@ -33,9 +33,9 @@
 			<version>2.11.3</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.jmkgreen.morphia</groupId>
+			<groupId>org.mongodb.morphia</groupId>
 			<artifactId>morphia</artifactId>
-			<version>1.2.3</version>
+			<version>0.105</version>
 		</dependency>
 	</dependencies>
 

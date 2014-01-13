@@ -18,6 +18,9 @@ package com.strategicgains.repoexpress.mongodb;
 import java.util.Collection;
 import java.util.List;
 
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
 import org.restexpress.common.query.FilterCallback;
 import org.restexpress.common.query.FilterComponent;
 import org.restexpress.common.query.OrderCallback;
@@ -26,9 +29,6 @@ import org.restexpress.common.query.QueryFilter;
 import org.restexpress.common.query.QueryOrder;
 import org.restexpress.common.query.QueryRange;
 
-import com.github.jmkgreen.morphia.Datastore;
-import com.github.jmkgreen.morphia.Morphia;
-import com.github.jmkgreen.morphia.query.Query;
 import com.mongodb.Mongo;
 import com.mongodb.ServerAddress;
 import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;

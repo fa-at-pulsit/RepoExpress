@@ -16,8 +16,8 @@
 package com.strategicgains.repoexpress.mongodb;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Id;
 
-import com.github.jmkgreen.morphia.annotations.Id;
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
 
