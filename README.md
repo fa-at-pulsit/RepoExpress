@@ -84,7 +84,7 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
-Release 0.4.0 - SNAPSHOT (in branch 'master')
+Release 0.4.0 - SNAPSHOT (in branch 'compound-identifier-refactor')
 * **Breaking Change** Introduced Identifier class that now supports compound identifiers.
   This change ripples through the Identifiable interface so that getId() now returns
   an Identifier instead of a String. Also, setId() now takes an Identifier as an argument.
