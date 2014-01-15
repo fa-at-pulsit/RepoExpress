@@ -15,6 +15,7 @@
  */
 package com.strategicgains.repoexpress.cassandra;
 
+import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Session;
 import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
@@ -110,6 +111,11 @@ extends AbstractObservableRepository<T>
 		{
 			throw new ItemNotFoundException("ID not found: " + entity.getId().toString());
 		}
+	}
+
+	protected void bindIdentifier(BoundStatement bs, Identifier identifier)
+	{
+		bs.bind(identifier.components().toArray());
 	}
 
 	protected abstract T readEntityById(Identifier identifier);
