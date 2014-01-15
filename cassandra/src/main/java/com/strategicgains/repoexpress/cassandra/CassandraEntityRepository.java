@@ -38,12 +38,14 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 public abstract class CassandraEntityRepository<T extends AbstractUuidEntity>
 extends AbstractCassandraRepository<T>
 {
-	private static final String EXISTENCE_CQL = "SELECT count(*) FROM %s WHERE %s = ?";
-	private static final String READ_CQL = "SELECT * FROM %s WHERE %s = ?";
+	private static final String EXISTENCE_CQL = "select count(*) from %s where %s = ?";
+	private static final String READ_CQL = "select * from %s where %s = ?";
+	private static final String DELETE_CQL = "delete from %s where %s = ?";
 
 	private String rowKey;
 	private PreparedStatement existStmt;
 	private PreparedStatement readStmt;
+	private PreparedStatement deleteStmt;
 
 	/**
 	 * @param session a pre-configured Session instance.
@@ -67,6 +69,7 @@ extends AbstractCassandraRepository<T>
     {
 		existStmt = getSession().prepare(String.format(EXISTENCE_CQL, getTable(), rowKey));
 		readStmt = getSession().prepare(String.format(READ_CQL, getTable(), rowKey));
+		deleteStmt = getSession().prepare(String.format(DELETE_CQL, getTable(), rowKey));
     }
 
 	@Override
@@ -79,6 +82,7 @@ extends AbstractCassandraRepository<T>
 		return (getSession().execute(bs).one().getInt(0) > 0);
 	}
 
+	@Override
 	protected T readEntityById(Identifier identifier)
 	{
 		if (identifier == null || identifier.isEmpty()) return null;
@@ -86,6 +90,16 @@ extends AbstractCassandraRepository<T>
 		BoundStatement bs = new BoundStatement(readStmt);
 		bs.bind(identifier.primaryKey());
 		return marshalRow(getSession().execute(bs).one());
+	}
+
+	@Override
+	protected void deleteEntity(T entity)
+	{
+		if (entity == null) return;
+		
+		BoundStatement bs = new BoundStatement(deleteStmt);
+		bindIdentifier(bs, entity.getId());
+		getSession().execute(bs);
 	}
 
 	protected abstract T marshalRow(Row row);
