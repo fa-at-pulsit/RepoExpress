@@ -180,6 +180,8 @@ implements Comparable<Identifier>
 			{
 				result = (cThis.toString().compareTo(cThat.toString()));
 			}
+			
+			++i;
 		}
 
 	    return result;
@@ -193,7 +195,9 @@ implements Comparable<Identifier>
 	@Override
 	public String toString()
 	{
-		return "(" + StringUtils.join(", ", components) + ")";
+		if (components.isEmpty()) return "";
+
+		return (components.size() == 1 ? primaryKey().toString() : "(" + StringUtils.join(", ", components) + ")");
 	}
 
 	/**
