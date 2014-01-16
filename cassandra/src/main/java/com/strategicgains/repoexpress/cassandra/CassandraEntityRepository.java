@@ -42,7 +42,7 @@ extends AbstractCassandraRepository<T>
 	private static final String READ_CQL = "select * from %s where %s = ?";
 	private static final String DELETE_CQL = "delete from %s where %s = ?";
 
-	private String rowKey;
+	private String identifierColumn;
 	private PreparedStatement existStmt;
 	private PreparedStatement readStmt;
 	private PreparedStatement deleteStmt;
@@ -50,11 +50,12 @@ extends AbstractCassandraRepository<T>
 	/**
 	 * @param session a pre-configured Session instance.
 	 * @param databaseName the name of a database this repository works against.
+	 * @param identifierColumn the column name that holds the row key or unique identifier.
 	 */
-    public CassandraEntityRepository(Session session, String tableName, String rowKeyName)
+    public CassandraEntityRepository(Session session, String tableName, String identifierColumn)
 	{
 		super(session, tableName);
-		this.rowKey = rowKeyName;
+		this.identifierColumn = identifierColumn;
 	    initializeObservers();
 		initialize();
 	}
@@ -67,10 +68,15 @@ extends AbstractCassandraRepository<T>
 
     protected void initialize()
     {
-		existStmt = getSession().prepare(String.format(EXISTENCE_CQL, getTable(), rowKey));
-		readStmt = getSession().prepare(String.format(READ_CQL, getTable(), rowKey));
-		deleteStmt = getSession().prepare(String.format(DELETE_CQL, getTable(), rowKey));
+		existStmt = getSession().prepare(String.format(EXISTENCE_CQL, getTable(), identifierColumn));
+		readStmt = getSession().prepare(String.format(READ_CQL, getTable(), identifierColumn));
+		deleteStmt = getSession().prepare(String.format(DELETE_CQL, getTable(), identifierColumn));
     }
+
+	public String getIdentifierColumn()
+	{
+		return identifierColumn;
+	}
 
 	@Override
 	public boolean exists(Identifier identifier)
@@ -79,7 +85,7 @@ extends AbstractCassandraRepository<T>
 
 		BoundStatement bs = new BoundStatement(existStmt);
 		bs.bind(identifier.primaryKey());
-		return (getSession().execute(bs).one().getInt(0) > 0);
+		return (getSession().execute(bs).one().getLong(0) > 0);
 	}
 
 	@Override
