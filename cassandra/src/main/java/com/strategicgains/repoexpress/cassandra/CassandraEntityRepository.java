@@ -19,8 +19,8 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.strategicgains.repoexpress.domain.AbstractUuidEntity;
 import com.strategicgains.repoexpress.domain.Identifier;
+import com.strategicgains.repoexpress.domain.UuidIdentifiable;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 
@@ -31,11 +31,13 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * to set the createAt and updatedAt dates on the object as appropriate.
  * <p/>
  * Storing a UUID as the ID (as this repository does) requires four (4) bytes for the ID.
+ * <p/>
+ * If the entity to be persisted implements TimestampedIdentifiable
  * 
  * @author toddf
  * @since Apr 12, 2013
  */
-public abstract class CassandraEntityRepository<T extends AbstractUuidEntity>
+public abstract class CassandraEntityRepository<T extends UuidIdentifiable>
 extends AbstractCassandraRepository<T>
 {
 	private static final String EXISTENCE_CQL = "select count(*) from %s where %s = ?";
@@ -62,7 +64,7 @@ extends AbstractCassandraRepository<T>
 
     protected void initializeObservers()
     {
-		addObserver(new DefaultTimestampedIdentifiableRepositoryObserver<T>());
+//		addObserver(new DefaultTimestampedIdentifiableRepositoryObserver<T>());
 		addObserver(new UuidIdentityRepositoryObserver<T>());
     }
 
