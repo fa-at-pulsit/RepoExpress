@@ -28,6 +28,7 @@ import com.strategicgains.repoexpress.domain.Identifier;
  * 
  * @author toddf
  * @since May 27, 2011
+ * @deprecated use AbsractObservableRepository as ID adapting is no longer needed.
  */
 public abstract class AbstractObservableAdaptableRepository<T extends Identifiable, I>
 extends AbstractObservableRepository<T>
