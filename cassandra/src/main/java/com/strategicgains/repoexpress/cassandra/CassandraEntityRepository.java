@@ -64,7 +64,6 @@ extends AbstractCassandraRepository<T>
 
     protected void initializeObservers()
     {
-//		addObserver(new DefaultTimestampedIdentifiableRepositoryObserver<T>());
 		addObserver(new UuidIdentityRepositoryObserver<T>());
     }
 
