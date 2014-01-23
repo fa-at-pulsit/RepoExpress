@@ -26,6 +26,7 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
  * 
  * @author toddf
  * @since Oct 25, 2012
+ * @deprecated
  */
 public class StringToByteArrayIdAdapter
 implements IdentiferAdapter<byte[]>

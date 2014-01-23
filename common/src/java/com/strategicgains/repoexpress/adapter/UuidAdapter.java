@@ -27,6 +27,7 @@ import com.strategicgains.repoexpress.util.UuidConverter;
  * 
  * @author toddf
  * @since Mar 11, 2013
+ * @deprecated
  */
 public class UuidAdapter
 implements IdentiferAdapter<UUID>

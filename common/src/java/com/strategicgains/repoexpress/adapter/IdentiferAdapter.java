@@ -23,6 +23,7 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
  * 
  * @author toddf
  * @since Feb 16, 2011
+ * @deprecated
  */
 public interface IdentiferAdapter<I>
 {
