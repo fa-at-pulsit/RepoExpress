@@ -17,6 +17,7 @@ package com.strategicgains.repoexpress;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import com.strategicgains.repoexpress.domain.Identifiable;
@@ -184,5 +185,69 @@ implements ObservableRepository<T>
 		{
 			observer.beforeUpdate(object);
 		}
+	}
+
+	
+	// SECTION: INNER CLASSES
+
+	/**
+	 * An Iterable implementation returning an Iterator that iterates over
+	 * a collection of Identifier instances and returns an iterator of only
+	 * the primaryKey portion.
+	 *  
+	 * @author toddf
+	 * @since Oct 25, 2012
+	 */
+	protected class PrimaryIdIterable
+	implements Iterable<Object>
+	{
+		private Iterable<Identifier> iterable;
+
+		public PrimaryIdIterable(Iterable<Identifier> iterable)
+		{
+			this.iterable = iterable;
+		}
+
+        @Override
+        public Iterator<Object> iterator()
+        {
+	        return new PrimaryIdIterator(iterable.iterator());
+        }
+	}
+	
+	/**
+	 * Takes an Iterator of Identifier instances and iterates the primaryKey
+	 * portion.
+	 * 
+	 * @author toddf
+	 * @since Oct 25, 2012
+	 */
+	protected class PrimaryIdIterator
+	implements Iterator<Object>
+	{
+		private Iterator<Identifier> iterator;
+
+		public PrimaryIdIterator(Iterator<Identifier> iterator)
+		{
+			this.iterator = iterator;
+		}
+
+        @Override
+        public boolean hasNext()
+        {
+	        return iterator.hasNext();
+        }
+
+        @Override
+        public Object next()
+        {
+	        return iterator.next().primaryKey();
+        }
+
+        @Override
+        public void remove()
+        {
+        	iterator.remove();
+        }
 	}
 }
