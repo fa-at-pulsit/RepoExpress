@@ -15,15 +15,13 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import java.util.UUID;
-
 import com.mongodb.Mongo;
-import com.strategicgains.repoexpress.adapter.UuidAdapter;
+import com.strategicgains.repoexpress.domain.TimestampedUuidIdentifiable;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 
 /**
- * A MongoDB repository that manages types of AbstractUuidEntity. It utilizes the
+ * A MongoDB repository that manages types of TimestampedUuidIdentifiable. It utilizes the
  * {@link UuidIdentityRepositoryObserver} to assign a UUID on creation.  It also uses
  * {@link DefaultTimestampedIdentifiableRepositoryObserver} to set the createAt and 
  * updatedAt dates on the object as appropriate.
@@ -39,14 +37,13 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * @author toddf
  * @since Mar 18, 2013
  */
-public class MongodbUuidEntityRepository<T extends AbstractUuidMongodbEntity>
-extends MongodbRepository<T, UUID>
+public class MongodbUuidEntityRepository<T extends TimestampedUuidIdentifiable>
+extends MongodbRepository<T>
 {
     public MongodbUuidEntityRepository(Mongo mongo, String databaseName, Class<? extends T>... types)
     {
 	    super(mongo, databaseName, types);
 	    initializeObservers();
-	    setIdentifierAdapter(new UuidAdapter());
     }
 
     protected void initializeObservers()
