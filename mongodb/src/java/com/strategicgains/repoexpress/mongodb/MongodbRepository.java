@@ -30,8 +30,7 @@ import org.restexpress.common.query.QueryOrder;
 import org.restexpress.common.query.QueryRange;
 
 import com.mongodb.Mongo;
-import com.mongodb.ServerAddress;
-import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
+import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.Queryable;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
@@ -40,15 +39,15 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
- * Uses MongoDB as its back-end store. This repository can handle
- * "single-table inheritance" by passing all the supported types into the
- * constructor, with the inheritance root listed first.
+ * Uses MongoDB as its back-end store to persist Identifiable implementations.
+ * This repository can handle "single-table inheritance" by passing all the
+ * supported types into the constructor, with the inheritance root listed first.
  * 
  * @author toddf
  * @since Aug 24, 2010
  */
-public class MongodbRepository<T extends Identifiable, I>
-extends AbstractObservableAdaptableRepository<T, I>
+public class MongodbRepository<T extends Identifiable>
+extends AbstractObservableRepository<T>
 implements Queryable<T>
 {
 	private Mongo mongo;
@@ -67,32 +66,6 @@ implements Queryable<T>
 		super();
 		this.mongo = mongo;
 		initialize(dbName, entityClasses);
-	}
-
-	/**
-	 * 
-	 * @param address a ServerAddress representing a single MongoDB server.
-	 * @param dbName the name of the repository (in MongoDB).
-	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
-	 * @deprecated
-	 */
-	public MongodbRepository(ServerAddress address, String dbName, Class<? extends T>... entityClasses)
-	{
-		this(new Mongo(address), dbName, entityClasses);
-	}
-
-	/**
-	 * 
-	 * @param bootstraps a list of ServerAddress that represent a Replication Set servers.
-	 * @param name the name of the repository (in MongoDB).
-	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
-	 * @deprecated
-	 */
-	public MongodbRepository(List<ServerAddress> bootstraps, String name, Class<? extends T>... entityClasses)
-	{
-		super();
-		mongo = new Mongo(bootstraps);
-		initialize(name, entityClasses);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -127,7 +100,7 @@ implements Queryable<T>
 	@Override
 	public T doRead(Identifier id)
 	{
-		T item = datastore.get(inheritanceRoot, adaptId(id));
+		T item = datastore.get(inheritanceRoot, id.primaryKey());
 
 		if (item == null)
 		{
@@ -208,7 +181,7 @@ implements Queryable<T>
 	@Override
 	public List<T> readList(Collection<Identifier> ids)
 	{
-		return getDataStore().find(inheritanceRoot).field("_id").in(new AdaptedIdIterable(ids)).asList();
+		return getDataStore().find(inheritanceRoot).field("_id").in(new PrimaryIdIterable(ids)).asList();
 	}
 
 	/**
@@ -243,8 +216,8 @@ implements Queryable<T>
 	{
 		if (id == null) return false;
 
-		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", adaptId(id))) > 0);
-		
+		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", id.primaryKey())) > 0);
+
 		// is the above line more efficient, or the following one?
 //		return (datastore.find(inheritanceRoot, "_id", adaptId(id)).countAll() > 0);
 	}

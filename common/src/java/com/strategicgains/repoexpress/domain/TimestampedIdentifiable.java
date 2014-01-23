@@ -15,7 +15,10 @@
 */
 package com.strategicgains.repoexpress.domain;
 
-
+/**
+ * @author toddf
+ * @since Jan 22, 2010
+ */
 public interface TimestampedIdentifiable
 extends Identifiable, Timestamped
 {
