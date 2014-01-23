@@ -15,13 +15,12 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import org.bson.types.ObjectId;
-
 import com.mongodb.Mongo;
+import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 
 /**
- * A MongoDB repository that manages sub-types of AbstractMongodbEntity. It uses
+ * A MongoDB repository that manages sub-types of TimestampedIdentifiable. It uses
  * {@link DefaultTimestampedIdentifiableRepositoryObserver} to set the createdAt
  * and updatedAt dates at the appropriate times.
  * <p/>
@@ -31,14 +30,13 @@ import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableReposi
  * @author toddf
  * @since Sept 23, 2012
  */
-public class MongodbEntityRepository<T extends AbstractMongodbEntity>
-extends MongodbRepository<T, ObjectId>
+public class MongodbEntityRepository<T extends TimestampedIdentifiable>
+extends MongodbRepository<T>
 {
     public MongodbEntityRepository(Mongo mongo, String databaseName, Class<? extends T>... types)
     {
 	    super(mongo, databaseName, types);
 	    initializeObservers();
-	    setIdentifierAdapter(new ObjectIdAdapter());
     }
 
     protected void initializeObservers()
