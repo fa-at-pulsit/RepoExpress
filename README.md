@@ -89,9 +89,11 @@ Release 0.4.0 - SNAPSHOT (in branch 'compound-identifier-refactor')
   This change ripples through the Identifiable interface so that getId() now returns
   an Identifier instead of a String. Also, setId() now takes an Identifier as an argument.
 * **Voldemort Support Removed** due to lack of usage and desire to maintain it.
-* **Deprecated** AbsractObservableRepository and all identifier adapters since, due to Identifier,
+* **Breaking Change** Removed AbsractObservableRepository and all identifier adapters since, due to Identifier,
   adapting IDs is no longer needed (or desired) at the persistence layer. Also changed inheritence
   hierarchy for MongodbRepository and MongodbEntityRepository which now extend AbstractObservableRepository.
+* **Breaking Change** refactored IdentifierAdapter methods and type hierarchy. Introduced
+  Identifiers class with static singleton adapters.
 * Upgraded to latest official MongoDB Morphia release (0.105).
 * Introduced TimestampedUuidIdentifiable and Introduced CassandraTimestampedEntityRepository.
 
