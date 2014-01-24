@@ -19,31 +19,35 @@ import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a String ID to an Integer.
+ * Converts between a String ID and an Integer Identifier.
  * 
  * @author toddf
  * @since Feb 16, 2011
- * @deprecated
  */
 public class StringToIntegerIdAdapter
-implements IdentiferAdapter<Integer>
+implements IdentifierAdapter
 {
 	/**
 	 * throws InvalidObjectIdException if the ID is not a valid integer.
 	 */
 	@Override
-	public Integer convert(Identifier id)
+	public Identifier parse(String id)
 	{
 		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
-		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
 
 		try
 		{
-			return Integer.valueOf(id.components().get(0).toString());
+			return new Identifier(Integer.valueOf(id));
 		}
 		catch (NumberFormatException e)
 		{
-			throw new InvalidObjectIdException(id.toString(), e);
+			throw new InvalidObjectIdException(id, e);
 		}
 	}
+
+	@Override
+    public String format(Identifier id)
+    {
+		return (id == null ? null : id.primaryKey().toString());
+    }
 }

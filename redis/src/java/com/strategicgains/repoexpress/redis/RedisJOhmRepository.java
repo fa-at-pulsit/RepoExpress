@@ -17,8 +17,7 @@ package com.strategicgains.repoexpress.redis;
 
 import redis.clients.johm.JOhm;
 
-import com.strategicgains.repoexpress.AbstractObservableAdaptableRepository;
-import com.strategicgains.repoexpress.adapter.StringToLongIdAdapter;
+import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
@@ -33,7 +32,7 @@ import com.strategicgains.repoexpress.exception.ItemNotFoundException;
  * @see AbstractRedisJOhmEntity
  */
 public class RedisJOhmRepository<T extends Identifiable>
-extends AbstractObservableAdaptableRepository<T, Long>
+extends AbstractObservableRepository<T>
 {
 	private Class<T> entityClass;
 
@@ -41,7 +40,6 @@ extends AbstractObservableAdaptableRepository<T, Long>
 	{
 		super();
 		this.entityClass = entityClass;
-		setIdentifierAdapter(new StringToLongIdAdapter());
 	}
 
 	@Override
@@ -60,13 +58,13 @@ extends AbstractObservableAdaptableRepository<T, Long>
 	@Override
 	public void doDelete(T object)
 	{
-		JOhm.delete(entityClass, adaptId(object.getId()));
+		JOhm.delete(entityClass, (Long) object.getId().primaryKey());
 	}
 
 	@Override
 	public T doRead(Identifier id)
 	{
-		return JOhm.get(entityClass, adaptId(id));
+		return JOhm.get(entityClass, (Long) id.primaryKey());
 	}
 
 	@Override
@@ -84,6 +82,6 @@ extends AbstractObservableAdaptableRepository<T, Long>
     @Override
     public boolean exists(Identifier id)
     {
-    	return (JOhm.get(entityClass, adaptId(id)) != null);
+    	return (JOhm.get(entityClass, (Long) id.primaryKey()) != null);
     }
 }

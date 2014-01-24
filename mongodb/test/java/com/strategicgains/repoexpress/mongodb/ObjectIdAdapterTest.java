@@ -15,7 +15,7 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -32,20 +32,22 @@ public class ObjectIdAdapterTest
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldThrowExceptionOnInvalidId()
 	{
-		new ObjectIdAdapter().convert(new Identifier("invalid"));
+		Identifiers.MONGOID.parse("invalid");
 	}
 
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldThrowExceptionOnNullId()
 	{
-		new ObjectIdAdapter().convert(null);
+		Identifiers.MONGOID.parse(null);
 	}
 
 	@Test
-	public void shouldConvertToId()
+	public void shouldParseAndFormatObjectId()
 	{
-		String stringValue = new ObjectId().toString();
-		ObjectId objectId = new ObjectIdAdapter().convert(new Identifier(stringValue));
-		assertNotNull(objectId);
+		Identifier original = new Identifier(new ObjectId());
+		String stringValue = original.toString();
+		Identifier identifier = Identifiers.MONGOID.parse(stringValue);
+		assertEquals(original, identifier);
+		assertEquals(stringValue, Identifiers.MONGOID.format(identifier));
 	}
 }

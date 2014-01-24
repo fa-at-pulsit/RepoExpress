@@ -17,37 +17,43 @@ package com.strategicgains.repoexpress.mongodb;
 
 import org.bson.types.ObjectId;
 
-import com.strategicgains.repoexpress.adapter.IdentiferAdapter;
+import com.strategicgains.repoexpress.adapter.IdentifierAdapter;
 import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a String ID to a MongoDB ObjectId.
+ * Converts between a String ID to an Identifier containing a MongoDB ObjectId.
  * 
  * @author toddf
  * @since Feb 16, 2011
- * @deprecated
  */
 public class ObjectIdAdapter
-implements IdentiferAdapter<ObjectId>
+implements IdentifierAdapter
 {
 	/**
 	 * throws InvalidObjectIdException if the ID is not a valid MongoDB ObjectId.
 	 */
 	@Override
-	public ObjectId convert(Identifier id)
+	public Identifier parse(String id)
 	throws InvalidObjectIdException
 	{
 		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
-		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
 
-		String idString = id.components().get(0).toString();
-
-		if (ObjectId.isValid(idString))
+		if (ObjectId.isValid(id))
 		{
-			return new ObjectId(idString);
+			return new Identifier(new ObjectId(id));
 		}
 
-		throw new InvalidObjectIdException(id.toString());
+		throw new InvalidObjectIdException(id);
 	}
+
+	/**
+	 * Returns a string representation of the first element of the Identifier.
+	 * Or null if the Identifier is null.
+	 */
+	@Override
+    public String format(Identifier id)
+    {
+		return (id == null ? null : id.primaryKey().toString());
+    }
 }
