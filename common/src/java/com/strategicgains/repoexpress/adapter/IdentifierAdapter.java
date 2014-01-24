@@ -19,14 +19,17 @@ import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a string ID into an Object, such as an ObjectId (e.g. MongoDB) before reading.
+ * An interface describing the conversion between an Identifier and a string, for example,
+ * a string representation of a UUID into an Identifer and back, or a string MongoDB ObjectId
+ * to/from an Identifier.
  * 
  * @author toddf
  * @since Feb 16, 2011
- * @deprecated
  */
-public interface IdentiferAdapter<I>
+public interface IdentifierAdapter
 {
-	public I convert(Identifier id)
+	public String format(Identifier id);
+
+	public Identifier parse(String id)
 	throws InvalidObjectIdException;
 }

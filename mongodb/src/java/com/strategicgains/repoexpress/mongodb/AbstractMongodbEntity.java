@@ -28,7 +28,7 @@ import com.strategicgains.repoexpress.domain.Identifier;
  * Note that, while this ObjectId only occupies three (3) bytes of storage
  * and a UUID occupies four (4), it is arguably more readable and universally
  * usable to have a base64-encoded, 22-character UUID in a URL, than a
- * proprietary MongoDB ID.
+ * proprietary MongoDB ID exposed on a URL.
  * 
  * @author toddf
  * @since Oct 27, 2011
@@ -49,7 +49,7 @@ extends AbstractTimestampedIdentifiable
 	@Override
 	public void setId(Identifier id)
 	{
-		this.id = (id ==null || id.isEmpty() ? null : new ObjectId(id.components().get(0).toString()));
+		this.id = (id ==null || id.isEmpty() ? null : (ObjectId) id.primaryKey());
 	}
 	
 	public ObjectId getObjectId()

@@ -16,11 +16,9 @@
 package com.strategicgains.repoexpress.adapter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import com.strategicgains.repoexpress.adapter.StringToLongIdAdapter;
 import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
@@ -33,21 +31,22 @@ public class StringToLongIdAdapterTest
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldThrowExceptionOnInvalidId()
 	{
-		new StringToLongIdAdapter().convert(new Identifier("invalid"));
+		Identifiers.LONG.parse("invalid");
 	}
 
 	@Test(expected=InvalidObjectIdException.class)
 	public void shouldHandleNull()
 	{
-		new StringToLongIdAdapter().convert(null);
+		Identifiers.LONG.parse(null);
 	}
 
 	@Test
-	public void shouldConvertToId()
+	public void shouldParseAndFormatIdentifier()
 	{
-		String stringValue = String.valueOf(65536l);
-		Long objectId = new StringToLongIdAdapter().convert(new Identifier(stringValue));
-		assertNotNull(objectId);
-		assertEquals(Long.valueOf(65536l), objectId);
+		String stringValue = "65536";
+		Identifier objectId = Identifiers.LONG.parse(stringValue);
+		Identifier expected = new Identifier(Long.valueOf(stringValue));
+		assertEquals(expected, objectId);
+		assertEquals(stringValue, Identifiers.LONG.format(objectId));
 	}
 }

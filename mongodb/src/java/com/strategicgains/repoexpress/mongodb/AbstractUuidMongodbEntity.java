@@ -22,7 +22,6 @@ import org.mongodb.morphia.annotations.Id;
 import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.domain.UuidIdentifiable;
-import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
  * An MongoDB entity object that is identified by a UUID as its primary identifier.
@@ -47,7 +46,7 @@ implements UuidIdentifiable
 	@Override
 	public void setId(Identifier id)
 	{
-		this.id = (id == null || id.isEmpty() ? null : UuidConverter.parse(id.components().get(0).toString()));
+		this.id = (id == null || id.isEmpty() ? null : (UUID) id.primaryKey());
 	}
 
 	@Override

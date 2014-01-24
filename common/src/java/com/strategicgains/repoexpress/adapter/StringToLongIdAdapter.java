@@ -19,31 +19,35 @@ import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Converts a String ID to a Long.
+ * Converts between a String ID and an Identifier containing a Long.
  * 
  * @author toddf
  * @since Feb 16, 2011
- * @deprecated
  */
 public class StringToLongIdAdapter
-implements IdentiferAdapter<Long>
+implements IdentifierAdapter
 {
 	/**
 	 * throws InvalidObjectIdException if the ID is not a valid long integer.
 	 */
 	@Override
-	public Long convert(Identifier id)
+	public Identifier parse(String id)
 	{
 		if (id == null || id.isEmpty()) throw new InvalidObjectIdException("null ID");
-		if (id.size() > 1) throw new InvalidObjectIdException("ID has too many components: " + id.toString());
 
 		try
 		{
-			return Long.valueOf(id.components().get(0).toString());
+			return new Identifier(Long.valueOf(id));
 		}
 		catch (NumberFormatException e)
 		{
-			throw new InvalidObjectIdException(id.toString(), e);
+			throw new InvalidObjectIdException(id, e);
 		}
 	}
+
+	@Override
+    public String format(Identifier id)
+    {
+	    return (id == null ? null : id.primaryKey().toString());
+    }
 }

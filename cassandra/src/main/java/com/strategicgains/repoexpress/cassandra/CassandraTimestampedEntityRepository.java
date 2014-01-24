@@ -16,17 +16,17 @@
 package com.strategicgains.repoexpress.cassandra;
 
 import com.datastax.driver.core.Session;
-import com.strategicgains.repoexpress.domain.TimestampedUuidIdentifiable;
+import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.UuidIdentifiable;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 
 /**
  * @author toddf
  * @since Jan 22, 2014
  */
-public abstract class CassandraTimestampedEntityRepository<T extends TimestampedUuidIdentifiable>
+public abstract class CassandraTimestampedEntityRepository<T extends TimestampedIdentifiable & UuidIdentifiable>
 extends CassandraEntityRepository<T>
 {
-
 	public CassandraTimestampedEntityRepository(Session session, String tableName, String identifierColumn)
     {
 	    super(session, tableName, identifierColumn);
