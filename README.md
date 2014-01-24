@@ -16,7 +16,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.3.2</version>
+			<version>0.4.0</version>
 		</dependency>
 ```
 Development:
@@ -24,7 +24,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
+			<version>0.4.1-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -32,12 +32,20 @@ http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22RepoExpress%22
 
 Cassandra Usage
 ===============
+Stable:
+```xml
+		<dependency>
+			<groupId>com.strategicgains.repoexpress</groupId>
+			<artifactId>repoexpress-cassandra</artifactId>
+			<version>0.4.0</version>
+		</dependency>
+```
 Development:
 ```xml
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
+			<version>0.4.1-SNAPSHOT</version>
 		</dependency>
 ```
 
@@ -48,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.3.2</version>
+			<version>0.4.0</version>
 		</dependency>
 ```
 Development:
@@ -56,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.0-SNAPSHOT</version>
+			<version>0.4.1-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
