@@ -25,13 +25,14 @@ import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
- * Uses Cassandra as its back-end store, supporting compound-identifier based tables.
- * <p/>
- * Since Cassandra is a little different than say, MongoDB, this repository doesn't do much.
- * Object mapping, CQL queries, etc. are left as an exercise for the implementor.
+ * The most-basic Cassandra-based repository, supporting arbitrary single- or compound-identifier based
+ * entities. This is the base class for the other Cassandra-based repositories in this package.
  * <p/>
  * Sub-classes must implement the, createEntity(), updateEntity(), readEntityById(), exists()
  * and deleteEntity() abstract methods. Along with any other custom-query-type methods.
+ * <p/>
+ * The bindIdentifier(BoundStatement, Identifier) method will bind the components in the
+ * Identifier instance to a prepared statement, if desired.
  * 
  * @author toddf
  * @since Apr 12, 2013
@@ -118,8 +119,44 @@ extends AbstractObservableRepository<T>
 		bs.bind(identifier.components().toArray());
 	}
 
+	/**
+	 * Read a Cassandra table, using the Identifier instance and marshal the return row to
+	 * a domain object.
+	 * 
+	 * @param identifier
+	 * @return
+	 */
 	protected abstract T readEntityById(Identifier identifier);
+
+	/**
+	 * Using the data from the entity, persist it to Cassandra, returning the newly-created
+	 * model (so it contains newly-assigned identifiers and/or other data).
+	 * <p/>
+	 * Uniqueness checking has already occurred at this point.
+	 * 
+	 * @param entity a domain model to persist.
+	 * @return the newly-created domain model entity.
+	 */
 	protected abstract T createEntity(T entity);
+
+	/**
+	 * Using the data from the entity, persist it to Cassandra, returning the newly-updated
+	 * model (so it contains newly-assigned data, if applicable).
+	 * <p/>
+	 * A check for existence has already occurred at this point.
+	 * 
+	 * @param entity a domain model to persist.
+	 * @return the newly-updated domain model entity.
+	 */
 	protected abstract T updateEntity(T entity);
+
+	/**
+	 * Using the Identifier from the entity, delete the corresponding row(s) from Cassandra.
+	 * <p/>
+	 * Existence checking has already occurred at this point.
+	 * 
+	 * @param entity a domain model to persist.
+	 * @return the newly-updated domain model entity.
+	 */
 	protected abstract void deleteEntity(T entity);
 }

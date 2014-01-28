@@ -19,25 +19,21 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
-import com.strategicgains.repoexpress.domain.UuidIdentifiable;
-import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
-import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 
 /**
- * A Cassandra repository that manages types of AbstractCassandraEntity, which are
- * identified by a single UUID primary key. It utilizes the {@link UuidIdentityRepositoryObserver}
- * to assign a UUID on creation.  It also uses {@link DefaultTimestampedIdentifiableRepositoryObserver}
- * to set the createAt and updatedAt dates on the object as appropriate.
+ * A Cassandra repository that manages types of Identifiable instances, which are
+ * identified by a single primary key.
  * <p/>
- * Storing a UUID as the ID (as this repository does) requires four (4) bytes for the ID.
- * <p/>
- * If the entity to be persisted implements TimestampedIdentifiable
+ * Extend this repository to persist Identifiable instances that have a single, unique
+ * identifier, that is not a UUID and you don't need the createdAt and updatedAt
+ * time stamps (of TimestampedIdentifiable) automatically applied.
  * 
  * @author toddf
  * @since Apr 12, 2013
  */
-public abstract class CassandraEntityRepository<T extends UuidIdentifiable>
+public abstract class CassandraEntityRepository<T extends Identifiable>
 extends AbstractCassandraRepository<T>
 {
 	private static final String EXISTENCE_CQL = "select count(*) from %s where %s = ?";
@@ -58,14 +54,8 @@ extends AbstractCassandraRepository<T>
 	{
 		super(session, tableName);
 		this.identifierColumn = identifierColumn;
-	    initializeObservers();
 		initialize();
 	}
-
-    protected void initializeObservers()
-    {
-		addObserver(new UuidIdentityRepositoryObserver<T>());
-    }
 
     protected void initialize()
     {

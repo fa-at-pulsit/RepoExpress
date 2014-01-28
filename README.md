@@ -92,7 +92,11 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
-Release 0.4.0 - SNAPSHOT (in branch 'compound-identifier-refactor')
+Release 0.4.1-SNAPSHOT (in branch 'master')
+* Upgraded Datastax Cassandra driver to 2.0.0-rc2
+* Introduced CassandraUuidEntityRepository and CassandraUuidTimestampedEntityRepository.
+
+Release 0.4.0 - 24 Jan 2014
 * **Breaking Change** Introduced Identifier class that now supports compound identifiers.
   This change ripples through the Identifiable interface so that getId() now returns
   an Identifier instead of a String. Also, setId() now takes an Identifier as an argument.
