@@ -72,7 +72,7 @@ public class CassandraConfig
 			        + CONTACT_POINTS_PROPERTY);
 		}
 
-		contactPoints = contactPointsCommaDelimited.split(",/s*");
+		contactPoints = contactPointsCommaDelimited.split(",\\s*");
 
 		initialize(p);
 	}
