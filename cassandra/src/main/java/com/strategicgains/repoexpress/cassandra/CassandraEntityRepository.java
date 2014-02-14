@@ -43,7 +43,7 @@ extends AbstractCassandraRepository<T>
 	private String identifierColumn;
 	private PreparedStatement existStmt;
 	private PreparedStatement readStmt;
-	private PreparedStatement deleteStmt;
+	protected PreparedStatement deleteStmt;
 
 	/**
 	 * @param session a pre-configured Session instance.
