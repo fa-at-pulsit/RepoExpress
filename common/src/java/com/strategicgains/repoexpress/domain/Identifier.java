@@ -87,10 +87,7 @@ implements Comparable<Identifier>
 	 */
 	public void add(Object component)
     {
-		if (!components.contains(component))
-		{
 			components.add(component);
-		}
     }
 
 	/**
