@@ -23,7 +23,7 @@ import com.strategicgains.repoexpress.util.UuidConverter;
 
 /**
  * Adapts (converts) between a UUID Type 3 format (or URL-safe Base64 encoded Type 3 format) and
- * an Identifier instance.
+ * an Identifier instance. Also, does the same for converting UUIDs to String formats.
  * 
  * @author toddf
  * @since Mar 11, 2013
@@ -47,6 +47,11 @@ implements IdentifierAdapter
 		}
     }
 
+	/**
+	 * Convert the Identifier into a string representation.
+	 * 
+	 * @param id an Identifier.
+	 */
 	@Override
     public String format(Identifier id)
     {
@@ -55,7 +60,7 @@ implements IdentifierAdapter
 
 	/**
 	 * Format the Identifier as a string representation of a UUID, optionally shortening it
-	 * via URL-save Base64 encoding.
+	 * via URL-safe Base64 encoding.
 	 * 
 	 * @param id an Identifier containing a UUID.
 	 * @param shorten if true, URL-safe Base64 encode the UUID string.
@@ -63,13 +68,38 @@ implements IdentifierAdapter
 	 */
     public String format(Identifier id, boolean shorten)
     {
+    	if (id == null) return null;
+
+    	return format((UUID) id.primaryKey(), shorten);
+    }
+
+    /**
+     * Convert the UUID into a string representation.
+     * @param uuid
+     * @return
+     */
+	public String format(UUID uuid)
+	{
+		return format(uuid, false);
+	}
+
+	/**
+	 * Format the UUID as a string representation of a UUID, optionally shortening it
+	 * via URL-safe Base64 encoding.
+	 * 
+	 * @param uuid a UUID.
+	 * @param shorten if true, URL-safe Base64 encode the UUID string.
+	 * @return a String or null (if the UUID is null).
+	 */
+	public String format(UUID uuid, boolean shorten)
+    {
     	if (shorten)
 		{
-    		return (id == null ? null : UuidConverter.format((UUID) id.primaryKey()));
+    		return (uuid == null ? null : UuidConverter.format(uuid));
 		}
     	else
     	{
-    		return (id == null ? null : id.primaryKey().toString());
+    		return (uuid == null ? null : uuid.toString());
     	}
     }
 }
