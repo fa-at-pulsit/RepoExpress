@@ -93,8 +93,14 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 Change History:
 ===================================================================================================
 Release 0.4.1-SNAPSHOT (in branch 'master')
-* Upgraded Datastax Cassandra driver to 2.0.0-rc2
+* Upgraded Datastax Cassandra driver to 2.0.1
 * Introduced CassandraUuidEntityRepository and CassandraUuidTimestampedEntityRepository.
+* Changed inheritance requirements of CassandraEntityRepository & CassandraTimestampedEntityRepository—to Identifiable (from UuidIdentifiable) and removed UuidIdentifiable, respectively.
+* Exposed deleteStmt to subclasses (protected) in CassandraEntityRepository.java
+* Fixed pattern in string split for cassandra contact points.
+* Added format() methods for Identifier in UuidAdapter class.
+* Changed Identifier.add() to allow duplicate components.
+* Upgrade to RestExpress-Common 0.10.2
 
 Release 0.4.0 - 24 Jan 2014
 * **Breaking Change** Introduced Identifier class that now supports compound identifiers.
