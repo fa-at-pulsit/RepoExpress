@@ -7,7 +7,7 @@ domain storage (CRUD persistence) options using the Repository pattern against N
 databases. There are various repositories supporting MongoDB, Redis, and Cassandra.
 
 Designed to be utilized in conjunction with RestExpress, but stands alone and does not
-require RestExpress to be used.
+require RestExpress (except for RestExpress-Common) to be used.
 
 MongoDB Usage
 =============
@@ -16,7 +16,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.0</version>
+			<version>0.4.1</version>
 		</dependency>
 ```
 Development:
@@ -24,7 +24,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.4.2-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -37,7 +37,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.0</version>
+			<version>0.4.1</version>
 		</dependency>
 ```
 Development:
@@ -45,7 +45,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.4.2-SNAPSHOT</version>
 		</dependency>
 ```
 
@@ -56,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.0</version>
+			<version>0.4.1</version>
 		</dependency>
 ```
 Development:
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.4.2-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -93,6 +93,9 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 Change History:
 ===================================================================================================
 Release 0.4.1-SNAPSHOT (in branch 'master')
+
+Release 0.4.1 - 3 Apr 2014
+--------------------------
 * Upgraded Datastax Cassandra driver to 2.0.1
 * Introduced CassandraUuidEntityRepository and CassandraUuidTimestampedEntityRepository.
 * Changed inheritance requirements of CassandraEntityRepository & CassandraTimestampedEntityRepository—to Identifiable (from UuidIdentifiable) and removed UuidIdentifiable, respectively.
