@@ -44,7 +44,12 @@ extends MongodbRepository<T>
     public MongodbUuidEntityRepository(Mongo mongo, String databaseName, Class<? extends T>... types)
     {
 	    super(mongo, databaseName, types);
-		addObserver(new DefaultTimestampedIdentifiableRepositoryObserver<T>());
+		initializeObservers();
+    }
+
+	protected void initializeObservers()
+    {
+	    addObserver(new DefaultTimestampedIdentifiableRepositoryObserver<T>());
 		addObserver(new UuidIdentityRepositoryObserver<T>());
     }
 }
