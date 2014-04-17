@@ -5,7 +5,7 @@
 	<description>Storage Repository Pattern for MongoDB, Voldemort, Cassandra, etc.</description>
 	<url>https://github.com/RestExpress/RepoExpress</url>
 	<groupId>com.strategicgains.repoexpress</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>repoexpress-parent</artifactId>
 	<version>0.4.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 

@@ -9,7 +9,7 @@
 
 	<parent>
 		<groupId>com.strategicgains.repoexpress</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>repoexpress-parent</artifactId>
 		<version>0.4.2-SNAPSHOT</version>
 	</parent>
 
