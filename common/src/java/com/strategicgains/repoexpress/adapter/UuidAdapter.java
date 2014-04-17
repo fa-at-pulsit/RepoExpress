@@ -24,6 +24,15 @@ import com.strategicgains.repoexpress.util.UuidConverter;
 /**
  * Adapts (converts) between a UUID Type 3 format (or URL-safe Base64 encoded Type 3 format) and
  * an Identifier instance. Also, does the same for converting UUIDs to String formats.
+ * <p/>
+ * Can produce UUID string representations that are URL-safe base64 encoded, which are as short as
+ * 22 characters.
+ * <p/>
+ * By default format(UUID) produces the usual Type 3 output format with four segments, as does format(UUID, false).
+ * However, format(UUID, true) produces the URL-safe Base64 encoded format.
+ * <p/>
+ * The default format for this instance of UuidAdapter can be changed by calling useShortUUID(true). After
+ * which, all subsequent calls to format(UUID) will produce the short UUID format.
  * 
  * @author toddf
  * @since Mar 11, 2013
@@ -31,6 +40,19 @@ import com.strategicgains.repoexpress.util.UuidConverter;
 public class UuidAdapter
 implements IdentifierAdapter
 {
+	private boolean shouldShorten = false;
+
+	/**
+	 * The default format for this instance of UuidAdapter can be changed by calling useShortUUID(true). After
+	 * which, all subsequent calls to format(UUID) will produce the short UUID format.
+	 * 
+	 * @param value
+	 */
+	public void useShortUUID(boolean value)
+	{
+		this.shouldShorten = value;
+	}
+
 	@Override
     public Identifier parse(String id)
     throws InvalidObjectIdException
@@ -55,7 +77,7 @@ implements IdentifierAdapter
 	@Override
     public String format(Identifier id)
     {
-		return format(id, false);
+		return format(id, shouldShorten);
     }
 
 	/**
@@ -74,13 +96,17 @@ implements IdentifierAdapter
     }
 
     /**
-     * Convert the UUID into a string representation.
-     * @param uuid
-     * @return
+     * Convert the UUID into a string representation, using the current
+     * setting of useShortUUID(boolean) to determine whether to produce
+     * a full Type 3 string representation or the short URL-safe Base64
+     * encoded format.
+     * 
+     * @param uuid the UUID to format.
+     * @return a String or null (if the UUID is null).
      */
 	public String format(UUID uuid)
 	{
-		return format(uuid, false);
+		return format(uuid, shouldShorten);
 	}
 
 	/**

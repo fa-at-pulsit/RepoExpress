@@ -92,7 +92,8 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
-Release 0.4.1-SNAPSHOT (in branch 'master')
+Release 0.4.2-SNAPSHOT (in branch 'master')
+* Added ability to change default UUID string format via UuidAdapter.useShortUUID(boolean).
 
 Release 0.4.1 - 3 Apr 2014
 --------------------------
