@@ -16,7 +16,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.1</version>
+			<version>0.4.2</version>
 		</dependency>
 ```
 Development:
@@ -24,7 +24,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.2-SNAPSHOT</version>
+			<version>0.4.3-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -37,7 +37,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.1</version>
+			<version>0.4.2</version>
 		</dependency>
 ```
 Development:
@@ -45,7 +45,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.2-SNAPSHOT</version>
+			<version>0.4.3-SNAPSHOT</version>
 		</dependency>
 ```
 
@@ -56,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.1</version>
+			<version>0.4.2</version>
 		</dependency>
 ```
 Development:
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.2-SNAPSHOT</version>
+			<version>0.4.3-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -92,8 +92,10 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
-Release 0.4.2-SNAPSHOT (in branch 'master')
+Release 0.4.2 - 27 May 2014
+---------------------------
 * Added ability to change default UUID string format via UuidAdapter.useShortUUID(boolean).
+* Upgraded to RestExpress-Common 0.10.3
 
 Release 0.4.1 - 3 Apr 2014
 --------------------------
