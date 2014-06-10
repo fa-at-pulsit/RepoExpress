@@ -33,6 +33,8 @@ import org.restexpress.common.util.StringUtils;
 public class Identifier
 implements Comparable<Identifier>
 {
+	private static final String SEPARATOR = ", ";
+
 	private List<Object> components = new ArrayList<Object>();
 
 	/**
@@ -72,6 +74,8 @@ implements Comparable<Identifier>
 	 */
 	public void add(Object... components)
     {
+		if (components == null) return;
+
 		for (Object component : components)
 		{
 			add(component);
@@ -87,7 +91,9 @@ implements Comparable<Identifier>
 	 */
 	public void add(Object component)
     {
-			components.add(component);
+		if (component == null) return;
+
+		components.add(component);
     }
 
 	/**
@@ -194,7 +200,7 @@ implements Comparable<Identifier>
 	{
 		if (components.isEmpty()) return "";
 
-		return (components.size() == 1 ? primaryKey().toString() : "(" + StringUtils.join(", ", components) + ")");
+		return (components.size() == 1 ? primaryKey().toString() : "(" + StringUtils.join(SEPARATOR, components) + ")");
 	}
 
 	/**
