@@ -36,8 +36,8 @@ implements Identifiable
 	}
 
 	@Override
-	public void setId(Identifier id)
+	public void setId(Identifier identifier)
 	{
-		this.id = (id == null || id.isEmpty() ? null : id.components().get(0).toString());
+		this.id = (identifier == null || identifier.isEmpty() ? null : identifier.toString());
 	}
 }

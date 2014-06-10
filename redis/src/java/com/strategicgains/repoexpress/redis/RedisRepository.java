@@ -37,8 +37,9 @@ import com.strategicgains.repoexpress.exception.RepositoryException;
  * Usage of this repository requires de/serialization to occur during the persistence operation.
  * Consequently, sub-classes must implement the marshalFrom(T) and marshalTo(String, T) methods.
  * If using this within a RestExpress service suite, DefaultJsonProcessor or DefaultXmlProcessor
- * can be used.  Or, if the RestExpress kickstart process was used, ResponseProcessors.JSON_SERIALIZER
- * or ResponseProcessors.XML_SERIALIZER may be leveraged.
+ * can be used.  Or, if a RestExpress Maven archetype was used, SerlializationProvider.JSON_SERIALIZER
+ * or SerlializationProvider.XML_SERIALIZER may be leveraged (you might need to make them public or
+ * provide a static accessor).
  * 
  * @author toddf, seans
  * @since Jul 19, 2012
@@ -57,6 +58,11 @@ extends AbstractObservableRepository<T>
 		super();
 		this.jedisPool = jedisPool;
 		this.entityClass = entityClass;
+	}
+
+	protected JedisPool getJedisPool()
+	{
+		return jedisPool;
 	}
 
 	@Override
@@ -83,7 +89,7 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			if (!jedis.setex(item.getId().primaryKey().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
+			if (!jedis.setex(item.getId().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
 			{
 				throw new RepositoryException("Error creating object: " + item.getId());
 			}
@@ -103,7 +109,7 @@ extends AbstractObservableRepository<T>
 
 		try
 		{
-			Long reply = jedis.del(object.getId().primaryKey().toString());
+			Long reply = jedis.del(object.getId().toString());
 
 			if (reply < 1)
 			{
@@ -123,7 +129,7 @@ extends AbstractObservableRepository<T>
 
 		try
 		{
-			String json = jedis.get(id.primaryKey().toString());
+			String json = jedis.get(id.toString());
 
 			if (json == null || json.trim().isEmpty())
 			{
@@ -156,7 +162,7 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			if (!jedis.setex(item.getId().primaryKey().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
+			if (!jedis.setex(item.getId().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
 			{
 				throw new RepositoryException("Error updating object: " + item.getId());
 			}
@@ -178,7 +184,7 @@ extends AbstractObservableRepository<T>
 		
 		try
 		{
-			return jedis.exists(id.primaryKey().toString());
+			return jedis.exists(id.toString());
 		}
 		finally
 		{
