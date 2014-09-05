@@ -15,7 +15,7 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
 
@@ -33,7 +33,7 @@ import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableReposi
 public class MongodbEntityRepository<T extends TimestampedIdentifiable>
 extends MongodbRepository<T>
 {
-    public MongodbEntityRepository(Mongo mongo, String databaseName, Class<? extends T>... types)
+    public MongodbEntityRepository(MongoClient mongo, String databaseName, Class<? extends T>... types)
     {
 	    super(mongo, databaseName, types);
 		initializeObservers();

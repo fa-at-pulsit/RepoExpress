@@ -30,6 +30,7 @@ import org.restexpress.common.query.QueryOrder;
 import org.restexpress.common.query.QueryRange;
 
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.Queryable;
 import com.strategicgains.repoexpress.domain.Identifiable;
@@ -50,7 +51,7 @@ public class MongodbRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 implements Queryable<T>
 {
-	private Mongo mongo;
+	private MongoClient mongo;
 	private Morphia morphia;
 	private Datastore datastore;
 	private Class<T> inheritanceRoot;
@@ -61,7 +62,7 @@ implements Queryable<T>
 	 * @param dbName the name of the database (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
 	 */
-	public MongodbRepository(Mongo mongo, String dbName, Class<? extends T>... entityClasses)
+	public MongodbRepository(MongoClient mongo, String dbName, Class<? extends T>... entityClasses)
 	{
 		super();
 		this.mongo = mongo;

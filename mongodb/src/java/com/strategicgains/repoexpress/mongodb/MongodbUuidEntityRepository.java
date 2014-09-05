@@ -15,7 +15,7 @@
 */
 package com.strategicgains.repoexpress.mongodb;
 
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
 import com.strategicgains.repoexpress.domain.UuidIdentifiable;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
@@ -41,7 +41,7 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
 public class MongodbUuidEntityRepository<T extends TimestampedIdentifiable & UuidIdentifiable>
 extends MongodbRepository<T>
 {
-    public MongodbUuidEntityRepository(Mongo mongo, String databaseName, Class<? extends T>... types)
+    public MongodbUuidEntityRepository(MongoClient mongo, String databaseName, Class<? extends T>... types)
     {
 	    super(mongo, databaseName, types);
 		initializeObservers();
