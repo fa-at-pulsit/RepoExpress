@@ -56,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.3</version>
+			<version>0.4.4</version>
 		</dependency>
 ```
 Development:
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.4-SNAPSHOT</version>
+			<version>0.4.5-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -92,6 +92,10 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
+Release 0.4.4
+* Upgraded to Cassandra driver 2.1.3
+* Upgraded to Jedis 2.6.1
+
 Release 0.4.3 - 5 Sep 2014
 --------------------------
 * Upgraded to RestExpress-Common 0.10.4, cassandra-driver-core to 2.1.0, Jedis 2.5.2, Morphia 0.108, MongoDB repositories now require MongoClient (vs. Mongo) as a constructor parameter.
