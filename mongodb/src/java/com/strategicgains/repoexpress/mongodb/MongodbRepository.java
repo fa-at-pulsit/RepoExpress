@@ -342,7 +342,6 @@ implements Queryable<T>
 					default:
 						q.field(c.getField()).equal(c.getValue());
 						break;
-					
 				}
 			}
 		});

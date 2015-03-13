@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<name>RepoExpress-Common</name>
-	<description>Storage Repository Pattern for MongoDB, Voldemort, Cassandra, etc.</description>
+	<description>Storage Repository Pattern for MongoDB, Cassandra, Redis, etc.</description>
 	<url>https://github.com/RestExpress/RepoExpress</url>
 	<groupId>com.strategicgains.repoexpress</groupId>
 	<artifactId>repoexpress-common</artifactId>
