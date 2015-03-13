@@ -16,7 +16,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.4</version>
+			<version>0.4.5</version>
 		</dependency>
 ```
 Development:
@@ -24,7 +24,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.5-SNAPSHOT</version>
+			<version>0.4.6-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -37,7 +37,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.4</version>
+			<version>0.4.5</version>
 		</dependency>
 ```
 Development:
@@ -45,7 +45,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.5-SNAPSHOT</version>
+			<version>0.4.6-SNAPSHOT</version>
 		</dependency>
 ```
 
@@ -56,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.4</version>
+			<version>0.4.5</version>
 		</dependency>
 ```
 Development:
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.5-SNAPSHOT</version>
+			<version>0.4.6-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -92,7 +92,12 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
-Release 0.4.4
+Release 0.4.5 - 13 Mar 2015
+* Upgraded to Morphia 0.110 (MongoDB driver 2.13.0)
+* Upgraded to Jedis 2.6.2
+
+Release 0.4.4 - 02 Dec 2014
+---------------------------
 * Upgraded to Cassandra driver 2.1.3
 * Upgraded to Jedis 2.6.1
 
