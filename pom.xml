@@ -6,7 +6,7 @@
 	<url>https://github.com/RestExpress/RepoExpress</url>
 	<groupId>com.strategicgains.repoexpress</groupId>
 	<artifactId>repoexpress-parent</artifactId>
-	<version>0.4.5</version>
+	<version>0.4.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -55,7 +55,7 @@
 		<url>git@github.com:RestExpress/RepoExpress.git</url>
 		<connection>scm:git:git@github.com:RestExpress/RepoExpress.git</connection>
 		<developerConnection>scm:git:git@github.com:RestExpress/RepoExpress.git</developerConnection>
-		<tag>repoexpress-parent-0.4.5</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<build>
