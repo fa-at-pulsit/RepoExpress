@@ -338,6 +338,9 @@ implements Queryable<T>
 					case NOT_EQUALS:
 						q.field(c.getField()).notEqual(c.getValue());
 						break;
+					case IN:
+						q.field(c.getField()).in((Iterable<?>) c.getValue());
+						break;
 					case EQUALS:
 					default:
 						q.field(c.getField()).equal(c.getValue());
