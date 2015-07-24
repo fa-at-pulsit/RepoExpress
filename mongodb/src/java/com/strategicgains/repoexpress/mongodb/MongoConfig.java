@@ -1,6 +1,5 @@
 package com.strategicgains.repoexpress.mongodb;
 
-import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.restexpress.common.exception.ConfigurationException;
@@ -26,15 +25,7 @@ public class MongoConfig
 
 		MongoClientURI mongoUri = new MongoClientURI(uri);
 		dbName = mongoUri.getDatabase();
-		try
-        {
-	        client = new MongoClient(mongoUri);
-        }
-        catch (UnknownHostException e)
-        {
-        	throw new ConfigurationException(e);
-        }
-		
+        client = new MongoClient(mongoUri);
 		initialize(p);
     }
 
