@@ -24,7 +24,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.7-SNAPSHOT</version>
+			<version>0.4.8-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -37,7 +37,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.6</version>
+			<version>0.4.7</version>
 		</dependency>
 ```
 Development:
@@ -45,7 +45,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.7-SNAPSHOT</version>
+			<version>0.4.8-SNAPSHOT</version>
 		</dependency>
 ```
 
@@ -56,7 +56,7 @@ Stable:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.6</version>
+			<version>0.4.7</version>
 		</dependency>
 ```
 Development:
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.7-SNAPSHOT</version>
+			<version>0.4.8-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -92,6 +92,9 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
+Release 0.4.7 - 28 Jul 2015
+* Set Java output to 1.7 target and source.
+
 Release 0.4.6 - 24 Jul 2015
 ---------------------------
 * Fixed issue #13 - Added support for :in: filtering on the query string, with support in MongoDB.
