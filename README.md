@@ -92,6 +92,10 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
+Release 0.4.8-SNAPSHOT (in 'master')
+* Added Identifiers.useShortUUID() method to support usage of shorter, URL-safe Base64-encoded UUIDs.
+* Introduced Parse and Format utility classes containing static foreign methods to enable formatting of various Identifier types.
+
 Release 0.4.7 - 28 Jul 2015
 * Set Java output to 1.7 target and source.
 
