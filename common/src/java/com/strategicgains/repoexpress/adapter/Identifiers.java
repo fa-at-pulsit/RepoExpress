@@ -26,4 +26,9 @@ public abstract class Identifiers
 	public static final UuidAdapter UUID = new UuidAdapter();
 	public static final StringToIntegerIdAdapter INTEGER = new StringToIntegerIdAdapter();
 	public static final StringToLongIdAdapter LONG = new StringToLongIdAdapter();
+
+	public static void useShortUUID()
+	{
+		UUID.useShortUUID(true);
+	}
 }
