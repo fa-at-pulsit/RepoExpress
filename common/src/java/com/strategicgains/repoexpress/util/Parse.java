@@ -57,7 +57,7 @@ public abstract class Parse
 	 * @return an Identifier instance containing a UUID, if parsing succeeds.
 	 * @throws InvalidObjectIdException if parse fails.
 	 */
-	public static Identifier uuidId(String uuidString)
+	public static Identifier id(String uuidString)
 	{
 		return Identifiers.UUID.parse(uuidString);
 	}
