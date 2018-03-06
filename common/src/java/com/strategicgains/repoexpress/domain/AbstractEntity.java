@@ -1,5 +1,5 @@
 /*
-    Copyright 2013-2018, Strategic Gains, Inc.
+    Copyright 2017-2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -15,19 +15,20 @@
 */
 package com.strategicgains.repoexpress.domain;
 
-import java.util.UUID;
-
 /**
- * An entity that is identified by a UUID as its primary identifier.
+ * An entity (has an Identifer) as well as a single Object ID (id property).
  * It also has createdAt and updatedAt properties.
  * 
  * @author toddf
- * @since Mar 18, 2013
+ * @since Oct 6, 2017
  */
-public abstract class AbstractUuidEntity
-extends AbstractEntity<UUID>
+public abstract class AbstractEntity<T>
+implements Entity<T>
 {
-	private UUID id;
+	/**
+	 * The object ID for this Entity.
+	 */
+	private T id;
 
 	@Override
 	public Identifier getIdentifier()
@@ -35,15 +36,23 @@ extends AbstractEntity<UUID>
 		return (id == null ? null : new Identifier(id));
 	}
 
-	@Override
-    public UUID getId()
+	/**
+	 * Answer the object ID for this Entity.
+	 * 
+	 * @return the entity's object ID.
+	 */
+    public T getId()
     {
 	    return id;
     }
 
-	@Override
-    public void setId(UUID uuid)
+    /**
+     * Set the object ID for this Entity.
+     * 
+     * @param objectId the new object ID.
+     */
+    public void setId(T objectId)
     {
-		this.id = uuid;
+		this.id = objectId;
     }
 }

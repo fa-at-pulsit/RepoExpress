@@ -18,7 +18,7 @@ package com.strategicgains.repoexpress.mongodb;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
 
-import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.AbstractTimestampedEntity;
 import com.strategicgains.repoexpress.domain.Identifier;
 
 /**
@@ -35,24 +35,25 @@ import com.strategicgains.repoexpress.domain.Identifier;
  * @see MongodbUuidEntityRepository
  */
 public abstract class AbstractMongodbEntity
-extends AbstractTimestampedIdentifiable
+extends AbstractTimestampedEntity<ObjectId>
 {
 	@Id
 	private ObjectId id;
 
 	@Override
-	public Identifier getId()
+	public Identifier getIdentifier()
 	{
 		return (id == null ? null : new Identifier(id));
 	}
 
 	@Override
-	public void setId(Identifier id)
+	public void setId(ObjectId id)
 	{
-		this.id = (id ==null || id.isEmpty() ? null : (ObjectId) id.primaryKey());
+		this.id = (id == null ? null : id);
 	}
-	
-	public ObjectId getObjectId()
+
+	@Override
+	public ObjectId getId()
 	{
 		return id;
 	}

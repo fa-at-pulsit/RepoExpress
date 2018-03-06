@@ -68,7 +68,7 @@ public class DateFilteringTest
 	{
 		for (TestEntity entity : CREATED)
 		{
-			REPOSITORY.delete(entity.getId());
+			REPOSITORY.delete(entity.getIdentifier());
 		}
 	}
 

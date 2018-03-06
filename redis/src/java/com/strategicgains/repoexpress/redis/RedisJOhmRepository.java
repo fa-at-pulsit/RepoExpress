@@ -51,20 +51,20 @@ extends AbstractObservableRepository<T>
 		}
 		
 		throw new DuplicateItemException(object.getClass().getSimpleName()
-		    + " ID already exists: " + object.getId());
+		    + " ID already exists: " + object.getIdentifier());
 
 	}
 
 	@Override
 	public void doDelete(T object)
 	{
-		JOhm.delete(entityClass, (Long) object.getId().primaryKey());
+		JOhm.delete(entityClass, (Long) object.getIdentifier().firstComponent());
 	}
 
 	@Override
 	public T doRead(Identifier id)
 	{
-		return JOhm.get(entityClass, (Long) id.primaryKey());
+		return JOhm.get(entityClass, (Long) id.firstComponent());
 	}
 
 	@Override
@@ -73,7 +73,7 @@ extends AbstractObservableRepository<T>
 		if (JOhm.isNew(object))
 		{
 			throw new ItemNotFoundException(object.getClass().getSimpleName()
-			    + " ID not found: " + object.getId());
+			    + " ID not found: " + object.getIdentifier());
 		}
 
 		return JOhm.save(object);
@@ -82,6 +82,6 @@ extends AbstractObservableRepository<T>
     @Override
     public boolean exists(Identifier id)
     {
-    	return (JOhm.get(entityClass, (Long) id.primaryKey()) != null);
+    	return (JOhm.get(entityClass, (Long) id.firstComponent()) != null);
     }
 }

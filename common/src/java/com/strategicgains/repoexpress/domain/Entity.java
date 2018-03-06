@@ -1,5 +1,5 @@
 /*
-    Copyright 2014, Strategic Gains, Inc.
+    Copyright 2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -16,11 +16,15 @@
 package com.strategicgains.repoexpress.domain;
 
 /**
+ * Represents an object that has an object ID.
+ * 
  * @author toddf
- * @since Jan 22, 2014
+ * @since Mar 2, 2018
+ * @param <T> the type of the 'id' property.
  */
-public interface TimestampedUuidIdentifiable
-extends UuidIdentifiable, TimestampedIdentifiable
+public interface Entity<T>
+extends Identifiable
 {
-
+	public T getId();
+	public void setId(T oid);
 }

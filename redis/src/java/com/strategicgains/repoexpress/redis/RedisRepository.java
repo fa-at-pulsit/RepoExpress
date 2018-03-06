@@ -79,19 +79,19 @@ extends AbstractObservableRepository<T>
 			return item;
 		}
 
-		if (exists(item.getId()))
+		if (exists(item.getIdentifier()))
 		{
 			throw new DuplicateItemException(item.getClass().getSimpleName()
-			    + " ID already exists: " + item.getId());
+			    + " ID already exists: " + item.getIdentifier());
 		}
 
 		Jedis jedis = jedisPool.getResource();
 		
 		try
 		{
-			if (!jedis.setex(item.getId().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
+			if (!jedis.setex(item.getIdentifier().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
 			{
-				throw new RepositoryException("Error creating object: " + item.getId());
+				throw new RepositoryException("Error creating object: " + item.getIdentifier());
 			}
 
 			return item;
@@ -109,11 +109,11 @@ extends AbstractObservableRepository<T>
 
 		try
 		{
-			Long reply = jedis.del(object.getId().toString());
+			Long reply = jedis.del(object.getIdentifier().toString());
 
 			if (reply < 1)
 			{
-				throw new ItemNotFoundException("ID not found: " + object.getId());
+				throw new ItemNotFoundException("ID not found: " + object.getIdentifier());
 			}
 		}
 		finally
@@ -152,19 +152,19 @@ extends AbstractObservableRepository<T>
 
 	protected T doUpdate(T item, int ttlSeconds)
 	{
-		if (!exists(item.getId()))
+		if (!exists(item.getIdentifier()))
 		{
 			throw new ItemNotFoundException(item.getClass().getSimpleName()
-			    + " ID not found: " + item.getId());
+			    + " ID not found: " + item.getIdentifier());
 		}
 
 		Jedis jedis = jedisPool.getResource();
 		
 		try
 		{
-			if (!jedis.setex(item.getId().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
+			if (!jedis.setex(item.getIdentifier().toString(), ttlSeconds, marshalFrom(item)).equalsIgnoreCase("OK"))
 			{
-				throw new RepositoryException("Error updating object: " + item.getId());
+				throw new RepositoryException("Error updating object: " + item.getIdentifier());
 			}
 
 			return item;

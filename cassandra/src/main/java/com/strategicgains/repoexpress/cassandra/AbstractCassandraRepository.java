@@ -67,10 +67,10 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doCreate(T entity)
 	{
-		if (exists(entity.getId()))
+		if (exists(entity.getIdentifier()))
 		{
 			throw new DuplicateItemException(entity.getClass().getSimpleName()
-			    + " ID already exists: " + entity.getId().toString());
+			    + " ID already exists: " + entity.getIdentifier().toString());
 		}
 
 		return createEntity(entity);
@@ -92,10 +92,10 @@ extends AbstractObservableRepository<T>
 	@Override
 	public T doUpdate(T entity)
 	{
-		if (!exists(entity.getId()))
+		if (!exists(entity.getIdentifier()))
 		{
 			throw new ItemNotFoundException(entity.getClass().getSimpleName()
-			    + " ID not found: " + entity.getId().toString());
+			    + " ID not found: " + entity.getIdentifier().toString());
 		}
 
 		return updateEntity(entity);
@@ -110,7 +110,7 @@ extends AbstractObservableRepository<T>
 		}
 		catch (InvalidObjectIdException e)
 		{
-			throw new ItemNotFoundException("ID not found: " + entity.getId().toString());
+			throw new ItemNotFoundException("ID not found: " + entity.getIdentifier().toString());
 		}
 	}
 

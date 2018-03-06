@@ -1,12 +1,12 @@
 package com.strategicgains.repoexpress.cassandra;
 
 import com.datastax.driver.core.Session;
-import com.strategicgains.repoexpress.domain.UuidIdentifiable;
-import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
+import com.strategicgains.repoexpress.domain.UuidEntity;
+import com.strategicgains.repoexpress.event.UuidEntityRepositoryObserver;
 
 /**
  * A Cassandra repository that manages types of UuidIdentifiable, which are identified by a single
- * UUID primary key. It utilizes the {@link UuidIdentityRepositoryObserver} to assign a UUID on creation.
+ * UUID primary key. It utilizes the {@link UuidEntityRepositoryObserver} to assign a UUID on creation.
  * <p/>
  * Storing a UUID as the ID (as this repository does) requires four (4) bytes for the ID.
  * <p/>
@@ -17,7 +17,7 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * @since Jan 28, 2014
  * @see CassandraUuidTimestampedEntityRepository
  */
-public abstract class CassandraUuidEntityRepository<T extends UuidIdentifiable>
+public abstract class CassandraUuidEntityRepository<T extends UuidEntity>
 extends CassandraEntityRepository<T>
 {
 	public CassandraUuidEntityRepository(Session session, String tableName, String identifierColumn)
@@ -28,6 +28,6 @@ extends CassandraEntityRepository<T>
 
     protected void initializeObservers()
     {
-		addObserver(new UuidIdentityRepositoryObserver<T>());
+		addObserver(new UuidEntityRepositoryObserver<T>());
     }
 }

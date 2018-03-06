@@ -75,7 +75,7 @@ extends AbstractCassandraRepository<T>
 		if (identifier == null || identifier.isEmpty()) return false;
 
 		BoundStatement bs = new BoundStatement(existStmt);
-		bs.bind(identifier.primaryKey());
+		bs.bind(identifier.firstComponent());
 		return (getSession().execute(bs).one().getLong(0) > 0);
 	}
 
@@ -85,7 +85,7 @@ extends AbstractCassandraRepository<T>
 		if (identifier == null || identifier.isEmpty()) return null;
 		
 		BoundStatement bs = new BoundStatement(readStmt);
-		bs.bind(identifier.primaryKey());
+		bs.bind(identifier.firstComponent());
 		return marshalRow(getSession().execute(bs).one());
 	}
 
@@ -95,7 +95,7 @@ extends AbstractCassandraRepository<T>
 		if (entity == null) return;
 		
 		BoundStatement bs = new BoundStatement(deleteStmt);
-		bindIdentifier(bs, entity.getId());
+		bindIdentifier(bs, entity.getIdentifier());
 		getSession().execute(bs);
 	}
 

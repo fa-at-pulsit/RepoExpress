@@ -1,5 +1,5 @@
 /*
-    Copyright 2010, Strategic Gains, Inc.
+    Copyright 2010-2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -21,6 +21,10 @@ package com.strategicgains.repoexpress.domain;
  */
 public interface Identifiable
 {
-	public Identifier getId();
-	public void setId(Identifier id);
+	/**
+	 * Construct the fully-qualified Identifier for this object.
+	 * 
+	 * @return an Identifier or null if no identity is present.
+	 */
+	public Identifier getIdentifier();
 }

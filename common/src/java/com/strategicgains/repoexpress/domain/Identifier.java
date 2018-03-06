@@ -1,5 +1,5 @@
 /*
-    Copyright 2013, Strategic Gains, Inc.
+    Copyright 2013-2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -200,7 +200,7 @@ implements Comparable<Identifier>
 	{
 		if (components.isEmpty()) return "";
 
-		return (components.size() == 1 ? primaryKey().toString() : "(" + StringUtils.join(SEPARATOR, components) + ")");
+		return (components.size() == 1 ? firstComponent().toString() : "(" + StringUtils.join(SEPARATOR, components) + ")");
 	}
 
 	/**
@@ -209,9 +209,20 @@ implements Comparable<Identifier>
 	 * 
 	 * @return the first component or null.
 	 */
-	public Object primaryKey()
+	public Object firstComponent()
 	{
 		return (isEmpty() ? null : components.get(0));
+	}
+
+	/**
+	 * Returns the last component of the identifier. Return null if the identifier is empty.
+	 * Otherwise, equivalent to components().get(components().size() - 1).
+	 * 
+	 * @return the first component or null.
+	 */
+	public Object lastComponent()
+	{
+		return (isEmpty() ? null : components.get(components.size() - 1));
 	}
 
 	/**

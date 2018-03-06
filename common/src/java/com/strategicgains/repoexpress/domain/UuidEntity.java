@@ -1,5 +1,5 @@
 /*
-    Copyright 2013, Strategic Gains, Inc.
+    Copyright 2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -19,11 +19,9 @@ import java.util.UUID;
 
 /**
  * @author toddf
- * @since Mar 18, 2013
+ * @since Mar 6, 2018
  */
-public interface UuidIdentifiable
-extends Identifiable
+public interface UuidEntity
+extends Entity<UUID>
 {
-	public UUID getUuid();
-	public void setUuid(UUID uuid);
 }

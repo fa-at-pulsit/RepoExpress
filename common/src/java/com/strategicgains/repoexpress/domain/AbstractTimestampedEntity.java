@@ -1,5 +1,5 @@
 /*
-    Copyright 2011, Strategic Gains, Inc.
+    Copyright 2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -17,14 +17,9 @@ package com.strategicgains.repoexpress.domain;
 
 import java.util.Date;
 
-import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
-
-/**
- * @author toddf
- * @since Oct 27, 2011
- */
-public abstract class AbstractTimestampedIdentifiable
-implements TimestampedIdentifiable
+public abstract class AbstractTimestampedEntity<T>
+extends AbstractEntity<T>
+implements TimestampedEntity<T>, TimestampedIdentifiable
 {
 	private Date createdAt;
 	private Date updatedAt;

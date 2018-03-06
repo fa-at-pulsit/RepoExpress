@@ -88,10 +88,10 @@ implements Queryable<T>
 	@Override
 	public T doCreate(T item)
 	{
-		if (exists(item.getId()))
+		if (exists(item.getIdentifier()))
 		{
 			throw new DuplicateItemException(item.getClass().getSimpleName()
-			    + " ID already exists: " + item.getId());
+			    + " ID already exists: " + item.getIdentifier());
 		}
 
 		datastore.save(item);
@@ -101,7 +101,7 @@ implements Queryable<T>
 	@Override
 	public T doRead(Identifier id)
 	{
-		T item = datastore.get(inheritanceRoot, id.primaryKey());
+		T item = datastore.get(inheritanceRoot, id.firstComponent());
 
 		if (item == null)
 		{
@@ -114,10 +114,10 @@ implements Queryable<T>
 	@Override
 	public T doUpdate(T item)
 	{
-		if (!exists(item.getId()))
+		if (!exists(item.getIdentifier()))
 		{
 			throw new ItemNotFoundException(item.getClass().getSimpleName()
-			    + " ID not found: " + item.getId());
+			    + " ID not found: " + item.getIdentifier());
 		}
 
 		datastore.save(item);
@@ -133,7 +133,7 @@ implements Queryable<T>
 		}
 		catch (InvalidObjectIdException e)
 		{
-			throw new ItemNotFoundException("ID not found: " + object.getId());
+			throw new ItemNotFoundException("ID not found: " + object.getIdentifier());
 		}
 	}
 
@@ -217,7 +217,7 @@ implements Queryable<T>
 	{
 		if (id == null) return false;
 
-		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", id.primaryKey())) > 0);
+		return (datastore.getCount(datastore.find(inheritanceRoot, "_id", id.firstComponent())) > 0);
 
 		// is the above line more efficient, or the following one?
 //		return (datastore.find(inheritanceRoot, "_id", adaptId(id)).countAll() > 0);

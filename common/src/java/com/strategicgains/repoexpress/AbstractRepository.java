@@ -103,6 +103,6 @@ implements Repository<T>
 
 	protected boolean hasId(T item)
 	{
-		return (item.getId() != null && !item.getId().isEmpty());
+		return (item.getIdentifier() != null && !item.getIdentifier().isEmpty());
 	}
 }

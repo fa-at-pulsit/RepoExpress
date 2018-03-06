@@ -15,10 +15,10 @@
 */
 package com.strategicgains.repoexpress.redis;
 
-import redis.clients.johm.Id;
-
-import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.AbstractTimestampedEntity;
 import com.strategicgains.repoexpress.domain.Identifier;
+
+import redis.clients.johm.Id;
 
 /**
  * A base object representing an entity stored in Redis.  The ID is a Long that has the potential
@@ -29,24 +29,24 @@ import com.strategicgains.repoexpress.domain.Identifier;
  * @since June 18, 2012
  */
 public abstract class AbstractRedisJOhmEntity
-extends AbstractTimestampedIdentifiable
+extends AbstractTimestampedEntity<Long>
 {
 	@Id
 	private Long id;
 
 	@Override
-	public Identifier getId()
+	public Identifier getIdentifier()
 	{
 		return (id == null ? null : new Identifier(id));
 	}
 
 	@Override
-	public void setId(Identifier id)
+	public void setId(Long id)
 	{
-		this.id = (id == null || id.isEmpty() ? null : Long.valueOf(id.components().get(0).toString()));
+		this.id = (id == null ? null : id);
 	}
 	
-	public Long getObjectId()
+	public Long getId()
 	{
 		return (id == null ? null : new Long(id.longValue()));
 	}

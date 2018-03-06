@@ -24,7 +24,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-mongodb</artifactId>
-			<version>0.4.9-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -45,7 +45,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-cassandra</artifactId>
-			<version>0.4.9-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 ```
 
@@ -64,7 +64,7 @@ Development:
 		<dependency>
 			<groupId>com.strategicgains.repoexpress</groupId>
 			<artifactId>repoexpress-redis</artifactId>
-			<version>0.4.9-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 ```
 Or download the 'stable' jar directly from: 
@@ -92,6 +92,20 @@ Note that to use the SNAPSHOT Maven versions mentioned above, you must enable sn
 
 Change History:
 ===================================================================================================
+Release 1.0.0-SNAPSHOT
+----------------------
+* Yuge refactoring for V1. Changed semantics of Identifiable to return a fully-qualified identifier. Entity, which Identifiable, has object ID properties: getId() and setId(T).
+* Introduced Entity<T> interface and AbstractEntity<T> implementation.
+* Introduced CreatedAt and UpdatedAt interfaces. Changed Timestamped to extend them.
+* Renamed UuidIdentifiable to UuidEntity and TimestampedUuidIdentifiable to TimestampedUuidEntity.
+* Introduced AbstractTimestampedUuidEntity.
+* Renamed Identifier.primaryKey() to firstComponent(). Added lastComponent(). Removed Identifier.setId(), renamed setId(Identifier) to setIdentifier(Identifier).
+* Renamed AbstractTimestampedIdentifiable to AbstractTimestampedEntity. Changed inheritance hierarchy.
+* InMemoryRepository no longer assigns IDs and, instead, expects the ID to be set on the incoming object. Throws exception if not.
+* Upgraded to Morphia 1.3.2
+* Upgraded to Jedis 2.9.0
+* Upgreade to DataStax driver 3.4.0
+
 Release 0.4.8 - 10 Feb 2016
 ---------------------------
 * Added Identifiers.useShortUUID() method to support usage of shorter, URL-safe Base64-encoded UUIDs.

@@ -54,6 +54,6 @@ implements IdentifierAdapter
 	@Override
     public String format(Identifier id)
     {
-		return (id == null ? null : id.primaryKey().toString());
+		return (id == null ? null : id.firstComponent().toString());
     }
 }

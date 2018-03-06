@@ -241,7 +241,7 @@ implements ObservableRepository<T>
         @Override
         public Object next()
         {
-	        return iterator.next().primaryKey();
+	        return iterator.next().firstComponent();
         }
 
         @Override

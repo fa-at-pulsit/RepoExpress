@@ -92,7 +92,7 @@ implements IdentifierAdapter
     {
     	if (id == null) return null;
 
-    	return format((UUID) id.primaryKey(), shorten);
+    	return format((UUID) id.firstComponent(), shorten);
     }
 
     /**

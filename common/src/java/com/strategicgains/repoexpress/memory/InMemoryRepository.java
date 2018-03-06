@@ -23,11 +23,14 @@ import com.strategicgains.repoexpress.AbstractObservableRepository;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
 import com.strategicgains.repoexpress.exception.DuplicateItemException;
+import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 
 /**
  * An extremely basic in-memory repository backed by a Map implementation.  Filtering, sorting, etc.
  * are not supported, so methods operate over the entire collection.
+ * 
+ * Also, entities are assumed to have repository-unique identifiers, otherwise ID clashes will occur.
  * 
  * @author toddf
  * @since Oct 12, 2010
@@ -35,7 +38,6 @@ import com.strategicgains.repoexpress.exception.ItemNotFoundException;
 public abstract class InMemoryRepository<T extends Identifiable>
 extends AbstractObservableRepository<T>
 {
-	private static long nextId = 0;
 	protected Map<Identifier, T> items = new ConcurrentHashMap<Identifier, T>();
 	
 	@Override
@@ -51,8 +53,8 @@ extends AbstractObservableRepository<T>
 		{
 			try
 			{
-				read(item.getId());
-				throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getId().toString());
+				read(item.getIdentifier());
+				throw new DuplicateItemException(item.getClass().getSimpleName() + " ID already exists: " + item.getIdentifier().toString());
 			}
 			catch(ItemNotFoundException e)
 			{
@@ -61,10 +63,10 @@ extends AbstractObservableRepository<T>
 		}
 		else
 		{
-			item.setId(new Identifier(item.getClass().getSimpleName(), ++nextId));
+			throw new InvalidObjectIdException("Identifier required for " + item.getClass().getSimpleName());
 		}
 
-		items.put(item.getId(), item);
+		items.put(item.getIdentifier(), item);
 		return item;
 	}
 
@@ -84,18 +86,18 @@ extends AbstractObservableRepository<T>
     @Override
     public T doUpdate(T item)
     {
-    	items.put(item.getId(), item);
+    	items.put(item.getIdentifier(), item);
     	return item;
     }
 
     @Override
     public void doDelete(T object)
     {
-    	T item = items.remove(object.getId());
+    	T item = items.remove(object.getIdentifier());
 
     	if (item == null)
     	{
-    		throw new ItemNotFoundException("ID not found: " + object.getId().toString());
+    		throw new ItemNotFoundException("ID not found: " + object.getIdentifier().toString());
     	}
     }
 }

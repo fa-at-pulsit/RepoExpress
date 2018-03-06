@@ -1,5 +1,5 @@
 /*
-    Copyright 2013, Strategic Gains, Inc.
+    Copyright 2013-2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@ package com.strategicgains.repoexpress.mongodb;
 
 import com.mongodb.MongoClient;
 import com.strategicgains.repoexpress.domain.TimestampedIdentifiable;
-import com.strategicgains.repoexpress.domain.UuidIdentifiable;
+import com.strategicgains.repoexpress.domain.UuidEntity;
 import com.strategicgains.repoexpress.event.DefaultTimestampedIdentifiableRepositoryObserver;
-import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
+import com.strategicgains.repoexpress.event.UuidEntityRepositoryObserver;
 
 /**
  * A MongoDB repository that manages types of TimestampedUuidIdentifiable. It utilizes the
- * {@link UuidIdentityRepositoryObserver} to assign a UUID on creation.  It also uses
+ * {@link UuidEntityRepositoryObserver} to assign a UUID on creation.  It also uses
  * {@link DefaultTimestampedIdentifiableRepositoryObserver} to set the createAt and 
  * updatedAt dates on the object as appropriate.
  * <p/>
@@ -38,7 +38,7 @@ import com.strategicgains.repoexpress.event.UuidIdentityRepositoryObserver;
  * @author toddf
  * @since Mar 18, 2013
  */
-public class MongodbUuidEntityRepository<T extends TimestampedIdentifiable & UuidIdentifiable>
+public class MongodbUuidEntityRepository<T extends TimestampedIdentifiable & UuidEntity>
 extends MongodbRepository<T>
 {
     public MongodbUuidEntityRepository(MongoClient mongo, String databaseName, Class<? extends T>... types)
@@ -50,6 +50,6 @@ extends MongodbRepository<T>
 	protected void initializeObservers()
     {
 	    addObserver(new DefaultTimestampedIdentifiableRepositoryObserver<T>());
-		addObserver(new UuidIdentityRepositoryObserver<T>());
+		addObserver(new UuidEntityRepositoryObserver<T>());
     }
 }

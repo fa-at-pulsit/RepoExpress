@@ -15,6 +15,7 @@
 */
 package com.strategicgains.repoexpress.redis;
 
+import com.strategicgains.repoexpress.domain.AbstractEntity;
 import com.strategicgains.repoexpress.domain.Identifiable;
 import com.strategicgains.repoexpress.domain.Identifier;
 
@@ -25,19 +26,14 @@ import com.strategicgains.repoexpress.domain.Identifier;
  * @since Jul 19, 2012
  */
 public class AbstractRedisEntity
+extends AbstractEntity<String>
 implements Identifiable
 {
 	private String id;
 
 	@Override
-	public Identifier getId()
+	public Identifier getIdentifier()
 	{
 		return (id == null ? new Identifier() : new Identifier(id));
-	}
-
-	@Override
-	public void setId(Identifier identifier)
-	{
-		this.id = (identifier == null || identifier.isEmpty() ? null : identifier.toString());
 	}
 }

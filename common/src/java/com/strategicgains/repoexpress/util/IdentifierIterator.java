@@ -55,7 +55,7 @@ implements Iterator<Identifier>
 	@Override
 	public Identifier next()
 	{
-		return iterator.next().getId();
+		return iterator.next().getIdentifier();
 	}
 
 	@Override

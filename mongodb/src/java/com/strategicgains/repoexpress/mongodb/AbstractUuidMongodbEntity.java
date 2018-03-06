@@ -19,9 +19,9 @@ import java.util.UUID;
 
 import org.mongodb.morphia.annotations.Id;
 
-import com.strategicgains.repoexpress.domain.AbstractTimestampedIdentifiable;
+import com.strategicgains.repoexpress.domain.AbstractTimestampedEntity;
 import com.strategicgains.repoexpress.domain.Identifier;
-import com.strategicgains.repoexpress.domain.UuidIdentifiable;
+import com.strategicgains.repoexpress.domain.UuidEntity;
 
 /**
  * An MongoDB entity object that is identified by a UUID as its primary identifier.
@@ -31,32 +31,26 @@ import com.strategicgains.repoexpress.domain.UuidIdentifiable;
  * @since Mar 18, 2013
  */
 public abstract class AbstractUuidMongodbEntity
-extends AbstractTimestampedIdentifiable
-implements UuidIdentifiable
+extends AbstractTimestampedEntity<UUID>
+implements UuidEntity
 {
 	@Id
 	private UUID id;
 
 	@Override
-	public Identifier getId()
+	public Identifier getIdentifier()
 	{
 		return (id == null ? null : new Identifier(id));
 	}
 
 	@Override
-	public void setId(Identifier id)
-	{
-		this.id = (id == null || id.isEmpty() ? null : (UUID) id.primaryKey());
-	}
-
-	@Override
-    public UUID getUuid()
+    public UUID getId()
     {
 	    return id;
     }
 
 	@Override
-    public void setUuid(UUID uuid)
+    public void setId(UUID uuid)
     {
 		this.id = uuid;
     }

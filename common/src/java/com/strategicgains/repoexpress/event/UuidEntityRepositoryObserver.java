@@ -1,5 +1,5 @@
 /*
-    Copyright 2013, Strategic Gains, Inc.
+    Copyright 2013-2018, Strategic Gains, Inc.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -17,33 +17,33 @@ package com.strategicgains.repoexpress.event;
 
 import java.util.UUID;
 
-import com.strategicgains.repoexpress.domain.UuidIdentifiable;
+import com.strategicgains.repoexpress.domain.UuidEntity;
 import com.strategicgains.repoexpress.exception.InvalidObjectIdException;
 
 /**
- * Assigns a UUID to an Identifiable entity before create.
+ * Assigns a UUID to an entity before create. Ensures one is present on update.
  * 
  * @author toddf
  * @since Mar 11, 2013
  */
-public class UuidIdentityRepositoryObserver<T extends UuidIdentifiable>
+public class UuidEntityRepositoryObserver<T extends UuidEntity>
 extends AbstractRepositoryObserver<T>
 {
 	@Override
-	public void beforeCreate(T object)
+	public void beforeCreate(T entity)
 	{
-		super.beforeCreate(object);
+		super.beforeCreate(entity);
 
-		if (object.getUuid() == null)
+		if (entity.getId() == null)
 		{
-			object.setUuid(UUID.randomUUID());
+			entity.setId(UUID.randomUUID());
 		}
 	}
 
 	@Override
-	public void beforeUpdate(T object)
+	public void beforeUpdate(T entity)
 	{
-		if (object.getUuid() == null)
+		if (entity.getId() == null)
 		{
 			throw new InvalidObjectIdException("UUID required on update");
 		}
