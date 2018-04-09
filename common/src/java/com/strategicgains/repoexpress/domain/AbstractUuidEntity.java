@@ -19,7 +19,6 @@ import java.util.UUID;
 
 /**
  * An entity that is identified by a UUID as its primary identifier.
- * It also has createdAt and updatedAt properties.
  * 
  * @author toddf
  * @since Mar 18, 2013

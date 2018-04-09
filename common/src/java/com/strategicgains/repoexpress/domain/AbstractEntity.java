@@ -16,8 +16,7 @@
 package com.strategicgains.repoexpress.domain;
 
 /**
- * An entity (has an Identifer) as well as a single Object ID (id property).
- * It also has createdAt and updatedAt properties.
+ * An entity (has an {@link Identifier}) as well as a single Object ID ('id' property).
  * 
  * @author toddf
  * @since Oct 6, 2017
@@ -30,6 +29,10 @@ implements Entity<T>
 	 */
 	private T id;
 
+	/**
+	 * The default implementation returns the Object ID ('id' property) as the single
+	 * component of the Identifier.
+	 */
 	@Override
 	public Identifier getIdentifier()
 	{

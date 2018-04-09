@@ -84,9 +84,8 @@ implements Comparable<Identifier>
 
 	/**
 	 * Add a single component to the identifier. The given component is added to
-	 * the end of the identifier. Duplicate instances are not added--only one instance
-	 * of a component will exist in the identifier.
-	 * 
+	 * the end of the identifier.
+	 *  
 	 * @param component
 	 */
 	public void add(Object component)
