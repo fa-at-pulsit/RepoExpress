@@ -43,16 +43,15 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public T doCreate(T object)
+	public T doCreate(T object, boolean ifUnique)
 	{
-		if (JOhm.isNew(object))
+		if (ifUnique && !JOhm.isNew(object))
 		{
-			return JOhm.save(object);
+			throw new DuplicateItemException(object.getClass().getSimpleName()
+				+ " ID already exists: " + object.getIdentifier());
 		}
 		
-		throw new DuplicateItemException(object.getClass().getSimpleName()
-		    + " ID already exists: " + object.getIdentifier());
-
+		return JOhm.save(object);
 	}
 
 	@Override
@@ -68,9 +67,9 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public T doUpdate(T object)
+	public T doUpdate(T object, boolean ifExists)
 	{
-		if (JOhm.isNew(object))
+		if (ifExists && JOhm.isNew(object))
 		{
 			throw new ItemNotFoundException(object.getClass().getSimpleName()
 			    + " ID not found: " + object.getIdentifier());

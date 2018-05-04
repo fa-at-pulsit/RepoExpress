@@ -26,8 +26,8 @@ import com.strategicgains.repoexpress.event.Observable;
 public interface ObservableRepository<T extends Identifiable>
 extends Repository<T>, Observable<T>
 {
-	public T doCreate(T object);
+	public T doCreate(T object, boolean ifUnique);
 	public void doDelete(T object);
 	public T doRead(Identifier id);
-	public T doUpdate(T object);
+	public T doUpdate(T object, boolean ifExists);
 }

@@ -86,9 +86,9 @@ implements Queryable<T>
 	}
 
 	@Override
-	public T doCreate(T item)
+	public T doCreate(T item, boolean ifUnique)
 	{
-		if (exists(item.getIdentifier()))
+		if (ifUnique && exists(item.getIdentifier()))
 		{
 			throw new DuplicateItemException(item.getClass().getSimpleName()
 			    + " ID already exists: " + item.getIdentifier());
@@ -112,9 +112,9 @@ implements Queryable<T>
 	}
 
 	@Override
-	public T doUpdate(T item)
+	public T doUpdate(T item, boolean ifExists)
 	{
-		if (!exists(item.getIdentifier()))
+		if (ifExists && !exists(item.getIdentifier()))
 		{
 			throw new ItemNotFoundException(item.getClass().getSimpleName()
 			    + " ID not found: " + item.getIdentifier());

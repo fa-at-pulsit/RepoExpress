@@ -86,10 +86,16 @@ implements ObservableRepository<T>
 	// SECTION: REPOSITORY
 
 	@Override
-    public final T create(T object)
+	public final T create(T object)
+	{
+		return create(object, true);
+	}
+
+	@Override
+    public final T create(T object, boolean ifUnique)
     {
     	notifyBeforeCreate(object);
-    	T created = doCreate(object);
+    	T created = doCreate(object, ifUnique);
     	notifyAfterCreate(created);
     	return created;
     }
@@ -112,10 +118,16 @@ implements ObservableRepository<T>
     }
 
 	@Override
-    public final T update(T object)
+	public final T update(T object)
+	{
+		return update(object, true);
+	}
+
+	@Override
+    public final T update(T object, boolean ifExists)
     {
 		notifyBeforeUpdate(object);
-		T result = doUpdate(object);
+		T result = doUpdate(object, ifExists);
 		notifyAfterUpdate(object);
 		return result;
     }

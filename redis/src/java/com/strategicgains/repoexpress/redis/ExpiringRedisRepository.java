@@ -22,14 +22,14 @@ extends RedisRepository<T>
 	}
 
 	@Override
-	public T doCreate(T item)
+	public T doCreate(T item, boolean ifUnique)
 	{
-		return super.doCreate(item,  item.getTtlSeconds());
+		return super.doCreate(item, ifUnique, item.getTtlSeconds());
 	}
 
 	@Override
-	public T doUpdate(T item)
+	public T doUpdate(T item, boolean ifExists)
 	{
-		return super.doUpdate(item, item.getTtlSeconds());
+		return super.doUpdate(item, ifExists, item.getTtlSeconds());
 	}
 }

@@ -66,12 +66,12 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public T doCreate(T item)
+	public T doCreate(T item, boolean ifUnique)
 	{
-		return doCreate(item, NEVER_EXPIRE);
+		return doCreate(item, ifUnique, NEVER_EXPIRE);
 	}
 
-	protected T doCreate(T item, int ttlSeconds)
+	protected T doCreate(T item, boolean ifUnique, int ttlSeconds)
 	{
 		//Item expires immediately, so no sense in storing it.
 		if (ttlSeconds == 0)
@@ -79,7 +79,7 @@ extends AbstractObservableRepository<T>
 			return item;
 		}
 
-		if (exists(item.getIdentifier()))
+		if (ifUnique && exists(item.getIdentifier()))
 		{
 			throw new DuplicateItemException(item.getClass().getSimpleName()
 			    + " ID already exists: " + item.getIdentifier());
@@ -145,14 +145,14 @@ extends AbstractObservableRepository<T>
 	}
 
 	@Override
-	public T doUpdate(T item)
+	public T doUpdate(T item, boolean ifExists)
 	{
-		return doUpdate(item, NEVER_EXPIRE);
+		return doUpdate(item, ifExists, NEVER_EXPIRE);
 	}
 
-	protected T doUpdate(T item, int ttlSeconds)
+	protected T doUpdate(T item, boolean ifExists, int ttlSeconds)
 	{
-		if (!exists(item.getIdentifier()))
+		if (ifExists && !exists(item.getIdentifier()))
 		{
 			throw new ItemNotFoundException(item.getClass().getSimpleName()
 			    + " ID not found: " + item.getIdentifier());
