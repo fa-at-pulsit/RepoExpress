@@ -45,6 +45,7 @@ public class DateFilteringTest
 	private static MongodbRepository<TestEntity> REPOSITORY;
 	private static List<TestEntity> CREATED = new ArrayList<TestEntity>();
 
+	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void beforeClass()
 	{
