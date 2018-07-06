@@ -388,4 +388,11 @@ implements Queryable<T>
 			q.order(sb.toString());
 		}
 	}
+	
+	/**
+	 * @return morphia
+	 */
+	public Morphia getMorphia() {
+		return morphia;
+	}
 }
