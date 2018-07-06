@@ -63,7 +63,7 @@ implements Queryable<T>
 	 * @param dbName the name of the database (in MongoDB).
 	 * @param entityClasses Class(es) managed by this repository. Inheritance root first.
 	 */
-	public MongodbRepository(MongoClient mongo, String dbName, Class<? extends T>... entityClasses)
+	public MongodbRepository(MongoClient mongo, String dbName, @SuppressWarnings("unchecked") Class<? extends T>... entityClasses)
 	{
 		super();
 		this.mongo = mongo;
